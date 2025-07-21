@@ -1,11 +1,10 @@
-package br.com.studios.sketchbook.service_management_core.models;
+package br.com.studios.sketchbook.service_management_core.models.entities;
 
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,14 +28,17 @@ public class ProductModel implements Serializable {
     /// Id geral do produto
     private UUID id;
 
+    @Column(name = "name", nullable = false)
     @Getter
     /// Nome do produto
     private String name;
 
+    @Column(name = "value", nullable = false, precision = 38, scale = 2)
     @Getter
     /// Valor do produto
     private BigDecimal value;
 
+    @Column(name = "bar_code")
     @Getter
     /// Código de barras do produto
     private String barcode;

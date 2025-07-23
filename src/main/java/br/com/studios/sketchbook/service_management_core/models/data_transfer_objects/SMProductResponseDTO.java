@@ -2,7 +2,7 @@ package br.com.studios.sketchbook.service_management_core.models.data_transfer_o
 
 import java.util.UUID;
 
-public record ProductResponseDTO(
+public record SMProductResponseDTO(
         UUID id,
         String name,
         String value

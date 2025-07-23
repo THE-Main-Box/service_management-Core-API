@@ -11,39 +11,40 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+/// Modelo de produtos de supermercado
 @Entity
 @Table(name = "TB_PRODUCTS")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class ProductModel implements Serializable {
-    @Serial
+public class SMProductModel implements Serializable {
     /// Número de série da entidade
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    /// Id geral do produto
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     @EqualsAndHashCode.Include
     @Getter
     @Id
-    /// Id geral do produto
     private UUID id;
 
+    /// Nome do produto
     @Column(name = "name", nullable = false)
     @Getter
-    /// Nome do produto
     private String name;
 
+    /// Valor do produto
     @Column(name = "value", nullable = false, precision = 38, scale = 2)
     @Getter
-    /// Valor do produto
     private BigDecimal value;
 
+    /// Código de barras do produto
     @Column(name = "bar_code")
     @Getter
-    /// Código de barras do produto
     private String barcode;
 
-    public ProductModel(String name, double value, String barcode) {
+    public SMProductModel(String name, double value, String barcode) {
         this.name = name;
         this.value = BigDecimal.valueOf(value);
         this.barcode = barcode;

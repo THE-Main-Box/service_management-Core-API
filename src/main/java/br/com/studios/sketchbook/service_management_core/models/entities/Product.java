@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
@@ -25,6 +27,7 @@ public abstract class Product implements Serializable {
 
     /// Nome com o qual o produto será referenciado
     @Getter
+    @Setter
     @Column(name = "name", nullable = false)
     protected String name;
 
@@ -38,11 +41,16 @@ public abstract class Product implements Serializable {
         this.value = BigDecimal.valueOf(value);
     }
 
+    public void setValue(String value) {
+        this.value = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
+    }
+
+
     public void setValue(double value) {
         this.value = BigDecimal.valueOf(value);
     }
 
-    public String getProductValueAsString(){
+    public String getValueAsString(){
         return value.toPlainString();
     }
 }

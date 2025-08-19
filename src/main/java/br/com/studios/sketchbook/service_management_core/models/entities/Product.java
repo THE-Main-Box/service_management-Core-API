@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.models.entities;
 
+import br.com.studios.sketchbook.service_management_core.models.enumerators.VolumeType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,6 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Product implements Serializable {
+
+    //TODO: Reavaliar o hash code dos produtos
+    // para impedir a adição de produtos semelhantes ou repetidos de forma indevida
 
     /// Id geral do produto
     @Id
@@ -36,6 +40,13 @@ public abstract class Product implements Serializable {
     @Column(name = "value", nullable = false, precision = 38, scale = 2)
     protected BigDecimal value;
 
+    @Getter
+    @Enumerated(EnumType.STRING)
+    protected VolumeType volumeType;
+
+    @Getter
+    protected StorageEntry entry;
+
     public Product(String name, double value) {
         this.name = name;
         this.value = BigDecimal.valueOf(value);
@@ -50,7 +61,9 @@ public abstract class Product implements Serializable {
         this.value = BigDecimal.valueOf(value);
     }
 
-    public String getValueAsString(){
+    public String getValueAsString() {
         return value.toPlainString();
     }
+
+
 }

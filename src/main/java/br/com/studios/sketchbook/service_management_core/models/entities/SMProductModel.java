@@ -13,11 +13,12 @@ import java.io.Serial;
 
 /// Modelo de produtos de supermercado
 @Entity
-@Table(name = "TB_SUPER_MARKET-PRODUCTS")
+@Table(name = "TB_SUPER_MARKET_PRODUCTS")
 @NoArgsConstructor
 public class SMProductModel extends Product {
     /// Número de série da entidade
     @Serial
+    @Column(name = "version")
     private static final long serialVersionUID = 1L;
 
     /// Código de barras do produto

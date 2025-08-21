@@ -47,7 +47,6 @@ public class StorageEntry {
      * ou seja, é uma escala contando objetos reais, e não de um pra outro, como 0.5, ou 1.9,
      * é um valor de produto real, como 10 pra uma unidade ou coisa parecida
      */
-    @Getter
     @Setter
     private Long quantityPerUnit;
 
@@ -164,5 +163,53 @@ public class StorageEntry {
         this.remainder = null;
     }
 
+    /**
+     * Obtemos a quantidade disponível de um produto.
+     * Se for um produto com tipos basicos, ainda iremos precsiar realizar conversão para os tipos de quilo e litro.
+     * Se for um tipo especial, a conversão se torna um pouco problemática, pois precisariamos obter das subunidades,
+     * porém não é nada muito complexo
+     */
+    public BigDecimal getAmountAvailable() {
 
+        return switch (vType) {
+            //Caso estejamos lidando com um retorno de litros ou quilos, retornamos com a escala de litro e quilo
+            case KILOGRAM, LITER -> BigDecimal.valueOf(units, 3);
+            //Caso estejamos lidando com o retorno de unidades, não há necessidade de realizar conversão
+            case UNIT -> BigDecimal.valueOf(units);
+            //Caso unidade por quilo/litro, ainda é preciso realizar uma conversão
+            case KILOGRAM_PER_UNIT, LITER_PER_UNITY -> BigDecimal.valueOf(subUnits, 3);
+            //Unidade por unidade já é normal então está de boa
+            case UNITY_PER_UNITY -> BigDecimal.valueOf(subUnits);
+        };
+
+    }
+
+    /// Obtemos os valores raw, ou seja que são interpretados diretamente pelo sistema do jeito do sistema
+    public BigDecimal getAmountAvailableRaw() {
+        return switch (vType) {
+            //Ao passar tipos comuns, podemos obter direto das unidades
+            case KILOGRAM, LITER, UNIT -> BigDecimal.valueOf(units);
+            //Ao passar tipos especiais precisamos pegar das subunidades
+            case KILOGRAM_PER_UNIT, LITER_PER_UNITY, UNITY_PER_UNITY -> BigDecimal.valueOf(subUnits);
+        };
+
+    }
+
+    /// Obtemos a quantidade por unidade caso exista dentro da lógica existente,
+    /// e realizamos uma conversão para melhor interpretação
+    public BigDecimal getQuantityPerUnit() {
+        Long multi = switch (vType) {
+            case KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();
+            case UNITY_PER_UNITY -> 1L;
+            case LITER_PER_UNITY -> LITERS.getScale();
+            default -> 0L;
+        };
+
+        return BigDecimal.valueOf(quantityPerUnit * multi);
+    }
+
+    /// Obtemos de forma direta a quantidade de um produto por unidade
+    public Long getQuantityPerUnitRaw() {
+        return quantityPerUnit;
+    }
 }

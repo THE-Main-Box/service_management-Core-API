@@ -44,19 +44,11 @@ public class StorageEntry {
     /**
      * Escala para produtos de tipo de volume especial
      * 1 > 10 de unidades, significa que para cada unidade teríamos 10 unidades menores,
-     * ou seja, é uma escala contando objetos reais, e não de um pra outro, como 0.5, ou 1.9,
+     * ou seja, é uma escala contando objetos reais, e não de um pra outro, como 0,5, ou 1,9,
      * é um valor de produto real, como 10 pra uma unidade ou coisa parecida
      */
     @Setter
     private Long quantityPerUnit;
-
-    /**
-     * Restante que não pode ser contado com unidade completa
-     * em vez de contarmos nas unidades, como um valor quebrado(1.5, 0.9, ou coisas do tipo),
-     * mantemos ele como um valor inteiro,
-     * e colocamos aqui o que é restante da unidade quebrada
-     */
-    private Long remainder;
 
 
     public StorageEntry(Product product, Long quantity, Long quantityPerUnit, boolean raw) {
@@ -76,7 +68,7 @@ public class StorageEntry {
     /**
      * Função estática para permitir uma interpretação comum dos dados de forma interna
      *
-     * @param entry    Produto a ter sua entrada alterada
+     * @param entry    Produto a ter a sua entrada alterada
      * @param quantity Quantidade a respeito do seu tipo de volume
      * @param raw      Se precisamos realizar uma escalação pros valores serem armazenados corretamente
      */
@@ -95,11 +87,14 @@ public class StorageEntry {
         if (raw) {
             entry.setUnits(quantity);
         } else {
-            switch (entry.getVType()) {
-                case UNIT -> entry.setUnits(quantity);
-                case LITER -> entry.setUnits(quantity * LITERS.getScale());
-                case KILOGRAM -> entry.setUnits(quantity * KILOGRAMS.getScale());
-            }
+            Long scale = switch (entry.getVType()) {
+                case LITER -> LITERS.getScale();
+                case KILOGRAM -> KILOGRAMS.getScale();
+                default -> 1L;
+            };
+
+            entry.setUnits(Math.multiplyExact(quantity, scale));
+
         }
     }
 
@@ -141,14 +136,14 @@ public class StorageEntry {
                 case KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();   // 1 kg = 1000 g
                 default -> 1L;                                   // UNITY_PER_UNITY ou outros = 1
             };
-            scaleToEnter = scale * multi; // Converte quantidade por unidade para valor mínimo
+            scaleToEnter = Math.multiplyExact(scale, multi); // Converte quantidade por unidade para valor mínimo
         }
 
         // A quantidade de unidades permanece a contagem pura
         units = quantity;
 
         // Total de subunidades = quantidade de unidades * escala mínima por unidade
-        subUnits = quantity * scaleToEnter;
+        subUnits = Math.multiplyExact(quantity, scaleToEnter);
 
         // Atualiza o StorageEntry
         entry.setQuantityPerUnit(scaleToEnter); // escala em valor mínimo
@@ -160,21 +155,20 @@ public class StorageEntry {
     private void resetValues() {
         this.units = null;
         this.quantityPerUnit = null;
-        this.remainder = null;
     }
 
     /**
      * Obtemos a quantidade disponível de um produto.
-     * Se for um produto com tipos basicos, ainda iremos precsiar realizar conversão para os tipos de quilo e litro.
-     * Se for um tipo especial, a conversão se torna um pouco problemática, pois precisariamos obter das subunidades,
+     * Se for um produto com tipos básicos, ainda iremos precisar realizar conversão para os tipos de quilo e litro.
+     * Se for um tipo especial, a conversão se torna um pouco problemática, pois precisaríamos obter das subunidades,
      * porém não é nada muito complexo
      */
     public BigDecimal getAmountAvailable() {
 
         return switch (vType) {
-            //Caso estejamos lidando com um retorno de litros ou quilos, retornamos com a escala de litro e quilo
+            //Caso estejamos a lidar com um retorno de litros ou quilos, retornamos com a escala de litro e quilo
             case KILOGRAM, LITER -> BigDecimal.valueOf(units, 3);
-            //Caso estejamos lidando com o retorno de unidades, não há necessidade de realizar conversão
+            //Caso estejamos a lidar com o retorno de unidades, não há necessidade de realizar conversão
             case UNIT -> BigDecimal.valueOf(units);
             //Caso unidade por quilo/litro, ainda é preciso realizar uma conversão
             case KILOGRAM_PER_UNIT, LITER_PER_UNITY -> BigDecimal.valueOf(subUnits, 3);
@@ -184,7 +178,7 @@ public class StorageEntry {
 
     }
 
-    /// Obtemos os valores raw, ou seja que são interpretados diretamente pelo sistema do jeito do sistema
+    /// Obtemos os valores raw, ou seja, que são interpretados diretamente pelo sistema do jeito do sistema
     public BigDecimal getAmountAvailableRaw() {
         return switch (vType) {
             //Ao passar tipos comuns, podemos obter direto das unidades

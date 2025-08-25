@@ -50,6 +50,9 @@ public class StorageEntry {
     @Setter
     private Long quantityPerUnit;
 
+    @Getter
+    @Setter
+    private boolean init;
 
     public StorageEntry(Product product, Long quantity, Long quantityPerUnit, boolean raw) {
         this.product = product;
@@ -66,7 +69,188 @@ public class StorageEntry {
     }
 
     /**
-     * Função estática para permitir uma interpretação comum dos dados de forma interna
+     * Adiciona unidades ao produto. Lida com tipos normais e tipos especiais.
+     *
+     * @param quantity quantidade de unidades a adicionar
+     * @param raw      se true, a quantidade já está no formato interno (subunidades),
+     *                 se false, é um valor "human-readable" que precisa ser convertido
+     */
+    public void addUnit(Long quantity, boolean raw) {
+        if (!init) throw new IllegalStateException(
+                "Precisamos iniciar o produto: " +
+                        this.product.toString() +
+                        " antes"
+        );
+
+        if (!vType.isSpecialType()) {
+            long toAdd = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(vType));
+            setUnits(Math.addExact(getUnits(), toAdd));
+        } else {
+            long subQuantity = raw
+                    ? Math.multiplyExact(quantity, getQuantityPerUnitRaw())
+                    : Math.multiplyExact(quantity, Math.multiplyExact(getQuantityPerUnitRaw(), getScaleByVolumeType(vType)));
+            addSubQuantity(subQuantity, true);
+        }
+    }
+
+    /**
+     * Remove unidades do produto, mantendo a mesma lógica de addUnit.
+     *
+     * @param quantity quantidade de unidades a remover
+     * @param raw      se true, a quantidade já está no formato interno (subunidades),
+     *                 se false, é um valor "human-readable" que precisa ser convertido
+     */
+    public void removeUnit(Long quantity, boolean raw) {
+        if (!init) throw new IllegalStateException(
+                "Precisamos iniciar o produto: " +
+                        this.product.toString() +
+                        " antes"
+        );
+
+
+        if (!vType.isSpecialType()) {
+            long toSubtract = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(vType));
+            setUnits(Math.subtractExact(getUnits(), toSubtract));
+        } else {
+            long subQuantity = raw
+                    ? Math.multiplyExact(quantity, getQuantityPerUnitRaw())
+                    : Math.multiplyExact(quantity, Math.multiplyExact(getQuantityPerUnitRaw(), getScaleByVolumeType(vType)));
+            removeSubQuantity(subQuantity, true);
+        }
+    }
+
+    /**
+     * Removemos na subQuantidade, isso é se estivermos a lidar com produtos de volume especial
+     *
+     * @param quantity Quantidade do volume a ser subtraído em questão
+     * @param raw      Se estamos a lidar com o tipo já convertido para armazenamento interno,
+     *                 ou se precisaremos realizar uma alteração nos valores
+     */
+    public void removeSubQuantity(Long quantity, boolean raw) {
+        if (!init) throw new IllegalStateException(
+                "Precisamos iniciar o produto: " +
+                        this.product.toString() +
+                        " antes"
+        );
+
+        if (!vType.isSpecialType())
+            throw new IllegalStateException("Podemos usar apenas produtos com volume especial neste cálculo");
+
+        long toSubtract;
+
+        if (raw) {
+            // Subtrai diretamente das subunidades existentes
+            toSubtract = Math.subtractExact(getSubUnits(), quantity);
+        } else {
+            /* Converte a quantidade “human-readable” para subunidades e subtrai */
+            toSubtract = Math.subtractExact(
+                    getSubUnits(),
+                    Math.multiplyExact(
+                            quantity,
+                            getScaleByVolumeType(vType)
+                    )
+            );
+        }
+
+        setSubUnits(toSubtract);
+        syncUnitsOnSubUnits();
+    }
+
+    /**
+     * Adiciona na subQuantidade, isso é se estivermos a lidar com produtos de volume especial
+     *
+     * @param quantity Quantidade do volume em questão
+     * @param raw      Se estamos a lidar com o tipo já convertido para armazenamento interno,
+     *                 ou se precisaremos realizar uma alteração nos valores
+     */
+    public void addSubQuantity(Long quantity, boolean raw) {
+        if (!init) throw new IllegalStateException(
+                "Precisamos iniciar o produto: " +
+                        this.product.toString() +
+                        " antes"
+        );
+
+        if (!vType.isSpecialType())
+            throw new IllegalStateException("Podemos usar apenas produtos com volume especial neste cálculo");
+
+        long toAdd;
+
+        if (raw) {
+            //setamos as subunidades com base nas subunidades já existentes com a nova quanitdade raw
+            toAdd = Math.addExact(getSubUnits(), quantity);
+        } else {
+
+            /*Realizamos a adição e logo depois realizamos a multiplicação,
+            para garantir que estejamos a adicionar corretamente com os valores raw
+            */
+            toAdd = Math.addExact(
+                    getSubUnits(),
+                    Math.multiplyExact(
+                            quantity,
+                            getScaleByVolumeType(vType)
+                    )
+            );
+
+        }
+
+        setSubUnits(toAdd);
+        syncUnitsOnSubUnits();
+    }
+
+    /**
+     * Sincroniza as unidades dos tipos especiais usando a quantidade de subunidades.
+     * As unidades permanecem inteiras, enquanto a quantidade interna de subunidades é mantida.
+     */
+    private void syncUnitsOnSubUnits() {
+        if (!getVType().isSpecialType()) {
+            throw new IllegalArgumentException(
+                    "Entrada de armazenamento deve ser de tipo composto para ser iniciado desta forma " +
+                            getProduct().toString()
+            );
+        }
+
+        setUnits(
+                Math.floorDiv(
+                        getSubUnits(),
+                        getQuantityPerUnitRaw()
+                )
+        );
+    }
+
+    /**
+     * Retorna o valor restante em subunidades que não formam uma unidade inteira.
+     * Este valor permanece no armazenamento, sem alterar a contagem de unidades.
+     */
+    public Long getRemainderRaw() {
+        return subUnits % quantityPerUnit;
+    }
+
+    /**
+     * Retorna o valor restante convertido para a escala correspondente do tipo de volume.
+     * Por exemplo, se for quilo ou litro, converte de volta para a unidade humana.
+     */
+    public Long getRemainder() {
+        return Math.multiplyExact(
+                getRemainderRaw(),
+                getScaleByVolumeType(vType)
+        );
+    }
+
+    /**
+     * Retorna o multiplicador de escala para o tipo de volume do produto.
+     * Garante que a conversão entre unidades e subunidades seja correta.
+     */
+    private Long getScaleByVolumeType(VolumeType vType) {
+        return switch (vType) {
+            case LITER, LITER_PER_UNITY -> LITERS.getScale();
+            case KILOGRAM, KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();
+            case UNIT, UNITY_PER_UNITY -> 1L;
+        };
+    }
+
+    /**
+     * Inicializa a entrada de armazenamento para tipos básicos.
+     * Se necessário, aplica a conversão da quantidade para o valor mínimo interno.
      *
      * @param entry    Produto a ter a sua entrada alterada
      * @param quantity Quantidade a respeito do seu tipo de volume
@@ -76,31 +260,32 @@ public class StorageEntry {
         if (entry.getVType().isSpecialType()) {
             throw new IllegalArgumentException(
                     "Entrada de armazenamento deve ser de tipo simples para ser iniciado desta forma " +
-                            "id: [ " +
-                            entry.getProduct().getId().toString() +
-                            " ] : " +
-                            entry.getVType()
-
+                            entry.getProduct().toString()
             );
         }
 
         if (raw) {
             entry.setUnits(quantity);
         } else {
-            Long scale = switch (entry.getVType()) {
-                case LITER -> LITERS.getScale();
-                case KILOGRAM -> KILOGRAMS.getScale();
-                default -> 1L;
-            };
 
-            entry.setUnits(Math.multiplyExact(quantity, scale));
+            //Seta as unidades usando uma multiplicação para evitar a internalização de valores não raw
+            entry.setUnits(
+                    Math.multiplyExact(
+                            quantity,//Quantidade
+                            entry.getScaleByVolumeType(//Obtemos a escala por tipo de volume e aplicamos
+                                    entry.getVType()
+                            )
+                    )
+            );
 
         }
+
+        entry.setInit(true);
     }
 
-
     /**
-     * Inicializa um StorageEntry de tipo especial (quilos por unidade, litros por unidade, unidade por unidade)
+     * Inicializa a entrada de armazenamento para tipos especiais.
+     * Calcula subunidades e unidades inteiras, garantindo a consistência do armazenamento.
      * <p>
      * Lógica:
      * - 'units' = quantidade de unidades existentes (contagem simples)
@@ -117,8 +302,8 @@ public class StorageEntry {
     private static void initSpecialType(StorageEntry entry, Long quantity, Long scale, boolean raw) {
         if (!entry.vType.isSpecialType()) {
             throw new IllegalArgumentException(
-                    "Entrada de armazenamento deve ser de tipo de volume especial para ser iniciado desta forma " +
-                            "id: [ " + entry.getProduct().getId().toString() + " ] : " + entry.getVType()
+                    "Entrada de armazenamento deve ser de tipo composto para ser iniciado desta forma " +
+                            entry.getProduct().toString()
             );
         }
 
@@ -130,13 +315,12 @@ public class StorageEntry {
             // Valores já estão em mínimos (não precisa multiplicar por 1000, por exemplo)
             scaleToEnter = scale;
         } else {
-            // Para valores "humanos", converte para valor mínimo
-            Long multi = switch (entry.getVType()) {
-                case LITER_PER_UNITY -> LITERS.getScale();         // 1 L = 1000 ml
-                case KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();   // 1 kg = 1000 g
-                default -> 1L;                                   // UNITY_PER_UNITY ou outros = 1
-            };
-            scaleToEnter = Math.multiplyExact(scale, multi); // Converte quantidade por unidade para valor mínimo
+            scaleToEnter = Math.multiplyExact(
+                    scale,
+                    entry.getScaleByVolumeType(
+                            entry.getVType()
+                    )
+            ); // Converte quantidade por unidade para valor mínimo
         }
 
         // A quantidade de unidades permanece a contagem pura
@@ -149,12 +333,16 @@ public class StorageEntry {
         entry.setQuantityPerUnit(scaleToEnter); // escala em valor mínimo
         entry.setUnits(units);                  // contagem de unidades
         entry.setSubUnits(subUnits);            // total em valores mínimos
+
+        entry.setInit(true);
     }
 
 
     private void resetValues() {
         this.units = null;
+        this.subUnits = null;
         this.quantityPerUnit = null;
+        this.init = false;
     }
 
     /**
@@ -199,7 +387,7 @@ public class StorageEntry {
             default -> 0L;
         };
 
-        return BigDecimal.valueOf(quantityPerUnit * multi);
+        return BigDecimal.valueOf(quantityPerUnit * getScaleByVolumeType(vType));
     }
 
     /// Obtemos de forma direta a quantidade de um produto por unidade

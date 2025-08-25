@@ -65,5 +65,12 @@ public abstract class Product implements Serializable {
         return value.toPlainString();
     }
 
-
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", volumeType=" + volumeType +
+                '}';
+    }
 }

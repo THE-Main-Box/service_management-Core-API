@@ -44,6 +44,7 @@ public abstract class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     protected VolumeType volumeType;
 
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Getter
     protected StorageEntry entry;
 

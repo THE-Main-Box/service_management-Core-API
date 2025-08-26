@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.models.entities;
 
 
 import br.com.studios.sketchbook.service_management_core.models.data_transfer_objects.SMProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.models.enumerators.VolumeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -27,8 +28,8 @@ public class SMProductModel extends Product {
     @Setter
     private String barcode;
 
-    public SMProductModel(String name, double value, String barcode) {
-        super(name, value);
+    public SMProductModel(String name, double value, String barcode, VolumeType type) {
+        super(name, value, type);
         this.barcode = barcode;
     }
 

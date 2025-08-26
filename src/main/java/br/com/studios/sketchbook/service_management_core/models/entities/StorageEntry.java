@@ -53,6 +53,7 @@ public class StorageEntry {
 
     public StorageEntry(Product product) {
         this.product = product;
+        this.product.setEntry(this);
         this.vType = product.volumeType;
 
         this.units = null;
@@ -62,4 +63,14 @@ public class StorageEntry {
         this.init = false;
     }
 
+    @Override
+    public String toString() {
+        return "StorageEntry{" +
+                "id=" + id +
+                ", vType=" + vType +
+                ", units=" + units +
+                ", subUnits=" + subUnits +
+                ", quantityPerUnit=" + quantityPerUnit +
+                '}';
+    }
 }

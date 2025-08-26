@@ -16,7 +16,7 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Product implements Serializable {
+public class Product implements Serializable {
 
     //TODO: Reavaliar o hash code dos produtos
     // para impedir a adição de produtos semelhantes ou repetidos de forma indevida
@@ -46,11 +46,13 @@ public abstract class Product implements Serializable {
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Getter
+    @Setter
     protected StorageEntry entry;
 
-    public Product(String name, double value) {
+    public Product(String name, double value, VolumeType type) {
         this.name = name;
         this.value = BigDecimal.valueOf(value);
+        this.volumeType = type;
     }
 
     public void setValue(String value) {

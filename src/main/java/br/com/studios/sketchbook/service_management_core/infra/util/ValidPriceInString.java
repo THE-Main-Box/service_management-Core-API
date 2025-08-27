@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidPriceValidator.class)
-public @interface ValidPrice {
+public @interface ValidPriceInString {
     String message() default "O valor deve ser um número decimal positivo com até 2 casas decimais";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

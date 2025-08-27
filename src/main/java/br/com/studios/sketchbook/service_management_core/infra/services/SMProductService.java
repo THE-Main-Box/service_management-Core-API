@@ -42,7 +42,6 @@ public class SMProductService {
     @Transactional
     public SMProductModel update(SMProductModel model, SMProductUpdateDTO dto) {
         if (dto.name() != null) model.setName(dto.name());
-        if (dto.value() != null) model.setValue(dto.value());
         if (dto.barCode() != null) model.setBarcode(dto.barCode());
 
         return repository.save(model);

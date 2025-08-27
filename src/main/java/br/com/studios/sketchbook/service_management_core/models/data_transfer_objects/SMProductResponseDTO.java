@@ -7,14 +7,12 @@ import java.util.UUID;
 public record SMProductResponseDTO(
         UUID id,
         String name,
-        String value,
         String barCode
 ) {
     public SMProductResponseDTO(SMProductModel model) {
         this(
                 model.getId(),
                 model.getName(),
-                model.getValueAsString(),
                 model.getBarcode()
         );
     }

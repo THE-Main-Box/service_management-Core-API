@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.regex.Pattern;
 
-public class ValidPriceValidator implements ConstraintValidator<ValidPrice, String> {
+public class ValidPriceValidator implements ConstraintValidator<ValidPriceInString, String> {
 
     private static final Pattern PATTERN = Pattern.compile("^\\d+(\\.\\d{1,2})?$");
 

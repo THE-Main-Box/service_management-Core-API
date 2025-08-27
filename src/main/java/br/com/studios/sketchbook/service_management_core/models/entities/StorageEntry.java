@@ -27,6 +27,7 @@ public class StorageEntry {
     private Product product;
 
     @Getter
+    @Setter
     private VolumeType vType;
 
     @Getter
@@ -55,7 +56,9 @@ public class StorageEntry {
         this.product = product;
         this.product.setEntry(this);
         this.vType = product.volumeType;
+    }
 
+    public void resetValues(){
         this.units = null;
         this.subUnits = null;
         this.quantityPerUnit = null;

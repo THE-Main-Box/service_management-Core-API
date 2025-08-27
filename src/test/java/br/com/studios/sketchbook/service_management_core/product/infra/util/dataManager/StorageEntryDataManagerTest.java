@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.product.infra.util.dataManager;
 
 import br.com.studios.sketchbook.service_management_core.infra.util.dataManager.StorageEntryDataManager;
+import br.com.studios.sketchbook.service_management_core.models.data_transfer_objects.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.models.entities.Product;
 import br.com.studios.sketchbook.service_management_core.models.entities.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.models.enumerators.VolumeType;
@@ -166,5 +167,29 @@ public class StorageEntryDataManagerTest {
         assertEquals(91, currentEntry.getSubUnits());
 
     }
+
+    @Test
+    public void testEditEntry(){
+        currentProduct = new Product("arroz", VolumeType.UNIT);
+        currentEntry = new StorageEntry(currentProduct);
+
+        dataManager.initEntry(currentEntry, 10L, 0L, true);
+        assertEquals(10L, currentEntry.getUnits());
+
+        StorageEntryUpdateDTO dto = new StorageEntryUpdateDTO(
+                VolumeType.KILOGRAM_PER_UNIT,
+                10L,
+                null,
+                10L
+        );
+
+        dataManager.editEntry(currentEntry, dto, false);
+
+        assertEquals(dto.type(), currentEntry.getVType());
+        assertEquals(100_000L, currentEntry.getSubUnits());
+        assertEquals(10_000L, currentEntry.getQuantityPerUnit());
+
+    }
+
 
 }

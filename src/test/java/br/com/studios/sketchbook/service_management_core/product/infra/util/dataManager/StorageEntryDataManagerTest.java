@@ -33,7 +33,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testKiloGramEntry() {
-        currentProduct = new Product("Areia", 50.90, VolumeType.KILOGRAM);
+        currentProduct = new Product("Areia", VolumeType.KILOGRAM);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 1L, 0L, false);
@@ -59,7 +59,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testUnitEntry() {
-        currentProduct = new Product("arroz", 7.90, VolumeType.UNIT);
+        currentProduct = new Product("arroz",  VolumeType.UNIT);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 50L, 0L, false);
@@ -75,7 +75,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testLiterEntry() {
-        currentProduct = new Product("Suco_refil", 1.5, VolumeType.LITER);
+        currentProduct = new Product("Suco_refil", VolumeType.LITER);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 10L, 0L, false);
@@ -99,7 +99,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testKiloGramPerUnitEntry() {
-        currentProduct = new Product("Peito de frango", 20, VolumeType.KILOGRAM_PER_UNIT);
+        currentProduct = new Product("Peito de frango", VolumeType.KILOGRAM_PER_UNIT);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 20L, 1L, false);
@@ -124,7 +124,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testLiterPerUnitEntry() {
-        currentProduct = new Product("Petróleo", 20_000.77, VolumeType.LITER_PER_UNITY);
+        currentProduct = new Product("Petróleo", VolumeType.LITER_PER_UNITY);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 100L, 10L, false);
@@ -148,7 +148,7 @@ public class StorageEntryDataManagerTest {
 
     @Test
     public void testUnitPerUnitEntry() {
-        currentProduct = new Product("caixa_camisa", 70, VolumeType.UNITY_PER_UNITY);
+        currentProduct = new Product("caixa_camisa", VolumeType.UNITY_PER_UNITY);
         currentEntry = new StorageEntry(currentProduct);
 
         dataManager.initEntry(currentEntry, 10L, 10L, false);

@@ -13,6 +13,15 @@ import static br.com.studios.sketchbook.service_management_core.models.enumerato
 public class StorageEntryDataManager {
 
     /**
+     * Muda o tipo de volume que estamos armazenando
+     * @param entry Objeto de entrada de armazém que irá ter o tipo de volume trocado
+     * @param type Tipo de volume que iremos trocar
+     * */
+    public void changeVolumeType(StorageEntry entry, VolumeType type){
+
+    }
+
+    /**
      * Remove valor das subunidades (apenas para tipos especiais).
      * <p>
      * Contrato:

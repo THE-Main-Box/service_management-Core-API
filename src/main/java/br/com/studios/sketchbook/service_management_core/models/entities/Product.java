@@ -35,10 +35,10 @@ public class Product implements Serializable {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    /// Valor do produto
-    @Getter
-    @Column(name = "value", nullable = false, precision = 38, scale = 2)
-    protected BigDecimal value;
+    //TODO: Adicionar objeto para lidar com o preço do produto
+//    @Getter
+//    @Column(name = "value", nullable = false, precision = 38, scale = 2)
+//    protected BigDecimal value;
 
     @Getter
     @Enumerated(EnumType.STRING)
@@ -49,24 +49,24 @@ public class Product implements Serializable {
     @Setter
     protected StorageEntry entry;
 
-    public Product(String name, double value, VolumeType type) {
+    public Product(String name, VolumeType type) {
         this.name = name;
-        this.value = BigDecimal.valueOf(value);
+//        this.value = BigDecimal.valueOf(value);
         this.volumeType = type;
     }
 
-    public void setValue(String value) {
-        this.value = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
-    }
+//    public void setValue(String value) {
+//        this.value = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
+//    }
 
 
-    public void setValue(double value) {
-        this.value = BigDecimal.valueOf(value);
-    }
+//    public void setValue(double value) {
+//        this.value = BigDecimal.valueOf(value);
+//    }
 
-    public String getValueAsString() {
-        return value.toPlainString();
-    }
+//    public String getValueAsString() {
+//        return value.toPlainString();
+//    }
 
     @Override
     public String toString() {

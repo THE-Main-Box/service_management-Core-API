@@ -3,12 +3,14 @@ package br.com.studios.sketchbook.service_management_core.infra.util.StorageEntr
 import br.com.studios.sketchbook.service_management_core.models.enumerators.VolumeType;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 import static br.com.studios.sketchbook.service_management_core.models.enumerators.ValuesScaleConstants.KILOGRAMS;
 import static br.com.studios.sketchbook.service_management_core.models.enumerators.ValuesScaleConstants.LITERS;
 
 @Component
 public class StorageEntryConverterDataManager {
-
 
     /**
      * Conversão do campo subUnits (sempre escala para a unidade interna quando raw == false).
@@ -72,6 +74,17 @@ public class StorageEntryConverterDataManager {
             case KILOGRAM, KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();
             case UNIT, UNITY_PER_UNITY -> 1L;
         };
+    }
+
+    /**
+     * Converte um valor em subunidades ou unidades para valor compreensível pelo humano,
+     * dividindo pelo scale apropriado e mantendo precisão decimal.
+     */
+    public static BigDecimal toHumanReadable(long rawValue, long scale) {
+        if (scale == 0) return BigDecimal.ZERO; // evitar divisão por zero
+        return BigDecimal.valueOf(rawValue)
+                .divide(BigDecimal.valueOf(scale), MathContext.DECIMAL128)
+                .stripTrailingZeros();
     }
 
 }

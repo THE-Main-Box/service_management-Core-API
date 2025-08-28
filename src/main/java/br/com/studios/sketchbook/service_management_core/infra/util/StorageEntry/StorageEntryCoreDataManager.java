@@ -4,6 +4,9 @@ import br.com.studios.sketchbook.service_management_core.models.data_transfer_ob
 import br.com.studios.sketchbook.service_management_core.models.entities.StorageEntry;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+
+import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryConverterDataManager.getScaleByVolumeType;
 
 public class StorageEntryCoreDataManager {
 
@@ -63,9 +66,16 @@ public class StorageEntryCoreDataManager {
      * Retorna o valor restante em subunidades que não formam uma unidade inteira.
      * Este valor permanece no armazenamento, sem alterar a contagem de unidades.
      */
-    public Long getRemainder(StorageEntry entry) {
+    public Long getRemainderRaw(StorageEntry entry) {
         return entry.getSubUnits() % entry.getQuantityPerUnit();
     }
+
+    public BigDecimal getRemainder(StorageEntry entry) {
+        long remainderRaw = getRemainderRaw(entry);
+        long scaleValue = getScaleByVolumeType(entry.getVType());
+        return StorageEntryConverterDataManager.toHumanReadable(remainderRaw, scaleValue);
+    }
+
 
     /**
      * Obtemos a quantidade disponível de um produto.
@@ -74,28 +84,28 @@ public class StorageEntryCoreDataManager {
      * porém não é nada muito complexo
      */
     public BigDecimal getAmountAvailable(StorageEntry entry) {
+        if (entry == null) return BigDecimal.ZERO;
 
-        return switch (entry.getVType()) {
-            //Caso estejamos a lidar com um retorno de litros ou quilos, retornamos com a escala de litro e quilo
-            case KILOGRAM, LITER -> BigDecimal.valueOf(entry.getUnits(), 3);
-            //Caso estejamos a lidar com o retorno de unidades, não há necessidade de realizar conversão
-            case UNIT -> BigDecimal.valueOf(entry.getUnits());
-            //Caso unidade por quilo/litro, ainda é preciso realizar uma conversão
-            case KILOGRAM_PER_UNIT, LITER_PER_UNITY -> BigDecimal.valueOf(entry.getSubUnits(), 3);
-            //Unidade por unidade já é normal então está de boa
-            case UNITY_PER_UNITY -> BigDecimal.valueOf(entry.getSubUnits());
-        };
+        long rawValue = entry.getVType().isSpecialType()
+                ? entry.getSubUnits()
+                : entry.getUnits();
 
+        long scaleValue = getScaleByVolumeType(entry.getVType());
+
+        return StorageEntryConverterDataManager.toHumanReadable(rawValue, scaleValue);
     }
 
-    /// Obtemos os valores raw, ou seja, que são interpretados diretamente pelo sistema do jeito do sistema
-    public BigDecimal getAmountAvailableRaw(StorageEntry entry) {
-        return switch (entry.getVType()) {
-            //Ao passar tipos comuns, podemos obter direto das unidades
-            case KILOGRAM, LITER, UNIT -> BigDecimal.valueOf(entry.getUnits());
-            //Ao passar tipos especiais precisamos pegar das subunidades
-            case KILOGRAM_PER_UNIT, LITER_PER_UNITY, UNITY_PER_UNITY -> BigDecimal.valueOf(entry.getSubUnits());
-        };
+
+    /// Obtemos os valores raw no formato "Long",
+    ///  ou seja, que são interpretados diretamente pelo sistema do jeito do sistema interpretar
+    public Long getAmountAvailableRaw(StorageEntry entry) {
+
+        //Se for de um tipo composto então obtemos pela subunidade
+        if (entry.getVType().isSpecialType()) {
+            return entry.getSubUnits();
+        } else {//Se for de um tipo simples obtemos pelas unidades
+            return entry.getUnits();
+        }
 
     }
 

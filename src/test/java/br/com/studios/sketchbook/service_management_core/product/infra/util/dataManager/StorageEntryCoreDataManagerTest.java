@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.infra.util.dataManager;
 
-import br.com.studios.sketchbook.service_management_core.infra.util.dataManager.StorageEntryDataManager;
+import br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryCoreDataManager;
 import br.com.studios.sketchbook.service_management_core.models.data_transfer_objects.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.models.entities.Product;
 import br.com.studios.sketchbook.service_management_core.models.entities.StorageEntry;
@@ -10,10 +10,10 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StorageEntryDataManagerTest {
+public class StorageEntryCoreDataManagerTest {
 
     /// Manager para inicialização e gestão da StorageEntry
-    private StorageEntryDataManager dataManager;
+    private StorageEntryCoreDataManager dataManager;
     /// Produto atual usado
     private Product currentProduct;
     /// Entrada atual sendo usada
@@ -22,7 +22,7 @@ public class StorageEntryDataManagerTest {
 
     @BeforeEach
     void setup() {
-        dataManager = new StorageEntryDataManager();
+        dataManager = new StorageEntryCoreDataManager();
     }
 
     @AfterEach
@@ -180,10 +180,11 @@ public class StorageEntryDataManagerTest {
                 VolumeType.KILOGRAM_PER_UNIT,
                 10L,
                 null,
-                10L
+                10L,
+                false
         );
 
-        dataManager.editEntry(currentEntry, dto, false);
+        dataManager.editEntry(currentEntry, dto);
 
         assertEquals(dto.type(), currentEntry.getVType());
         assertEquals(100_000L, currentEntry.getSubUnits());

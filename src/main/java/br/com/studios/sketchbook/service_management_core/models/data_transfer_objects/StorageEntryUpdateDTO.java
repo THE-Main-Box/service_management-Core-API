@@ -6,6 +6,7 @@ public record StorageEntryUpdateDTO(
         VolumeType type,
         Long units,
         Long subUnits,
-        Long quantityPerUnit
+        Long quantityPerUnit,
+        boolean raw
 ) {
 }

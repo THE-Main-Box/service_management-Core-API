@@ -5,7 +5,6 @@ import br.com.studios.sketchbook.service_management_core.models.entities.Storage
 import br.com.studios.sketchbook.service_management_core.models.enumerators.VolumeType;
 
 import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryConverterDataManager.*;
-import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryConverterDataManager.convertQpuField;
 import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryValidateDataManager.validateEntryPostUpdate;
 import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryValidateDataManager.validateSpecialType;
 

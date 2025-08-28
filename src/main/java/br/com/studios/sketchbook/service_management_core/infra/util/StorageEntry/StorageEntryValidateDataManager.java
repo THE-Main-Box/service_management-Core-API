@@ -1,9 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry;
 
 import br.com.studios.sketchbook.service_management_core.models.entities.StorageEntry;
-import org.springframework.stereotype.Component;
 
-@Component
 public class StorageEntryValidateDataManager {
 
     public static void validateSpecialType(StorageEntry entry) {

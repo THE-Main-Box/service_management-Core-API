@@ -1,12 +1,10 @@
 package br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry;
 
 import br.com.studios.sketchbook.service_management_core.models.entities.StorageEntry;
-import org.springframework.stereotype.Component;
 
 import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryConverterDataManager.getScaleByVolumeType;
 import static br.com.studios.sketchbook.service_management_core.infra.util.StorageEntry.StorageEntryValidateDataManager.validateSpecialType;
 
-@Component
 public class StorageEntryValueDataManager {
 
     /**

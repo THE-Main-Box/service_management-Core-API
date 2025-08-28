@@ -13,15 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StorageEntryCoreDataManagerTest {
 
     /// Manager para inicialização e gestão da StorageEntry
-    private StorageEntryCoreDataManager dataManager;
+    private static StorageEntryCoreDataManager dataManager;
     /// Produto atual usado
-    private Product currentProduct;
+    private static Product currentProduct;
     /// Entrada atual sendo usada
-    private StorageEntry currentEntry;
+    private static StorageEntry currentEntry;
 
-
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup(){
         dataManager = new StorageEntryCoreDataManager();
     }
 

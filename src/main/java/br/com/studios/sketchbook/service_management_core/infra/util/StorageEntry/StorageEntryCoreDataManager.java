@@ -78,7 +78,7 @@ public class StorageEntryCoreDataManager {
 
 
     /**
-     * Obtemos a quantidade disponível de um produto.
+     * Obtemos a quantidade disponível de um produto a partir de um "BigDecimal".
      * Se for um produto com tipos básicos, ainda iremos precisar realizar conversão para os tipos de quilo e litro.
      * Se for um tipo especial, a conversão se torna um pouco problemática, pois precisaríamos obter das subunidades,
      * porém não é nada muito complexo

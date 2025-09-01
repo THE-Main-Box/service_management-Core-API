@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.models.enumerators;
 
 import lombok.Getter;
 
+/// NÃO MEXER || APENAS ADICIONAR
 @Getter
 public enum ValuesScaleConstants {
     LITERS(1000L),

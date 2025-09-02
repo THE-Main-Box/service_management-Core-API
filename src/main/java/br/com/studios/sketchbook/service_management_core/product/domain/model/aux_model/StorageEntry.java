@@ -13,7 +13,6 @@ import java.util.UUID;
 @Table(name = "TB_STORAGE_DATA")
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class StorageEntry implements Serializable {
 
     /// Número de série da entidade
@@ -25,7 +24,6 @@ public class StorageEntry implements Serializable {
     @Getter
     @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Include
     private UUID id;
 
     @OneToOne

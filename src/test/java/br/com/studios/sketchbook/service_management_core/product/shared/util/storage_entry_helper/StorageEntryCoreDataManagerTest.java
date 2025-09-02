@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
 
-import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryCoreDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.core.StorageEntryCoreDataManager;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.storage_entry.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;

@@ -1,9 +1,9 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 import org.springframework.stereotype.Component;
 
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryConverterDataManager.getScaleByVolumeType;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
 @Component
 public class StorageEntryInitializerDataManager {

@@ -1,12 +1,12 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.storage_entry.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryConverterDataManager.*;
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryValidateDataManager.validateEntryPostUpdate;
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryValidateDataManager.validateSpecialType;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.*;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.validation_related.StorageEntryValidateDataManager.validateEntryPostUpdate;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.validation_related.StorageEntryValidateDataManager.validateSpecialType;
 
 public class StorageEntryUpdateDataManager {
     /**

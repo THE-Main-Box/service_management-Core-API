@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related;
 
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;

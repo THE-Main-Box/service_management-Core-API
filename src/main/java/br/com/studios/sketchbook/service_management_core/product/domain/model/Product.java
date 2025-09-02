@@ -3,7 +3,6 @@ package br.com.studios.sketchbook.service_management_core.product.domain.model;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import java.util.UUID;
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
 @MappedSuperclass
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Product implements Serializable {
 
     //TODO: Reavaliar o hash code dos produtos
@@ -25,7 +23,6 @@ public class Product implements Serializable {
     @Getter
     @Column(name = "id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Include
     protected UUID id;
 
     /// Nome com o qual o produto será referenciado

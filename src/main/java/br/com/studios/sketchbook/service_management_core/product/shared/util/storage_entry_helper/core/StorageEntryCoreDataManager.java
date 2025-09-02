@@ -1,11 +1,15 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.core;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.storage_entry.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related.StorageEntryInitializerDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related.StorageEntryUpdateDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryValueDataManager;
 
 import java.math.BigDecimal;
 
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryConverterDataManager.getScaleByVolumeType;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
 public class StorageEntryCoreDataManager {
 
@@ -38,7 +42,7 @@ public class StorageEntryCoreDataManager {
      *                 em vez de quilos e litros.
      */
     public void removeSubQuantity(StorageEntry entry, Long quantity, boolean raw) {
-        valueManager.removeSubQuantity(entry, quantity, raw);
+        valueManager.subtractSubQuantity(entry, quantity, raw);
         updateManager.syncUnitsOnSubUnits(entry);
     }
 
@@ -116,7 +120,7 @@ public class StorageEntryCoreDataManager {
 
     /// Remove unidades inteiras à quantidade do produto
     public void removeUnit(StorageEntry entry, Long quantity, boolean raw) {
-        valueManager.removeUnit(entry, quantity, raw);
+        valueManager.subtractUnit(entry, quantity, raw);
     }
 
 

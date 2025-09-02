@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.validation_related;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 

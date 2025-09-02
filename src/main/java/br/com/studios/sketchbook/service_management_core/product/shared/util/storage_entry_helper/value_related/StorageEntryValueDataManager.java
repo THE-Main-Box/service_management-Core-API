@@ -1,9 +1,9 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
+package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryConverterDataManager.getScaleByVolumeType;
-import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.StorageEntryValidateDataManager.validateSpecialType;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
+import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.validation_related.StorageEntryValidateDataManager.validateSpecialType;
 
 public class StorageEntryValueDataManager {
 
@@ -17,7 +17,7 @@ public class StorageEntryValueDataManager {
      * <p>
      * Nota: se o que você quer remover são unidades inteiras, use removeUnit(...).
      */
-    public void removeSubQuantity(StorageEntry entry, Long quantity, boolean raw) {
+    public void subtractSubQuantity(StorageEntry entry, Long quantity, boolean raw) {
         validateSpecialType(entry);
 
         if (quantity == null) throw new IllegalArgumentException("quantity não pode ser nulo");
@@ -113,7 +113,7 @@ public class StorageEntryValueDataManager {
      * @param raw      se true, a quantidade já está no formato interno (subunidades),
      *                 se false, é um valor "human-readable" que precisa ser convertido
      */
-    public void removeUnit(StorageEntry entry, Long quantity, boolean raw) {
+    public void subtractUnit(StorageEntry entry, Long quantity, boolean raw) {
         if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
 
         if (!entry.getVType().isSpecialType()) {
@@ -122,7 +122,7 @@ public class StorageEntryValueDataManager {
         } else {
             long subQuantity = Math.multiplyExact(quantity, entry.getQuantityPerUnit());
 
-            removeSubQuantity(entry, subQuantity, true);
+            subtractSubQuantity(entry, subQuantity, true);
         }
     }
 

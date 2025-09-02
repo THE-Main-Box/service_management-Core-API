@@ -5,6 +5,8 @@ import br.com.studios.sketchbook.service_management_core.product.domain.model.Pr
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +14,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class StorageEntry {
+public class StorageEntry implements Serializable {
+
+    /// Número de série da entidade
+    @Serial
+    @Column(name = "version")
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Getter

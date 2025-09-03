@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper;
 
-import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.core.StorageEntryCoreDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.core.StorageEntryDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.storage_entry.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Cada teste cobre um tipo de VolumeType e garante que as operações de
  * inicialização, adição, remoção e conversão funcionem corretamente.
  */
-public class StorageEntryCoreDataManagerTest {
+public class StorageEntryDataManagementCoreTest {
 
-    private static StorageEntryCoreDataManager dataManager;
+    private static StorageEntryDataManagementCore dataManager;
     private static Product currentProduct;
     private static StorageEntry entry;
 
     @BeforeAll
     static void setup() {
-        dataManager = new StorageEntryCoreDataManager();
+        dataManager = new StorageEntryDataManagementCore();
     }
 
     @AfterEach

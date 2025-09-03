@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ public class Money implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Getter
+    @Setter
     @Column(name = "value", precision = 38, scale = 6, nullable = false)
     private BigDecimal value;
 
@@ -34,5 +36,17 @@ public class Money implements Serializable {
     public Money(Double value, String currency) {
         this.value = new BigDecimal(value);
         this.currency = currency;
+    }
+
+    public Money cpy() {
+        return new Money(this.value, this.currency);
+    }
+
+    @Override
+    public String toString() {
+        return "Money{" +
+                "value=" + value +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 }

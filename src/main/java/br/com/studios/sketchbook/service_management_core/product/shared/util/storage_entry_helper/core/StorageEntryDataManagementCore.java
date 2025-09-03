@@ -11,13 +11,13 @@ import java.math.BigDecimal;
 
 import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
-public class StorageEntryCoreDataManager {
+public class StorageEntryDataManagementCore {
 
     private final StorageEntryInitializerDataManager initializer;
     private final StorageEntryValueDataManager valueManager;
     private final StorageEntryUpdateDataManager updateManager;
 
-    public StorageEntryCoreDataManager() {
+    public StorageEntryDataManagementCore() {
         initializer = new StorageEntryInitializerDataManager();
         valueManager = new StorageEntryValueDataManager();
         updateManager = new StorageEntryUpdateDataManager();

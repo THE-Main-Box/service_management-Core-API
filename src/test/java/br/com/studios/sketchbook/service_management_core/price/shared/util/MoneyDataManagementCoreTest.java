@@ -5,6 +5,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +31,7 @@ public class MoneyDataManagementCoreTest {
     }
 
     @AfterEach
-    public void end(){
+    public void end() {
         System.out.println("//-//-//-//-//-//-//-//-//-//-//-");
         System.out.println(moneyA);
         System.out.println(moneyB);
@@ -78,7 +80,6 @@ public class MoneyDataManagementCoreTest {
         moneyC = moneyManager.add(moneyA, moneyB);//Armazenamos para verificar depois
 
         assertEquals(35d, moneyC.getValue().doubleValue());
-
     }
 
     @Test
@@ -95,6 +96,42 @@ public class MoneyDataManagementCoreTest {
         moneyC = moneyManager.addAll(moneyList);//Armazenamos para verificar depois
 
         assertEquals(50d, moneyC.getValue().doubleValue());
+
+    }
+
+    @Test
+    public void testMulti() {
+        // Moedas do mesmo tipo
+        moneyA = new Money(20d, "brl");
+
+        moneyC = moneyManager.multiply(
+                moneyA,
+                new BigDecimal(2)
+        );//Armazenamos para verificar depois
+
+        assertEquals(40d, moneyC.getValue().doubleValue());
+
+    }
+
+    @Test
+    public void testMultiAll() {
+        // Moedas do mesmo tipo
+        moneyA = new Money(20d, "brl");
+
+        List<BigDecimal> factorList = new ArrayList<>(
+                Arrays.asList(
+                        new BigDecimal(2),
+                        new BigDecimal(2),
+                        new BigDecimal(2)
+                )
+        );
+
+        moneyC = moneyManager.multiplyAll(
+                moneyA,
+                factorList
+        );//Armazenamos para verificar depois
+
+        assertEquals(160d, moneyC.getValue().doubleValue());
 
     }
 

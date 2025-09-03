@@ -3,6 +3,8 @@ package br.com.studios.sketchbook.service_management_core.price.shared.util;
 import br.com.studios.sketchbook.service_management_core.price.domain.Money;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class MoneyValueValidationDataManager {
 
@@ -24,17 +26,27 @@ public class MoneyValueValidationDataManager {
      *                   assim como nesta função
      */
     public void validateSubtractionAvailable(Money minuend, Money subtrahend) {
-        //Verifica se podemos sequer realizar o calculo
-        this.validateCurrencyCompatibility(minuend, subtrahend);
-
-        if (minuend.getValue().compareTo(subtrahend.getValue()) < 0) {
+        // Comparação mais rápida usando double
+        if (minuend.getValue().doubleValue() < subtrahend.getValue().doubleValue()) {
             throw new ArithmeticException(
-                    "O minuendo (valor a ser subtraído)" +
-                            " precisa ser maior que o subtraendo (valor que irá subtrair)" +
-                            " para que o resultado seja maior ou igual a 0: "
-                            + minuend.getValue()
-                            + subtrahend.getValue()
+                    "O minuendo (valor a ser subtraído) precisa ser maior que o subtraendo " +
+                            "para que o resultado seja maior ou igual a 0: " +
+                            minuend.getValue() + " - " + subtrahend.getValue()
             );
+        }
+    }
+
+    /**
+     * Valida se o fator de multiplicação é válido (não nulo, não negativo).
+     *
+     * @param factor BigDecimal a ser validado
+     */
+    public void validateMultiplicationFactor(BigDecimal factor) {
+        if (factor == null) {
+            throw new IllegalArgumentException("Fator de multiplicação não pode ser nulo.");
+        }
+        if (factor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Fator de multiplicação não pode ser negativo.");
         }
     }
 

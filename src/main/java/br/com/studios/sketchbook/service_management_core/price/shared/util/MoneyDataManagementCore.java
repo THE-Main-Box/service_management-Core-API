@@ -11,7 +11,6 @@ public class MoneyDataManagementCore {
 
     private final MoneyValueDataManager valueManager;
 
-    private BigDecimal valueBuffer;
     private Money toReturnBuffer;
 
     public MoneyDataManagementCore() {
@@ -64,7 +63,7 @@ public class MoneyDataManagementCore {
         //Percorremos a lista
         for (int i = 0; i < values.size(); i++) {
 
-            if(values.size() > 1 && i == 0) continue;
+            if (values.size() > 1 && i == 0) continue;
 
             try {
                 //Adicionamos usando o primeiro valor como referência
@@ -140,7 +139,7 @@ public class MoneyDataManagementCore {
     /// Subtrai múltiplos valores do tipo Money em sequência,
     /// desde que todos sejam da mesma moeda e o resultado não seja negativo.
     public Money subtractAll(Money toSubtract, List<Money> values) {
-        if (values == null || values.isEmpty() || values.size() == 1) {
+        if (values == null || values.isEmpty()) {
             throw new IllegalArgumentException("A lista de valores é imprópria para execução.");
         }
 
@@ -149,10 +148,10 @@ public class MoneyDataManagementCore {
         BigDecimal result;
 
         // Percorremos a lista
-        for (int i = 0; i < values.size(); i++) {
+        for (Money value : values) {
             try {
                 // Realizamos a subtração usando a referência como base
-                result = valueManager.subtract(ref, values.get(i));
+                result = valueManager.subtract(ref, value);
 
                 // Atualizamos a referência com o valor resultante
                 ref.setValue(result);
@@ -177,6 +176,78 @@ public class MoneyDataManagementCore {
         }
 
         return ref;
+    }
+
+
+    /**
+     * Multiplica um valor Money por um fator positivo,
+     * retornando um novo objeto Money com o resultado.
+     *
+     * @param base   valor Money que será multiplicado
+     * @param factor BigDecimal fator de multiplicação (positivo)
+     * @return novo Money com o valor multiplicado
+     */
+    public Money multiply(Money base, BigDecimal factor) {
+        try {
+
+            // Atualiza o buffer de retorno
+            toReturnBuffer = new Money(
+                    valueManager.multiply(
+                            base,
+                            factor
+                    ),
+                    base.getCurrency()
+            );
+
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Fator de multiplicação inválido: " + factor, e);
+        }
+
+        return toReturnBuffer;
+    }
+
+    /**
+     * Multiplica um valor Money por múltiplos fatores positivos em sequência,
+     * retornando o resultado final como um novo objeto Money.
+     *
+     * @param base    valor Money que será multiplicado
+     * @param factors lista de fatores (BigDecimal) a serem aplicados
+     * @return novo objeto Money com o valor multiplicado
+     */
+    public Money multiplyAll(Money base, List<BigDecimal> factors) {
+        if (base == null || factors == null || factors.isEmpty()) {
+            throw new IllegalArgumentException("Parâmetros inválidos para multiplicação.");
+        }
+
+        // Copiamos o valor base para não alterar o original
+        Money ref = base.cpy();
+
+        try {
+            BigDecimal result = ref.getValue();
+
+            // Multiplicação sequencial de cada fator
+            for (BigDecimal factor : factors) {
+                if (factor == null) {
+                    throw new IllegalArgumentException("Fator de multiplicação não pode ser nulo.");
+                }
+                if (factor.compareTo(BigDecimal.ZERO) < 0) {
+                    throw new IllegalArgumentException("Fator de multiplicação não pode ser negativo: " + factor);
+                }
+
+                // Atualizamos o resultado a cada multiplicação
+                result = valueManager.multiply(new Money(result, ref.getCurrency()), factor);
+            }
+
+            // Atualizamos o buffer de retorno
+            toReturnBuffer = new Money(result, base.getCurrency());
+
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Erro na multiplicação com múltiplos fatores.", e);
+        }
+
+        return toReturnBuffer;
     }
 
 }

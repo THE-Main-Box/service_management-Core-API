@@ -32,11 +32,21 @@ public class MoneyValueDataManager {
      */
     public BigDecimal subtract(Money minuend, Money subtrahend) {
         validationManager.validateCurrencyCompatibility(minuend, subtrahend);
-        BigDecimal toReturn = minuend.getValue().subtract(subtrahend.getValue());
-
         validationManager.validateSubtractionAvailable(minuend, subtrahend);
 
-        return toReturn;
+        return minuend.getValue().subtract(subtrahend.getValue());
+    }
+
+    /**
+     * Realiza a multiplicação de um valor Money por um fator positivo.
+     *
+     * @param value Money a ser multiplicado
+     * @param factor BigDecimal fator de multiplicação
+     * @return BigDecimal resultado da multiplicação
+     */
+    public BigDecimal multiply(Money value, BigDecimal factor) {
+        validationManager.validateMultiplicationFactor(factor);
+        return value.getValue().multiply(factor);
     }
 
 }

@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.price.shared.util;
 
 import br.com.studios.sketchbook.service_management_core.price.domain.Money;
+import br.com.studios.sketchbook.service_management_core.price.shared.dto.MoneyPercentDTO;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -138,7 +139,7 @@ public class MoneyDataManagementCore {
 
     /// Subtrai múltiplos valores do tipo Money em sequência,
     /// desde que todos sejam da mesma moeda e o resultado não seja negativo.
-    public Money subtractAll(Money toSubtract, List<Money> values) {
+    public Money subtractSeq(Money toSubtract, List<Money> values) {
         if (values == null || values.isEmpty()) {
             throw new IllegalArgumentException("A lista de valores é imprópria para execução.");
         }
@@ -215,7 +216,7 @@ public class MoneyDataManagementCore {
      * @param factors lista de fatores (BigDecimal) a serem aplicados
      * @return novo objeto Money com o valor multiplicado
      */
-    public Money multiplyAll(Money base, List<BigDecimal> factors) {
+    public Money multiplySeq(Money base, List<BigDecimal> factors) {
         if (base == null || factors == null || factors.isEmpty()) {
             throw new IllegalArgumentException("Parâmetros inválidos para multiplicação.");
         }
@@ -249,5 +250,78 @@ public class MoneyDataManagementCore {
 
         return toReturnBuffer;
     }
+
+    /**
+     * Aplica uma porcentagem usando o DTO (delegando ao valueManager).
+     */
+    public Money applyPercentage(MoneyPercentDTO dto) {
+        try {
+            BigDecimal result = valueManager.applyPercentage(dto.money(), dto.percent());
+            toReturnBuffer = new Money(result, dto.money().getCurrency());
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Erro ao aplicar porcentagem: " + dto.money(), e);
+        }
+        return toReturnBuffer;
+    }
+
+    /**
+     * Aplica múltiplas porcentagens sequenciais usando DTOs (delegando ao valueManager).
+     */
+    public Money applyPercentageSeq(List<MoneyPercentDTO> dtos) {
+        if (dtos == null || dtos.isEmpty()) {
+            throw new IllegalArgumentException("Lista de DTOs inválida para aplicação de porcentagem.");
+        }
+
+        Money ref = dtos.get(0).money().cpy();
+
+        try {
+            for (MoneyPercentDTO dto : dtos) {
+                BigDecimal result = valueManager.applyPercentage(ref, dto.percent());
+                ref.setValue(result);
+            }
+            toReturnBuffer = ref;
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Erro ao aplicar múltiplas porcentagens.", e);
+        }
+
+        return toReturnBuffer;
+    }
+
+    /**
+     * Calcula juros simples (1 + percent/100) delegando ao valueManager.multiply.
+     */
+    public Money calculateInterest(MoneyPercentDTO dto) {
+        try {
+            // usa movePointLeft para converter porcentagem em fator sem divisão aritmética
+            BigDecimal factor = BigDecimal.ONE.add(dto.percent().movePointLeft(2));
+            BigDecimal result = valueManager.multiply(dto.money(), factor);
+            toReturnBuffer = new Money(result, dto.money().getCurrency());
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Erro ao calcular juros para: " + dto.money(), e);
+        }
+        return toReturnBuffer;
+    }
+
+    /**
+     * Calcula desconto (1 - percent/100) delegando ao valueManager.multiply.
+     */
+    public Money calculateDiscount(MoneyPercentDTO dto) {
+        try {
+            // usa movePointLeft para evitar ArithmeticException
+            BigDecimal factor = BigDecimal.ONE.subtract(dto.percent().movePointLeft(2));
+            BigDecimal result = valueManager.multiply(dto.money(), factor);
+            toReturnBuffer = new Money(result, dto.money().getCurrency());
+        } catch (IllegalArgumentException e) {
+            toReturnBuffer = null;
+            throw new RuntimeException("Erro ao calcular desconto para: " + dto.money(), e);
+        }
+        return toReturnBuffer;
+    }
+
+
+
 
 }

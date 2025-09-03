@@ -22,13 +22,9 @@ public class MoneyValueDataManager {
 
     /**
      * Realiza uma subtração entre dois objetos do tipo Money e retorna o resultado
-     * <p>
-     * Diferente de uma soma, onde a ordem dos fatores não importa, aqui é de extrema importância.
-     * Isso porque a ordém irá ajudar a prevenir um resultado negativo erróneo
      *
      * @param minuend    Valor a ser subtraído, precisa ser o primeiro dos parâmetros
-     * @param subtrahend Valor que irá subtrair, é como de costume o segundo parâmetro na matemática,
-     *                   assim como nesta função
+     * @param subtrahend Valor que irá subtrair
      */
     public BigDecimal subtract(Money minuend, Money subtrahend) {
         validationManager.validateCurrencyCompatibility(minuend, subtrahend);
@@ -40,13 +36,29 @@ public class MoneyValueDataManager {
     /**
      * Realiza a multiplicação de um valor Money por um fator positivo.
      *
-     * @param value Money a ser multiplicado
+     * @param value  Money a ser multiplicado
      * @param factor BigDecimal fator de multiplicação
      * @return BigDecimal resultado da multiplicação
      */
     public BigDecimal multiply(Money value, BigDecimal factor) {
         validationManager.validateMultiplicationFactor(factor);
         return value.getValue().multiply(factor);
+    }
+
+    /**
+     * Aplica uma porcentagem a um valor Money.
+     *
+     * @param value      Money base
+     * @param percentage BigDecimal representando a porcentagem (ex: 10 → 10%)
+     * @return BigDecimal resultado da aplicação da porcentagem
+     */
+    public BigDecimal applyPercentage(Money value, BigDecimal percentage) {
+
+        // Transformamos a porcentagem em fator usando movePointLeft(2) — evita arredondamento/exceção
+        BigDecimal factor = percentage.movePointLeft(2); // 10 -> 0.10
+
+        // Reaproveita multiply (que já valida)
+        return multiply(value, factor);
     }
 
 }

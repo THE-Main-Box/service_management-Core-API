@@ -6,7 +6,7 @@ public class StorageEntryValidateDataManager {
 
     public static void validateSpecialType(StorageEntry entry) {
         if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
-        if (!entry.getVType().isSpecialType()) {
+        if (!entry.getVType().isCompostType()) {
             throw new IllegalStateException("Operação válida apenas para tipos especiais: " + entry.getProduct());
         }
     }
@@ -21,7 +21,7 @@ public class StorageEntryValidateDataManager {
 
         if (units != null && units < 0) throw new IllegalStateException("units negativo");
         if (sub != null && sub < 0) throw new IllegalStateException("subUnits negativo");
-        if (entry.getVType().isSpecialType()) {
+        if (entry.getVType().isCompostType()) {
             if (qpu != null && qpu <= 0)
                 throw new IllegalStateException("quantityPerUnit deve ser > 0 para tipos especiais");
         }

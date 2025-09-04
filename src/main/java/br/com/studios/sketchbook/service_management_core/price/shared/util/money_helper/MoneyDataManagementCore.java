@@ -18,6 +18,16 @@ public class MoneyDataManagementCore {
         valueManager = new MoneyValueDataManager();
     }
 
+    public Money add(Money valueA, double valueB) {
+        return add(
+                valueA,
+                new Money(
+                        valueB,
+                        valueA.getCurrency()
+                )
+        );
+    }
+
     /**
      * Retorna um novo objeto do tipo Money caso as moedas sejam do mesmo tipo
      *
@@ -223,9 +233,9 @@ public class MoneyDataManagementCore {
         if (base == null || factors == null || factors.isEmpty()) {
             throw new IllegalArgumentException("Parâmetros inválidos para multiplicação.");
         }
-            // Copiamos o valor base para não alterar o original
-            Money ref = base.cpy();
-            BigDecimal result;
+        // Copiamos o valor base para não alterar o original
+        Money ref = base.cpy();
+        BigDecimal result;
 
         try {
             result = ref.getValue();

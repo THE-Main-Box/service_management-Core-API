@@ -33,7 +33,7 @@ public class Money implements Serializable {
         this.currency = currency;
     }
 
-    public Money(Double value, String currency) {
+    public Money(double value, String currency) {
         this.value = new BigDecimal(value);
         this.currency = currency;
     }

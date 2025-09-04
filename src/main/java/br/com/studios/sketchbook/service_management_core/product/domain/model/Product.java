@@ -3,6 +3,7 @@ package br.com.studios.sketchbook.service_management_core.product.domain.model;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.UUID;
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
 @MappedSuperclass
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product implements Serializable {
 
     //TODO: Reavaliar o hash code dos produtos
@@ -43,7 +45,7 @@ public class Product implements Serializable {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Getter
     @Setter
-    protected StorageEntry entry;
+    protected StorageEntry storageEntry;
 
     public Product(String name, VolumeType type) {
         this.name = name;

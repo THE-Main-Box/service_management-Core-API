@@ -34,7 +34,7 @@ public class StorageEntryUpdateDataManager {
         VolumeType targetType = entry.getVType();
 
         if (dto.type() != null
-                && dto.type().isSpecialType()
+                && dto.type().isCompostType()
                 && dto.quantityPerUnit() == null
                 || dto.quantityPerUnit() == 0
         ) {
@@ -51,7 +51,7 @@ public class StorageEntryUpdateDataManager {
         final Long qpuInternal = convertQpuField(dto.quantityPerUnit(), scale, raw);
 
         // 3) aplica por categoria
-        if (!targetType.isSpecialType()) {
+        if (!targetType.isCompostType()) {
             applySimpleTypeUpdate(entry, unitsInternal);
         } else {
             applySpecialTypeUpdate(entry, unitsInternal, subUnitsInternal, qpuInternal);

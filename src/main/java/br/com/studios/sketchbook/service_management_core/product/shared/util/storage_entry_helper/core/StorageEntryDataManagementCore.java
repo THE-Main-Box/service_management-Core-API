@@ -2,7 +2,7 @@ package br.com.studios.sketchbook.service_management_core.product.shared.util.st
 
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.storage_entry.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
-import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related.StorageEntryInitializerDataManager;
+import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related.StorageEntryInitDataManager;
 import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.objectfying_related.StorageEntryUpdateDataManager;
 import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager;
 import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryValueDataManager;
@@ -13,12 +13,12 @@ import static br.com.studios.sketchbook.service_management_core.product.shared.u
 
 public class StorageEntryDataManagementCore {
 
-    private final StorageEntryInitializerDataManager initializer;
+    private final StorageEntryInitDataManager initializer;
     private final StorageEntryValueDataManager valueManager;
     private final StorageEntryUpdateDataManager updateManager;
 
     public StorageEntryDataManagementCore() {
-        initializer = new StorageEntryInitializerDataManager();
+        initializer = new StorageEntryInitDataManager();
         valueManager = new StorageEntryValueDataManager();
         updateManager = new StorageEntryUpdateDataManager();
     }
@@ -89,7 +89,7 @@ public class StorageEntryDataManagementCore {
     public BigDecimal getAmountAvailable(StorageEntry entry) {
         if (entry == null) return BigDecimal.ZERO;
 
-        long rawValue = entry.getVType().isSpecialType()
+        long rawValue = entry.getVType().isCompostType()
                 ? entry.getSubUnits()
                 : entry.getUnits();
 
@@ -104,7 +104,7 @@ public class StorageEntryDataManagementCore {
     public Long getAmountAvailableRaw(StorageEntry entry) {
 
         //Se for de um tipo composto então obtemos pela subunidade
-        if (entry.getVType().isSpecialType()) {
+        if (entry.getVType().isCompostType()) {
             return entry.getSubUnits();
         } else {//Se for de um tipo simples obtemos pelas unidades
             return entry.getUnits();
@@ -134,7 +134,7 @@ public class StorageEntryDataManagementCore {
      *                        ou se já estão convertidos de entrada
      */
     public void initEntry(StorageEntry entry, Long quantity, Long quantityPerUnit, boolean raw) {
-        if (entry.getVType().isSpecialType()) {
+        if (entry.getVType().isCompostType()) {
             initializer.initSpecialType(
                     entry,
                     quantity,

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import static br.com.studios.sketchbook.service_management_core.product.shared.enums.ValuesScaleConstants.KILOGRAMS;
-import static br.com.studios.sketchbook.service_management_core.product.shared.enums.ValuesScaleConstants.LITERS;
+import static br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeScaleConstants.KILOGRAMS;
+import static br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeScaleConstants.LITERS;
 
 @Component
 public class StorageEntryConverterDataManager {
@@ -55,7 +55,7 @@ public class StorageEntryConverterDataManager {
      */
     public static Long convertUnitsField(Long dtoUnits, VolumeType targetType, long scale, boolean raw) {
         if (dtoUnits == null) return null;
-        if (!targetType.isSpecialType()) {
+        if (!targetType.isCompostType()) {
             // tipos simples: armazenamos em escala interna (ex: kg -> g)
             return raw ? dtoUnits : safeMultiply(dtoUnits, scale, "units");
         } else {

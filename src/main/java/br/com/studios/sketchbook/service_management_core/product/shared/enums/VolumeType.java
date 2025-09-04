@@ -8,7 +8,7 @@ public enum VolumeType {
     LITER_PER_UNITY,
     UNITY_PER_UNITY;
 
-    public boolean isSpecialType() {
+    public boolean isCompostType() {
         return switch (this) {
             case KILOGRAM_PER_UNIT,
                  LITER_PER_UNITY,

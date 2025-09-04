@@ -86,7 +86,7 @@ public class StorageEntryValueDataManager {
     public void addUnit(StorageEntry entry, Long quantity, boolean raw) {
         if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
 
-        if (!entry.getVType().isSpecialType()) {
+        if (!entry.getVType().isCompostType()) {
             long toAdd = raw
                     ? quantity
                     : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVType()));
@@ -116,7 +116,7 @@ public class StorageEntryValueDataManager {
     public void subtractUnit(StorageEntry entry, Long quantity, boolean raw) {
         if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
 
-        if (!entry.getVType().isSpecialType()) {
+        if (!entry.getVType().isCompostType()) {
             long toSubtract = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVType()));
             entry.setUnits(Math.subtractExact(entry.getUnits(), toSubtract));
         } else {

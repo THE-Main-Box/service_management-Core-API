@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import static br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
 @Component
-public class StorageEntryInitializerDataManager {
+public class StorageEntryInitDataManager {
 
     /**
      * Inicializa a entrada de armazenamento para tipos especiais.
@@ -17,7 +17,7 @@ public class StorageEntryInitializerDataManager {
      * @param raw      Indica se os valores recebidos já estão no formato mínimo
      */
     public void initSpecialType(StorageEntry entry, Long quantity, Long quantityPerUnit, boolean raw) {
-        if (!entry.getVType().isSpecialType()) {
+        if (!entry.getVType().isCompostType()) {
             throw new IllegalArgumentException(
                     "Tipo incorreto para init especial: "
                             + entry.getId()
@@ -50,7 +50,7 @@ public class StorageEntryInitializerDataManager {
      * @param raw      Se precisamos realizar uma escalação pros valores serem armazenados corretamente
      */
     public void initBasicType(StorageEntry entry, Long quantity, boolean raw) {
-        if (entry.getVType().isSpecialType()) {
+        if (entry.getVType().isCompostType()) {
             throw new IllegalArgumentException("Tipo incorreto para init básico: " + entry.getProduct());
         }
 

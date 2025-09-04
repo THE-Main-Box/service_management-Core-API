@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_STORAGE_DATA")
+@Table(name = "TB_STORAGE_ENTRY")
 @NoArgsConstructor
 @AllArgsConstructor
 public class StorageEntry implements Serializable {
@@ -60,7 +60,7 @@ public class StorageEntry implements Serializable {
 
     public StorageEntry(Product product) {
         this.product = product;
-        this.product.setEntry(this);
+        this.product.setStorageEntry(this);
         this.vType = product.getVolumeType();
     }
 

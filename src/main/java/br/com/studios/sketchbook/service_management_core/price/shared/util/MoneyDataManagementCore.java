@@ -201,8 +201,11 @@ public class MoneyDataManagementCore {
             );
 
         } catch (IllegalArgumentException e) {
+
             toReturnBuffer = null;
+
             throw new RuntimeException("Fator de multiplicação inválido: " + factor, e);
+
         }
 
         return toReturnBuffer;
@@ -220,35 +223,39 @@ public class MoneyDataManagementCore {
         if (base == null || factors == null || factors.isEmpty()) {
             throw new IllegalArgumentException("Parâmetros inválidos para multiplicação.");
         }
-
-        // Copiamos o valor base para não alterar o original
-        Money ref = base.cpy();
+            // Copiamos o valor base para não alterar o original
+            Money ref = base.cpy();
+            BigDecimal result;
 
         try {
-            BigDecimal result = ref.getValue();
+            result = ref.getValue();
 
             // Multiplicação sequencial de cada fator
             for (BigDecimal factor : factors) {
-                if (factor == null) {
-                    throw new IllegalArgumentException("Fator de multiplicação não pode ser nulo.");
-                }
-                if (factor.compareTo(BigDecimal.ZERO) < 0) {
-                    throw new IllegalArgumentException("Fator de multiplicação não pode ser negativo: " + factor);
-                }
 
                 // Atualizamos o resultado a cada multiplicação
-                result = valueManager.multiply(new Money(result, ref.getCurrency()), factor);
+                result = valueManager.multiply(
+                        new Money(
+                                result,
+                                ref.getCurrency()
+                        ),
+                        factor
+                );
             }
 
             // Atualizamos o buffer de retorno
             toReturnBuffer = new Money(result, base.getCurrency());
 
         } catch (IllegalArgumentException e) {
+
             toReturnBuffer = null;
+
             throw new RuntimeException("Erro na multiplicação com múltiplos fatores.", e);
+
         }
 
         return toReturnBuffer;
+
     }
 
     /**
@@ -256,8 +263,18 @@ public class MoneyDataManagementCore {
      */
     public Money applyPercentage(MoneyPercentDTO dto) {
         try {
-            BigDecimal result = valueManager.applyPercentage(dto.money(), dto.percent());
-            toReturnBuffer = new Money(result, dto.money().getCurrency());
+
+            BigDecimal result = valueManager.applyPercentage(
+                    dto.money(),
+                    dto.percent()
+            );
+
+            toReturnBuffer = new Money(
+                    result,
+                    dto.money()
+                            .getCurrency()
+            );
+
         } catch (IllegalArgumentException e) {
             toReturnBuffer = null;
             throw new RuntimeException("Erro ao aplicar porcentagem: " + dto.money(), e);
@@ -268,60 +285,60 @@ public class MoneyDataManagementCore {
     /**
      * Aplica múltiplas porcentagens sequenciais usando DTOs (delegando ao valueManager).
      */
-    public Money applyPercentageSeq(List<MoneyPercentDTO> dtos) {
-        if (dtos == null || dtos.isEmpty()) {
+    public Money applyPercentageSeq(List<MoneyPercentDTO> dtoList) {
+        if (dtoList == null || dtoList.isEmpty()) {
             throw new IllegalArgumentException("Lista de DTOs inválida para aplicação de porcentagem.");
         }
 
-        Money ref = dtos.get(0).money().cpy();
+        Money ref = dtoList.get(0).money().cpy();
+        BigDecimal result;
 
         try {
-            for (MoneyPercentDTO dto : dtos) {
-                BigDecimal result = valueManager.applyPercentage(ref, dto.percent());
+            for (MoneyPercentDTO dto : dtoList) {
+                result = valueManager.applyPercentage(
+                        ref,
+                        dto.percent()
+                );
+
                 ref.setValue(result);
             }
+
             toReturnBuffer = ref;
+
         } catch (IllegalArgumentException e) {
+
             toReturnBuffer = null;
+
             throw new RuntimeException("Erro ao aplicar múltiplas porcentagens.", e);
         }
 
         return toReturnBuffer;
+
     }
 
     /**
-     * Calcula juros simples (1 + percent/100) delegando ao valueManager.multiply.
+     * Calcula juros simples delegando para applyPercentage.
+     * Juros de X% = aplicar (100 + X)% sobre o valor.
      */
     public Money calculateInterest(MoneyPercentDTO dto) {
-        try {
-            // usa movePointLeft para converter porcentagem em fator sem divisão aritmética
-            BigDecimal factor = BigDecimal.ONE.add(dto.percent().movePointLeft(2));
-            BigDecimal result = valueManager.multiply(dto.money(), factor);
-            toReturnBuffer = new Money(result, dto.money().getCurrency());
-        } catch (IllegalArgumentException e) {
-            toReturnBuffer = null;
-            throw new RuntimeException("Erro ao calcular juros para: " + dto.money(), e);
-        }
-        return toReturnBuffer;
+        // constrói um novo DTO com a porcentagem ajustada
+        MoneyPercentDTO adjusted = new MoneyPercentDTO(
+                dto.money(),
+                BigDecimal.valueOf(100).add(dto.percent()) // 100 + X
+        );
+        return applyPercentage(adjusted); // delega
     }
 
     /**
-     * Calcula desconto (1 - percent/100) delegando ao valueManager.multiply.
+     * Calcula desconto delegando para applyPercentage.
+     * Desconto de X% = aplicar (100 - X)% sobre o valor.
      */
     public Money calculateDiscount(MoneyPercentDTO dto) {
-        try {
-            // usa movePointLeft para evitar ArithmeticException
-            BigDecimal factor = BigDecimal.ONE.subtract(dto.percent().movePointLeft(2));
-            BigDecimal result = valueManager.multiply(dto.money(), factor);
-            toReturnBuffer = new Money(result, dto.money().getCurrency());
-        } catch (IllegalArgumentException e) {
-            toReturnBuffer = null;
-            throw new RuntimeException("Erro ao calcular desconto para: " + dto.money(), e);
-        }
-        return toReturnBuffer;
+        MoneyPercentDTO adjusted = new MoneyPercentDTO(
+                dto.money(),
+                BigDecimal.valueOf(100).subtract(dto.percent()) // 100 - X
+        );
+        return applyPercentage(adjusted); // delega
     }
-
-
-
 
 }

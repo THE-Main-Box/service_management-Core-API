@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.price.shared.util;
+package br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper;
 
 import br.com.studios.sketchbook.service_management_core.price.domain.Money;
 import org.springframework.stereotype.Component;

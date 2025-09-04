@@ -1,7 +1,8 @@
-package br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model;
+package br.com.studios.sketchbook.service_management_core.price_modifying.model;
 
-import br.com.studios.sketchbook.service_management_core.product.infra.enums.AdjustmentTrigger;
-import br.com.studios.sketchbook.service_management_core.product.infra.enums.AdjustmentType;
+import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.PriceEntry;
+import br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums.AdjustmentTrigger;
+import br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums.AdjustmentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

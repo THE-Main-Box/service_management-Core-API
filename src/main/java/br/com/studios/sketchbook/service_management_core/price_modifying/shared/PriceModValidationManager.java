@@ -1,11 +1,11 @@
-package br.com.studios.sketchbook.service_management_core.product.shared.util.price_entry_helper;
+package br.com.studios.sketchbook.service_management_core.price_modifying.shared;
 
-import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.PriceModifier;
-import br.com.studios.sketchbook.service_management_core.product.infra.enums.AdjustmentTrigger;
+import br.com.studios.sketchbook.service_management_core.price_modifying.model.PriceModifier;
+import br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums.AdjustmentTrigger;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PriceEntryValidateEntryDataManager {
+public class PriceModValidationManager {
 
     /**
      * Verifica se podemos aplicar um desconto

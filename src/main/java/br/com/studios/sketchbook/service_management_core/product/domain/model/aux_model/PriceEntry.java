@@ -3,6 +3,7 @@ package br.com.studios.sketchbook.service_management_core.product.domain.model.a
 import br.com.studios.sketchbook.service_management_core.price.domain.Money;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.price_modifying.model.PriceModifier;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

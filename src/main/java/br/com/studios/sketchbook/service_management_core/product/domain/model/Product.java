@@ -33,10 +33,8 @@ public class Product implements Serializable {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    //TODO: Adicionar objeto para lidar com o preço do produto
-//    @Getter
-//    @Column(name = "value", nullable = false, precision = 38, scale = 2)
-//    protected BigDecimal value;
+    //TODO:Quando expandir a funcionalidade do sistema,
+    // talvez seja interessante separar as classes de modelo auxiliares para seus próprios pacotes
 
     @Getter
     @Enumerated(EnumType.STRING)

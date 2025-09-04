@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.product.infra.enums;
+package br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums;
 
 public enum AdjustmentTrigger {
     APPLY_ON_MINIMUM,       // aplica quando atinge ou passa da quantidade mínima

@@ -5,8 +5,8 @@ import br.com.studios.sketchbook.service_management_core.price.shared.util.money
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.aux_model.StorageEntry;
-import br.com.studios.sketchbook.service_management_core.product.infra.enums.AdjustmentTrigger;
-import br.com.studios.sketchbook.service_management_core.product.infra.enums.AdjustmentType;
+import br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums.AdjustmentTrigger;
+import br.com.studios.sketchbook.service_management_core.price_modifying.shared.enums.AdjustmentType;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.product.shared.util.storage_entry_helper.core.StorageEntryDataManagementCore;
 import org.junit.jupiter.api.BeforeAll;

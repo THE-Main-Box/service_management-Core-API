@@ -1,11 +1,12 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.api;
 
+import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestController;
 import br.com.studios.sketchbook.service_management_core.product.product_related.infra.services.SMProductService;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.dto.ProductsDeleteManyDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductResponseDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductUpdateDTO;
-import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SMProductModel;
+import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SuperMarketProduct;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products/super-market")
-public class SMProductController {
+public class SMProductController implements ProductRestController {
 
     private final SMProductService service;
 
@@ -29,7 +30,7 @@ public class SMProductController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<SMProductResponseDTO>> getAll(
+    public ResponseEntity<Page<Object>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -38,14 +39,16 @@ public class SMProductController {
         );
     }
 
-    /// Obtém uma página contendo um dto de todas as instâncias dentro do banco
+    /// Obtém uma página contendo um dto de todas as instâncias pedidas dentro do banco
     @GetMapping("/name/{name}")
-    public ResponseEntity<Page<SMProductResponseDTO>> getByName(
+    public ResponseEntity<Page<Object>> getByName(
             @PathVariable String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(service.getResponseByName(name, page, size));
+        return ResponseEntity.ok().body(
+                service.getProductByName(name, page, size).map(SMProductResponseDTO::new)
+        );
     }
 
     /// Obtém um dto com base num ID
@@ -55,7 +58,9 @@ public class SMProductController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody SMProductUpdateDTO dto) {
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody Object dtoObj) {
+        SMProductUpdateDTO dto = (SMProductUpdateDTO) dtoObj; //Convertemos para o dto correto
+
         return ResponseEntity.ok().body(
                 new SMProductResponseDTO(
                         service.update(
@@ -68,8 +73,10 @@ public class SMProductController {
 
     /// Cria uma instância com base num dto e salva, depois retorna que foi bem sucedido
     @PutMapping("/new")
-    public ResponseEntity<Object> create(@Valid @RequestBody SMProductCreationDTO dto) {
-        SMProductModel model = service.createAndSave(dto);
+    public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
+        SMProductCreationDTO dto = (SMProductCreationDTO) dtoObj;
+
+        SuperMarketProduct model = service.createAndSave(dto);
 
         URI uri = service.getUriForPersistedObject(model);
 

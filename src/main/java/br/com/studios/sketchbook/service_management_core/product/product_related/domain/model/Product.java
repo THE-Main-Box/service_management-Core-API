@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.domain.model;
 
+import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
-@MappedSuperclass
+@Entity(name = "TB_PRODUCT")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product implements Serializable {
@@ -45,24 +46,15 @@ public class Product implements Serializable {
     @Setter
     protected StorageEntry storageEntry;
 
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    protected PriceEntry priceEntry;
+
     public Product(String name, VolumeType type) {
         this.name = name;
-//        this.value = BigDecimal.valueOf(value);
         this.volumeType = type;
     }
-
-//    public void setValue(String value) {
-//        this.value = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP);
-//    }
-
-
-//    public void setValue(double value) {
-//        this.value = BigDecimal.valueOf(value);
-//    }
-
-//    public String getValueAsString() {
-//        return value.toPlainString();
-//    }
 
     @Override
     public String toString() {

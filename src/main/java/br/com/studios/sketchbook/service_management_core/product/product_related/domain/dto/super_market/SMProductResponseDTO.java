@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market;
 
-import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SMProductModel;
+import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SuperMarketProduct;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ public record SMProductResponseDTO(
         String name,
         String barCode
 ) {
-    public SMProductResponseDTO(SMProductModel model) {
+    public SMProductResponseDTO(SuperMarketProduct model) {
         this(
                 model.getId(),
                 model.getName(),

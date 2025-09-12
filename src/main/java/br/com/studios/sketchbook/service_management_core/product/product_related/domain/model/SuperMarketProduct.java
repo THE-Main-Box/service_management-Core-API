@@ -16,7 +16,7 @@ import java.io.Serial;
 @Entity
 @Table(name = "TB_SUPER_MARKET_PRODUCTS")
 @NoArgsConstructor
-public class SMProductModel extends Product {
+public class SuperMarketProduct extends Product {
     /// Número de série da entidade
     @Serial
     @Column(name = "version")
@@ -28,12 +28,12 @@ public class SMProductModel extends Product {
     @Setter
     private String barcode;
 
-    public SMProductModel(String name, String barcode, VolumeType type) {
+    public SuperMarketProduct(String name, String barcode, VolumeType type) {
         super(name, type);
         this.barcode = barcode;
     }
 
-    public SMProductModel(SMProductCreationDTO dto) {
+    public SuperMarketProduct(SMProductCreationDTO dto) {
         this.barcode = dto.barCode();
         this.name = dto.name();
     }

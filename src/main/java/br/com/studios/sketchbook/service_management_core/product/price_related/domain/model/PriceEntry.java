@@ -46,7 +46,7 @@ public class PriceEntry implements Serializable {
     @Embedded
     private Money price;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "entry")
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "priceEntry")
     @Getter @Setter
     /// Modificador de preço, realiza a referência do ajuste
     private PriceModifier modifier;

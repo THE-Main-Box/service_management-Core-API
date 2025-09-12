@@ -1,10 +1,9 @@
-package br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market;
+package br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product;
 
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 
-public record SMProductUpdateDTO(
+public record ProductUpdateDTO(
         String name,
-        String barCode,
         VolumeType volumeType
 ) {
 }

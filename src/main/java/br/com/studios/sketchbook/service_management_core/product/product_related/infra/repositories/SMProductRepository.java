@@ -13,14 +13,14 @@ import java.util.UUID;
 @Repository
 public interface SMProductRepository extends JpaRepository<SuperMarketProduct, UUID> {
     @Query("""
-            SELECT p FROM SMProductModel p
+            SELECT p FROM SuperMarketProduct p
             WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))
             ORDER BY p.name
             """)
     Page<SuperMarketProduct> ListByName(@Param("name") String name, Pageable pageable);
 
     @Query("""
-            SELECT p FROM SMProductModel p
+            SELECT p FROM SuperMarketProduct p
              ORDER BY p.name
             """)
     Page<SuperMarketProduct> listAll(Pageable pageable);

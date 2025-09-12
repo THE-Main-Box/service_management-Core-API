@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.domain.model;
 
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
+import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import jakarta.persistence.*;
@@ -13,9 +14,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
-@Entity(name = "TB_PRODUCT")
+@Entity
+@Table(name = "TB_PRODUCT")
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Product implements Serializable {
 
     //TODO: Reavaliar o hash code dos produtos
@@ -37,6 +40,7 @@ public class Product implements Serializable {
     //TODO:Quando expandir a funcionalidade do sistema,
     // talvez seja interessante separar as classes de modelo auxiliares para seus próprios pacotes
 
+    @Setter
     @Getter
     @Enumerated(EnumType.STRING)
     protected VolumeType volumeType;
@@ -54,6 +58,10 @@ public class Product implements Serializable {
     public Product(String name, VolumeType type) {
         this.name = name;
         this.volumeType = type;
+    }
+
+    public Product(ProductCreationDTO dto){
+        this(dto.name(), dto.volumeType());
     }
 
     @Override

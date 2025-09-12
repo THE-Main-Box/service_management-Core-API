@@ -34,7 +34,10 @@ public class SuperMarketProduct extends Product {
     }
 
     public SuperMarketProduct(SMProductCreationDTO dto) {
-        this.barcode = dto.barCode();
-        this.name = dto.name();
+        this(
+                dto.name(),
+                dto.barCode(),
+                dto.volumeType()
+        );
     }
 }

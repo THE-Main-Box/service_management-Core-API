@@ -1,10 +1,11 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.product.product_related.infra.repositories.SMProductRepository;
+import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductApiUtils;
+import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductResponseDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SuperMarketProduct;
+import br.com.studios.sketchbook.service_management_core.product.product_related.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class SMProductService{
+public class SMProductService implements ProductRestServiceContract<SuperMarketProduct> {
 
     private final SMProductRepository repository;
 
@@ -29,7 +29,6 @@ public class SMProductService{
         this.repository = repository;
     }
 
-    /// Remove o objeto do id salvo no banco
     @Transactional
     public boolean delete(UUID id) {
         Optional<SuperMarketProduct> model = repository.findById(id);
@@ -38,56 +37,46 @@ public class SMProductService{
         return true;
     }
 
-    /// Atualiza os campos do modelo passado como parâmetro
     @Transactional
-    public SuperMarketProduct update(SuperMarketProduct model, SMProductUpdateDTO dto) {
+    public SuperMarketProduct update(SuperMarketProduct model, Record dtoObject) {
+        SMProductUpdateDTO dto = (SMProductUpdateDTO) dtoObject;
+
         if (dto.name() != null) model.setName(dto.name());
+        if(dto.volumeType() != null) model.setVolumeType(dto.volumeType());
         if (dto.barCode() != null) model.setBarcode(dto.barCode());
 
         return repository.save(model);
     }
 
     /// Retorna uma página com todas as instancias registradas
-    public Page<SuperMarketProduct> getAllInstances(int page, int size){
+    public Page<SuperMarketProduct> getAllInstances(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
         return repository.findAll(pageable);
     }
 
     /// Cria e salva uma instancia com base em um dto no banco
     @Transactional
-    public SuperMarketProduct createAndSave(SMProductCreationDTO dto){
-        return repository.save(new SuperMarketProduct(dto));
+    public SuperMarketProduct createAndSave(Record dto) {
+        return repository.save(new SuperMarketProduct((SMProductCreationDTO) dto));
     }
 
 
     /// Obtém uma instância de um modelo com base no id passado
-    public SuperMarketProduct getInstanceById(UUID id){
+    public SuperMarketProduct getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
     }
-    /// Obtém um dto de uma instância com base no id de um modelo do banco
-    public SMProductResponseDTO getResponseById(UUID id){
-        return new SMProductResponseDTO(getInstanceById(id));
-    }
-
 
     /// Obtém uma Page de instâncias de modelos do banco de dados conforme o nome
     public Page<SuperMarketProduct> getInstancesByName(String name, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
         return repository.ListByName(name, pageable);
     }
-    /// Obtém uma Page de instâncias de modelo do banco de dados e converte para um dto de resposta e o retorna
-    public Page<SuperMarketProduct> getProductByName(String name, int page, int size) {
-        return getInstancesByName(name, page, size);
-    }
 
 
     /// Obtém uma uri para levar até o produto, com um "/id"
-    public URI getUriForPersistedObject(SuperMarketProduct model){
-        return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/products/super-market/id/{id}")
-                .buildAndExpand(model.getId())
-                .toUri();
+    public URI getUriForPersistedObject(SuperMarketProduct model) {
+        return ProductApiUtils.getUriForPersistedObject(model, "/products/super-market/id/{id}");
     }
+
 
 }

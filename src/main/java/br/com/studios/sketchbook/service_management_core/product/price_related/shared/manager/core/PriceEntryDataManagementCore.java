@@ -1,10 +1,12 @@
 package br.com.studios.sketchbook.service_management_core.product.price_related.shared.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.price.domain.model.Money;
+import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.manager.objectify.PriceEntryInitDataManager;
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.enums.AdjustmentType;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
+import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -29,7 +31,6 @@ public class PriceEntryDataManagementCore {
     /**
      * Inicia um modificador de preço
      *
-     * @param entry          Entrada de preço de um produto
      * @param quantity       Quantidade do produto
      *                       que será usada de acordo com um contexto
      *                       para determinar a aplicação do modificador de preço
@@ -38,16 +39,16 @@ public class PriceEntryDataManagementCore {
      * @param percentage     Porcentagem do preço do produto a ser modificado, se deve ser aumentada ou não
      * @param adjustmentType Diz se devemos somar ou remover a porcentagem como "juros" ou "desconto"
      */
-    public void initPriceMod(
-            PriceEntry entry,
+    public PriceModifier initPriceMod(
+            VolumeType volumeType,
             long quantity,
             boolean raw,
             AdjustmentTrigger trigger,
             double percentage,
             AdjustmentType adjustmentType
     ) {
-        priceManager.initPriceMod(
-                entry,
+        return priceManager.initPriceMod(
+                volumeType,
                 quantity,
                 raw,
                 trigger,
@@ -57,8 +58,8 @@ public class PriceEntryDataManagementCore {
     }
 
     /// Retorna o dinheiro já aplicado com juros ou desconto de acordo com o modificador interno
-    public BigDecimal getTotalSumModApplied(PriceEntry entry, long amount) {
-        return priceManager.getTotalSumModApplied(entry, amount);
+    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier mod, long amount) {
+        return priceManager.getTotalSumModApplied(entry, mod, amount);
 
     }
 
@@ -73,9 +74,9 @@ public class PriceEntryDataManagementCore {
     }
 
     /// Obtém o dinheiro com o desconto ou juros já aplicado
-    public BigDecimal getPriceModifyingApplied(PriceEntry entry, long amount, Money price) {
+    public BigDecimal getPriceModifyingApplied(PriceModifier modifier, long amount, Money price) {
         return priceManager.getPriceModifyingApplied(
-                entry,
+                modifier,
                 amount,
                 price
         );

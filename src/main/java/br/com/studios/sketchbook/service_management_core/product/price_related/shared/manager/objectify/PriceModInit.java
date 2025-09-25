@@ -4,6 +4,7 @@ import br.com.studios.sketchbook.service_management_core.product.price_related.d
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.enums.AdjustmentType;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
+import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,8 +14,8 @@ import static br.com.studios.sketchbook.service_management_core.product.storage_
 @Component
 public class PriceModInit {
 
-    public void initPriceMod(
-            PriceEntry entry,
+    public PriceModifier initPriceMod(
+            VolumeType volumeType,
             long quantity,
             boolean raw,
             AdjustmentTrigger trigger,
@@ -26,17 +27,14 @@ public class PriceModInit {
         //Se não realizamos uma multiplicação para podermos saber o valor mínimo
         long rawQuantity = raw
                 ? quantity
-                : quantity * getScaleByVolumeType(entry.getVType());
+                : quantity * getScaleByVolumeType(volumeType);
 
         //Seta o modificador enquanto cria ele, garantindo uma relação bidirectional
-        entry.setModifier(
-                new PriceModifier(
-                        entry,
-                        rawQuantity,
-                        trigger,
-                        percentage,
-                        adjustmentType
-                )
+        return new PriceModifier(
+                rawQuantity,
+                trigger,
+                percentage,
+                adjustmentType
         );
 
     }

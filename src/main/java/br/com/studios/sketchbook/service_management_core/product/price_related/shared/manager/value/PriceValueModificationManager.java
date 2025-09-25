@@ -26,13 +26,10 @@ public class PriceValueModificationManager {
 
 
     /// Retorna o dinheiro já aplicado com juros ou desconto de acordo com o modificador interno
-    public BigDecimal getTotalSumModApplied(PriceEntry entry, long amount) {
-        if (entry.getModifier() == null) throw new IllegalArgumentException(
-                "Precisa de modificador para usar essa funcionalidade"
-        );
+    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier modifier, long amount) {
 
         return getPriceModifyingApplied(                //Obtém o preço modificado com os juros ou desconto
-                entry,                                  //Entrada do preço do produto
+                modifier,                                  //Entrada do preço do produto
                 amount,                                 //quantidade para contexto
                 new Money(                              //Converte para tipo correto para interpretação
                         getTotalSum(                    //Obtemos a quantidade total que queremos calcular
@@ -46,10 +43,10 @@ public class PriceValueModificationManager {
     }
 
     /// Obtém o dinheiro com o desconto ou juros já aplicado
-    public BigDecimal getPriceModifyingApplied(PriceEntry entry, long amount, Money price) {
+    public BigDecimal getPriceModifyingApplied(PriceModifier modifier, long amount, Money price) {
 
         return applyPriceMod(
-                entry.getModifier(),
+                modifier,
                 amount,
                 price
         );

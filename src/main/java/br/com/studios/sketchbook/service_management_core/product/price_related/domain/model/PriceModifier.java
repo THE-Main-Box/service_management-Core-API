@@ -27,12 +27,6 @@ public class PriceModifier implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "price_entry_id")
-    @Getter
-    @Setter
-    private PriceEntry priceEntry;
-
     @Getter
     @Setter
     @Enumerated(EnumType.STRING)
@@ -55,13 +49,11 @@ public class PriceModifier implements Serializable {
     private long quantityOfVolumeNecessary;
 
     public PriceModifier(
-            PriceEntry priceEntry,
             long quantityOfVolumeNecessary,
             AdjustmentTrigger trigger,
             BigDecimal percentage,
             AdjustmentType adjustmentType
     ) {
-        this.priceEntry = priceEntry;
         this.quantityOfVolumeNecessary = quantityOfVolumeNecessary;
         this.trigger = trigger;
         this.percentage = percentage;

@@ -7,6 +7,7 @@ import br.com.studios.sketchbook.service_management_core.product.price_related.s
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.manager.value.PriceValueModificationManager;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceModifier;
+import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -21,25 +22,25 @@ public class PriceModManagementCore {
         valueManager = new PriceValueModificationManager();
     }
 
-    public void initPriceMod(
-            PriceEntry entry,
+    public PriceModifier initPriceMod(
+            VolumeType volumeType,
             long quantity,
             boolean raw,
             AdjustmentTrigger trigger,
             BigDecimal percentage,
             AdjustmentType adjustmentType
     ) {
-        initManager.initPriceMod(entry, quantity, raw, trigger, percentage, adjustmentType);
+        return initManager.initPriceMod(volumeType, quantity, raw, trigger, percentage, adjustmentType);
     }
 
     /// Obtém um preço de produto com a modificação de preço, juros e desconto, já aplicado
-    public BigDecimal getPriceModifyingApplied(PriceEntry entry, long amount, Money price) {
-        return valueManager.getPriceModifyingApplied(entry, amount, price);
+    public BigDecimal getPriceModifyingApplied(PriceModifier mod, long amount, Money price) {
+        return valueManager.getPriceModifyingApplied(mod, amount, price);
     }
 
     /// Obtém o valor total de uma soma de produtos e aplica uma modificação, com desconto ou juros
-    public BigDecimal getTotalSumModApplied(PriceEntry entry, long amount) {
-        return valueManager.getTotalSumModApplied(entry, amount);
+    public BigDecimal getTotalSumModApplied(PriceEntry entry,PriceModifier mod, long amount) {
+        return valueManager.getTotalSumModApplied(entry, mod, amount);
     }
 
     /// Obtém a soma total de um produto em relação a quantidade passada

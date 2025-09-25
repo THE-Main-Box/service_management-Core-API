@@ -4,9 +4,7 @@ import br.com.studios.sketchbook.service_management_core.product.product_related
 import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductUpdateDTO;
-import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.Product;
-import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SuperMarketProduct;
 import br.com.studios.sketchbook.service_management_core.product.product_related.infra.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;

@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.product.price_related.
 
 import br.com.studios.sketchbook.service_management_core.price.domain.model.Money;
 import br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper.core.MoneyDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
@@ -19,6 +20,7 @@ public class PriceEntryDataManagementCoreTest {
     private static Product prod;
     private static StorageEntry storageEntry;
     private static PriceEntry priceEntry;
+    private static PriceModifier modifier;
 
     private static final String currency = "brl";
 
@@ -171,8 +173,8 @@ public class PriceEntryDataManagementCoreTest {
                 currency
         );
 
-        priceManager.initPriceMod(
-                priceEntry,
+        modifier = priceManager.initPriceMod(
+                priceEntry.getVType(),
                 20,
                 true,
                 AdjustmentTrigger.APPLY_ON_MINIMUM,
@@ -193,6 +195,7 @@ public class PriceEntryDataManagementCoreTest {
         priceEntry.getPrice().setValue(
                 priceManager.getTotalSumModApplied(
                         priceEntry,
+                        modifier,
                         storageEntry.getQuantityPerUnit()
                 )
         );
@@ -219,8 +222,8 @@ public class PriceEntryDataManagementCoreTest {
                 currency
         );
 
-        priceManager.initPriceMod(
-                priceEntry,
+        modifier = priceManager.initPriceMod(
+                priceEntry.getVType(),
                 20,
                 true,
                 AdjustmentTrigger.APPLY_ALWAYS,
@@ -241,6 +244,7 @@ public class PriceEntryDataManagementCoreTest {
         priceEntry.getPrice().setValue(
                 priceManager.getTotalSumModApplied(
                         priceEntry,
+                        modifier,
                         storageEntry.getQuantityPerUnit()
                 )
         );

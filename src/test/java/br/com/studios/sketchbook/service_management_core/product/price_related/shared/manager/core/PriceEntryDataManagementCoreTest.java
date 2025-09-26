@@ -22,7 +22,7 @@ public class PriceEntryDataManagementCoreTest {
     private static PriceEntry priceEntry;
     private static PriceModifier modifier;
 
-    private static final String currency = "brl";
+    private static final String currency = "BRL";
 
     private static PriceEntryDataManagementCore priceManager;
     private static StorageEntryDataManagementCore storageManager;

@@ -51,11 +51,6 @@ public class Product implements Serializable, PriceOwner {
     @Setter
     protected StorageEntry storageEntry;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Getter
-    @Setter
-    protected PriceEntry priceEntry;
-
     public Product(String name, VolumeType type) {
         this.name = name;
         this.volumeType = type;

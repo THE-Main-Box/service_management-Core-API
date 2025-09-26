@@ -51,11 +51,7 @@ public class MoneyDataManagementCore {
 
         } catch (IllegalArgumentException e) {
             toReturnBuffer = null;
-            throw new RuntimeException(
-                    "Moedas de tipos diferentes," +
-                            " sugiro adicionar uma camada de abstração para garantir o mesmo tipo de moeda " +
-                            "usando uma conversão de moedas simples"
-            );
+            throw new RuntimeException("Moedas de tipos incorretos, sugiro verificação");
         }
 
         return toReturnBuffer;
@@ -88,11 +84,7 @@ public class MoneyDataManagementCore {
 
             } catch (IllegalArgumentException e) {
 
-                throw new RuntimeException(
-                        "Moedas de tipos diferentes," +
-                                " sugiro adicionar uma camada de abstração para garantir o mesmo tipo de moeda " +
-                                "usando uma conversão de moedas simples"
-                );
+                throw new RuntimeException("Moedas de tipos incorretos, sugiro verificação");
 
             }
 
@@ -128,11 +120,7 @@ public class MoneyDataManagementCore {
             toReturnBuffer = null;
 
             if (e instanceof IllegalArgumentException) {
-                throw new RuntimeException(
-                        "Moedas de tipos diferentes," +
-                                " sugiro adicionar uma camada de abstração para garantir o mesmo tipo de moeda " +
-                                "usando uma conversão de moedas simples"
-                );
+                throw new RuntimeException("Moedas de tipos incorretos, sugiro verificação");
             }
 
             if (e instanceof ArithmeticException) {
@@ -170,11 +158,8 @@ public class MoneyDataManagementCore {
 
             } catch (Exception e) {
                 if (e instanceof IllegalArgumentException) {
-                    throw new RuntimeException(
-                            "Moedas de tipos diferentes," +
-                                    " sugiro adicionar uma camada de abstração para garantir o mesmo tipo de moeda " +
-                                    "usando uma conversão de moedas simples"
-                    );
+                    throw new RuntimeException("Moedas de tipos incorretos, sugiro verificação");
+
                 }
                 if (e instanceof ArithmeticException) {
                     throw new RuntimeException(

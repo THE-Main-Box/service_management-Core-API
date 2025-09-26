@@ -9,13 +9,26 @@ import java.math.BigDecimal;
 public class MoneyValueValidationDataManager {
 
     /// Verifica se estamos usando tipos diferentes de moeda
-    public void validateCurrencyCompatibility(Money valueA, Money valueB) {
-        if (!valueA.getCurrency().equals(valueB.getCurrency())) {
+    public static void validateCurrencyCompatibility(Money valueA, Money valueB) {
+        if (
+                !valueA.getCurrency().equals(valueB.getCurrency())
+                        || !isValidCurrency(valueA.getCurrency())
+                        || !isValidCurrency(valueB.getCurrency())
+        ) {
             throw new IllegalArgumentException(
-                    "Não é possível operar valores de moedas diferentes: "
+                    "Não é possível operar valores de moedas inválidas: "
                             + valueA.getCurrency() + " x " + valueB.getCurrency()
             );
         }
+    }
+
+    /**
+     * Valida se o código da currency está no formato ISO 4217 (AAA).
+     * Apenas verifica o padrão de 3 letras maiúsculas.
+     */
+    public static boolean isValidCurrency(String code) {
+        if (code == null) return false;
+        return code.matches("^[A-Z]{3}$");
     }
 
     /**
@@ -25,7 +38,7 @@ public class MoneyValueValidationDataManager {
      * @param subtrahend Valor que irá subtrair, é como de costume o segundo parâmetro na matemática,
      *                   assim como nesta função
      */
-    public void validateSubtractionAvailable(Money minuend, Money subtrahend) {
+    public static void validateSubtractionAvailable(Money minuend, Money subtrahend) {
         // Comparação mais rápida usando double
         if (minuend.getValue().doubleValue() < subtrahend.getValue().doubleValue()) {
             throw new ArithmeticException(
@@ -41,7 +54,7 @@ public class MoneyValueValidationDataManager {
      *
      * @param factor BigDecimal a ser validado
      */
-    public void validateMultiplicationFactor(BigDecimal factor) {
+    public static void validateMultiplicationFactor(BigDecimal factor) {
         if (factor == null) {
             throw new IllegalArgumentException("Fator de multiplicação não pode ser nulo.");
         }

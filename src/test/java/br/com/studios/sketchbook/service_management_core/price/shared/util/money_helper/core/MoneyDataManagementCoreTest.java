@@ -41,8 +41,8 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testSub() {
         // Moedas do mesmo tipo
-        moneyA = new Money(20d, "brl");//Moeda a ser subtraída precisa ter um valor maior
-        moneyB = new Money(15d, "brl");//Moeda que subtrai precisa ser menor que a subtraída
+        moneyA = new Money(20d, "BRL");//Moeda a ser subtraída precisa ter um valor maior
+        moneyB = new Money(15d, "BRL");//Moeda que subtrai precisa ser menor que a subtraída
 
         moneyC = moneyManager.subtract(moneyA, moneyB);//Armazenamos para verificar depois
 
@@ -55,14 +55,14 @@ public class MoneyDataManagementCoreTest {
         // Moedas do mesmo tipo
 
         //Moeda a ser subtraída precisa ter um valor maior que a subtração
-        moneyA = new Money(100d, "brl");
+        moneyA = new Money(100d, "BRL");
 
         List<Money> moneyList = new ArrayList<>(Arrays.asList(
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl")
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL")
         ));
 
         moneyC = moneyManager.subtractSeq(moneyA, moneyList);//Armazenamos para verificar depois
@@ -74,8 +74,8 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testSum() {
         // Moedas do mesmo tipo
-        moneyA = new Money(20d, "brl");
-        moneyB = new Money(15d, "brl");
+        moneyA = new Money(20d, "BRL");
+        moneyB = new Money(15d, "BRL");
 
         moneyC = moneyManager.add(moneyA, moneyB);//Armazenamos para verificar depois
 
@@ -86,11 +86,11 @@ public class MoneyDataManagementCoreTest {
     public void testSumAll() {
         // Moedas do mesmo tipo
         List<Money> moneyList = new ArrayList<>(Arrays.asList(
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl"),
-                new Money(10d, "brl")
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL"),
+                new Money(10d, "BRL")
         ));
 
         moneyC = moneyManager.addAll(moneyList);//Armazenamos para verificar depois
@@ -102,7 +102,7 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testMulti() {
         // Moedas do mesmo tipo
-        moneyA = new Money(20d, "brl");
+        moneyA = new Money(20d, "BRL");
 
         moneyC = moneyManager.multiply(
                 moneyA,
@@ -116,7 +116,7 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testMultiAll() {
         // Moedas do mesmo tipo
-        moneyA = new Money(20d, "brl");
+        moneyA = new Money(20d, "BRL");
 
         List<BigDecimal> factorList = new ArrayList<>(
                 Arrays.asList(
@@ -138,7 +138,7 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testApplyPercentage() {
         // applyPercentage retorna a parcela referente à porcentagem (value * percent/100)
-        moneyA = new Money(100d, "brl");
+        moneyA = new Money(100d, "BRL");
         moneyC = new Money();
         moneyC.setCurrency("brl");
 
@@ -159,7 +159,7 @@ public class MoneyDataManagementCoreTest {
         // applyPercentageAll aplica porcentagens em sequência sobre o mesmo ref:
         // primeiro: 10% de 100 = 10 -> ref = 10
         // segundo: 20% de ref(10) = 2 -> resultado final = 2
-        moneyA = new Money(100d, "brl");
+        moneyA = new Money(100d, "BRL");
 
         List<MoneyPercentDTO> dtos = new ArrayList<>(Arrays.asList(
                 new MoneyPercentDTO(moneyA, new BigDecimal(10)), // 10% de 100 = 10
@@ -174,9 +174,9 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testCalculateInterest() {
         // Juros simples: result = value * (1 + percent/100)
-        moneyA = new Money(100d, "brl");
+        moneyA = new Money(100d, "BRL");
         moneyC = new Money();
-        moneyC.setCurrency("brl");
+        moneyC.setCurrency("BRL");
 
         moneyC.setValue(
                 moneyManager.calculateInterest(
@@ -192,10 +192,10 @@ public class MoneyDataManagementCoreTest {
     @Test
     public void testCalculateDiscount() {
         // Desconto: result = value * (1 - percent/100)
-        moneyA = new Money(100d, "brl");
+        moneyA = new Money(100d, "BRL");
 
         moneyC = new Money();
-        moneyC.setCurrency("brl");
+        moneyC.setCurrency("BRL");
 
         moneyC.setValue(
                 moneyManager.calculateDiscount(

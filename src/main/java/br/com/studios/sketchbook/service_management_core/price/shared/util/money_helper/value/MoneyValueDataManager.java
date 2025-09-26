@@ -1,23 +1,19 @@
 package br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper.value;
 
 import br.com.studios.sketchbook.service_management_core.price.domain.model.Money;
-import br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper.validation.MoneyValueValidationDataManager;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+import static br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper.validation.MoneyValueValidationDataManager.*;
+
 @Component
 public class MoneyValueDataManager {
 
-    private final MoneyValueValidationDataManager validationManager;
-
-    public MoneyValueDataManager() {
-        validationManager = new MoneyValueValidationDataManager();
-    }
 
     /// Realiza uma soma entre dois objetos do tipo Money e retorna o resultado
     public BigDecimal add(Money valueA, Money valueB) {
-        validationManager.validateCurrencyCompatibility(valueA, valueB);
+        validateCurrencyCompatibility(valueA, valueB);
         return valueA.getValue().add(valueB.getValue());
     }
 
@@ -28,8 +24,8 @@ public class MoneyValueDataManager {
      * @param subtrahend Valor que irá subtrair
      */
     public BigDecimal subtract(Money minuend, Money subtrahend) {
-        validationManager.validateCurrencyCompatibility(minuend, subtrahend);
-        validationManager.validateSubtractionAvailable(minuend, subtrahend);
+        validateCurrencyCompatibility(minuend, subtrahend);
+        validateSubtractionAvailable(minuend, subtrahend);
 
         return minuend.getValue().subtract(subtrahend.getValue());
     }
@@ -42,8 +38,12 @@ public class MoneyValueDataManager {
      * @return BigDecimal resultado da multiplicação
      */
     public BigDecimal multiply(Money value, BigDecimal factor) {
-        validationManager.validateMultiplicationFactor(factor);
-        return value.getValue().multiply(factor);
+        validateMultiplicationFactor(factor);
+        if (isValidCurrency(value.getCurrency())) {
+            return value.getValue().multiply(factor);
+        } else {
+            throw new IllegalArgumentException("Campo do tipo de moeda está incorreta");
+        }
     }
 
     /**
@@ -60,6 +60,13 @@ public class MoneyValueDataManager {
 
         // Reaproveita multiply (que já valida)
         return multiply(value, factor);
+    }
+
+    public BigDecimal convertoCurrency(BigDecimal amount, String from, String to) {
+        if (from.equals(to)) {
+            return amount; // por enquanto só BRL
+        }
+        throw new UnsupportedOperationException("Currency conversion not implemented yet");
     }
 
 }

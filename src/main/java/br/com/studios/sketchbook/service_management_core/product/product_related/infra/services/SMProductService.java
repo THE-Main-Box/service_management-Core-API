@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductApiUtils;
+import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductUpdateDTO;
@@ -75,7 +75,7 @@ public class SMProductService implements ProductRestServiceContract<SuperMarketP
 
     /// Obtém uma uri para levar até o produto, com um "/id"
     public URI getUriForPersistedObject(SuperMarketProduct model) {
-        return ProductApiUtils.getUriForPersistedObject(model, "/products/super-market/id/{id}");
+        return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/products/super-market/id/{id}");
     }
 
 

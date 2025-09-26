@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.domain.model;
 
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
+import br.com.studios.sketchbook.service_management_core.product.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product implements Serializable {
+public class Product implements Serializable, PriceOwner {
 
     //TODO: Reavaliar o hash code dos produtos
     // para impedir a adição de produtos semelhantes ou repetidos de forma indevida

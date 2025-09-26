@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductApiUtils;
+import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductUpdateDTO;
@@ -38,7 +38,7 @@ public class ProductService implements ProductRestServiceContract<Product> {
 
     @Override
     public URI getUriForPersistedObject(Product model) {
-        return ProductApiUtils.getUriForPersistedObject(model, "/products/product/id/{id}");
+        return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/products/product/id/{id}");
     }
 
     @Transactional
@@ -65,13 +65,11 @@ public class ProductService implements ProductRestServiceContract<Product> {
     }
 
     @Transactional
-    @Override
     public Product createAndSave(Record creationDTO) {
         return repository.save(new Product((ProductCreationDTO) creationDTO));
     }
 
     @Transactional
-    @Override
     public boolean delete(UUID id) {
         Optional<Product> model = repository.findById(id);
         if (model.isEmpty()) return false;

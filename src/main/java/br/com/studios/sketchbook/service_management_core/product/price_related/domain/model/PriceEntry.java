@@ -1,6 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.product.price_related.domain.model;
 
 import br.com.studios.sketchbook.service_management_core.price.domain.model.Money;
+import br.com.studios.sketchbook.service_management_core.product.price_related.domain.dto.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.product.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import jakarta.persistence.*;
@@ -30,24 +32,10 @@ public class PriceEntry implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    @Getter
-    /// Referência ao produto a quem isso daqui pertence
-    private Product product;
-
-    @Getter
-    @Setter
-    /// Referência ao tipo de volume do produto
-    private VolumeType vType;
-
     @Getter
     @Setter
     @Embedded
     private Money price;
 
-    public PriceEntry(Product product) {
-        this.product = product;
-        this.vType = product.getVolumeType();
-    }
+
 }

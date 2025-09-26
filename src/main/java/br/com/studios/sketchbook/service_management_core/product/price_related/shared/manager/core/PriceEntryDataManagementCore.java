@@ -58,8 +58,8 @@ public class PriceEntryDataManagementCore {
     }
 
     /// Retorna o dinheiro já aplicado com juros ou desconto de acordo com o modificador interno
-    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier mod, long amount) {
-        return priceManager.getTotalSumModApplied(entry, mod, amount);
+    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier mod, VolumeType volumeType, long amount) {
+        return priceManager.getTotalSumModApplied(entry, mod, volumeType, amount);
 
     }
 
@@ -69,8 +69,8 @@ public class PriceEntryDataManagementCore {
      * @param entry  Entrada de preço do produto
      * @param amount Quantidade em tipo raw da quantidade a ser calculada
      */
-    public BigDecimal getTotalSum(PriceEntry entry, long amount) {
-        return priceManager.getTotalSum(entry, amount);
+    public BigDecimal getTotalSum(PriceEntry entry, VolumeType volumeType, long amount) {
+        return priceManager.getTotalSum(entry, volumeType, amount);
     }
 
     /// Obtém o dinheiro com o desconto ou juros já aplicado

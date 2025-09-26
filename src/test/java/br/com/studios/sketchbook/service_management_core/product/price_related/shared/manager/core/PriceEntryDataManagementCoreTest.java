@@ -38,7 +38,7 @@ public class PriceEntryDataManagementCoreTest {
     @Test
     public void initTest() {
         prod = new Product("arroz", VolumeType.UNIT);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         priceManager.initEntry(
                 priceEntry,
@@ -59,7 +59,7 @@ public class PriceEntryDataManagementCoreTest {
     @Test
     public void sumTest() {
         prod = new Product("arroz", VolumeType.UNIT);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         priceManager.initEntry(
                 priceEntry,
@@ -84,7 +84,7 @@ public class PriceEntryDataManagementCoreTest {
     public void totalStorageSumTest() {
         prod = new Product("arroz", VolumeType.KILOGRAM_PER_UNIT);
         storageEntry = new StorageEntry(prod);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         //Iniciamos o preço
         priceManager.initEntry(
@@ -105,6 +105,7 @@ public class PriceEntryDataManagementCoreTest {
         priceEntry.getPrice().setValue(
                 priceManager.getTotalSum(//descobrir o preço pela quantidade de produtos no armazém
                         priceEntry,
+                        prod.getVolumeType(),
                         storageManager.getAmountAvailableRaw(storageEntry)//Obtemos a quantidade raw do produto
                 )
         );
@@ -125,7 +126,7 @@ public class PriceEntryDataManagementCoreTest {
     public void wholeUnitSumTest() {
         prod = new Product("arroz", VolumeType.KILOGRAM_PER_UNIT);
         storageEntry = new StorageEntry(prod);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         //Iniciamos o preço
         priceManager.initEntry(
@@ -146,6 +147,7 @@ public class PriceEntryDataManagementCoreTest {
         priceEntry.getPrice().setValue(
                 priceManager.getTotalSum(                //descobrir o preço pela quantidade de produtos no armazém
                         priceEntry,
+                        prod.getVolumeType(),
                         storageEntry.getQuantityPerUnit()//Obtemos a quantidade raw do produto por unidade,
                         // já que queremos saber quanto é o preço da unidade inteira
                 )
@@ -164,7 +166,7 @@ public class PriceEntryDataManagementCoreTest {
     public void discountTest() {
         prod = new Product("arroz", VolumeType.KILOGRAM_PER_UNIT);
         storageEntry = new StorageEntry(prod);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         //Iniciamos o preço
         priceManager.initEntry(
@@ -174,7 +176,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         modifier = priceManager.initPriceMod(
-                priceEntry.getVType(),
+                prod.getVolumeType(),
                 20,
                 true,
                 AdjustmentTrigger.APPLY_ON_MINIMUM,
@@ -196,6 +198,7 @@ public class PriceEntryDataManagementCoreTest {
                 priceManager.getTotalSumModApplied(
                         priceEntry,
                         modifier,
+                        prod.getVolumeType(),
                         storageEntry.getQuantityPerUnit()
                 )
         );
@@ -213,7 +216,7 @@ public class PriceEntryDataManagementCoreTest {
     public void interestTest() {
         prod = new Product("arroz", VolumeType.KILOGRAM_PER_UNIT);
         storageEntry = new StorageEntry(prod);
-        priceEntry = new PriceEntry(prod);
+        priceEntry = new PriceEntry();
 
         //Iniciamos o preço
         priceManager.initEntry(
@@ -223,7 +226,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         modifier = priceManager.initPriceMod(
-                priceEntry.getVType(),
+                prod.getVolumeType(),
                 20,
                 true,
                 AdjustmentTrigger.APPLY_ALWAYS,
@@ -245,6 +248,7 @@ public class PriceEntryDataManagementCoreTest {
                 priceManager.getTotalSumModApplied(
                         priceEntry,
                         modifier,
+                        prod.getVolumeType(),
                         storageEntry.getQuantityPerUnit()
                 )
         );

@@ -6,6 +6,7 @@ import br.com.studios.sketchbook.service_management_core.product.price_related.s
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.product.price_related.shared.manager.validation.PriceModValidationManager;
+import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -26,7 +27,7 @@ public class PriceValueModificationManager {
 
 
     /// Retorna o dinheiro já aplicado com juros ou desconto de acordo com o modificador interno
-    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier modifier, long amount) {
+    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier modifier, VolumeType volumeType,long amount) {
 
         return getPriceModifyingApplied(                //Obtém o preço modificado com os juros ou desconto
                 modifier,                                  //Entrada do preço do produto
@@ -34,6 +35,7 @@ public class PriceValueModificationManager {
                 new Money(                              //Converte para tipo correto para interpretação
                         getTotalSum(                    //Obtemos a quantidade total que queremos calcular
                                 entry,
+                                volumeType,
                                 amount
                         ),
                         entry.getPrice().getCurrency()  //Tipo de moeda para garantir tipagem interna correta
@@ -57,7 +59,7 @@ public class PriceValueModificationManager {
      * <p>
      * Multiplica a quantidade passada com o preço para encontrar o preço a ser retornado
      */
-    public BigDecimal getTotalSum(PriceEntry entry, long quantity) {
+    public BigDecimal getTotalSum(PriceEntry entry, VolumeType volumeType, long quantity) {
 
         //Realizamos uma multiplicação com o valor money do produto
         return moneyManager.multiply(
@@ -65,7 +67,7 @@ public class PriceValueModificationManager {
                 toHumanReadable(                    //Convertemos para centesimal ex:1550Litros vira 1.55
                         quantity,                   //Quantidade raw
                         getScaleByVolumeType(       //Passamos a escala para a conversão
-                                entry.getVType()
+                                volumeType
                         )
                 )
         ).getValue();//Retornamos apenas o valor

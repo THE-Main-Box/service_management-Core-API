@@ -39,13 +39,13 @@ public class PriceModManagementCore {
     }
 
     /// Obtém o valor total de uma soma de produtos e aplica uma modificação, com desconto ou juros
-    public BigDecimal getTotalSumModApplied(PriceEntry entry,PriceModifier mod, long amount) {
-        return valueManager.getTotalSumModApplied(entry, mod, amount);
+    public BigDecimal getTotalSumModApplied(PriceEntry entry, PriceModifier mod, VolumeType volumeType, long amount) {
+        return valueManager.getTotalSumModApplied(entry, mod, volumeType,amount);
     }
 
     /// Obtém a soma total de um produto em relação a quantidade passada
-    public BigDecimal getTotalSum(PriceEntry entry, long quantity) {
-        return valueManager.getTotalSum(entry, quantity);
+    public BigDecimal getTotalSum(PriceEntry entry, VolumeType volumeType, long quantity) {
+        return valueManager.getTotalSum(entry, volumeType, quantity);
     }
 
     /// Obtém apenas o valor do desconto

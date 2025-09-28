@@ -60,6 +60,7 @@ public class PriceEntryService {
     public PriceEntry createAndSave(PriceEntryCreationDTO dto) {
         PriceEntry entry = new PriceEntry();//Inicia o dado mais importante do dto, que irá determinar como ele irá lidar com o preço
         manager.initEntry(entry, dto.price(), dto.currency());
+        repository.save(entry);
         return entry;
     }
 

@@ -1,11 +1,13 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.api;
 
 import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ProductRestControllerContract;
+import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductResponseDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.super_market.SMProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.SuperMarketProduct;
 import br.com.studios.sketchbook.service_management_core.product.product_related.infra.services.SMProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +22,19 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products/super-market")
-public class SMProductController implements ProductRestControllerContract<
-        SuperMarketProduct,
-        SMProductCreationDTO,
-        SMProductUpdateDTO,
-        SMProductResponseDTO
-        > {
+public class SMProductController implements ProductRestControllerContract {
 
     private final SMProductService service;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public SMProductController(SMProductService service) {
+    public SMProductController(SMProductService service, ObjectMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<SMProductResponseDTO>> getAll(
+    public ResponseEntity<Page<Object>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -50,7 +49,7 @@ public class SMProductController implements ProductRestControllerContract<
 
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Page<SMProductResponseDTO>> getByName(
+    public ResponseEntity<Page<Object>> getByName(
             @PathVariable String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -65,7 +64,7 @@ public class SMProductController implements ProductRestControllerContract<
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<SMProductResponseDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<Object> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
                     new SMProductResponseDTO(service.getInstanceById(id))//Transforma em dto a instancia retornada
@@ -76,25 +75,23 @@ public class SMProductController implements ProductRestControllerContract<
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<SMProductResponseDTO> update(
+    public ResponseEntity<Object> update(
             @PathVariable UUID id,
-            @RequestBody SMProductUpdateDTO dto
+            @RequestBody Object dtoObj
     ) {
 
+        SMProductUpdateDTO dto = mapper.convertValue(dtoObj, SMProductUpdateDTO.class);
+
         return ResponseEntity.ok().body(
-                new SMProductResponseDTO(
-                        service.update(
-                                service.getInstanceById(id),
-                                dto
-                        )
-                )
+                new SMProductResponseDTO(service.update(service.getInstanceById(id), dto))
         );
     }
 
 
     @PutMapping("/new")
-    public ResponseEntity<SMProductResponseDTO> create(@Valid @RequestBody SMProductCreationDTO dtoObj) {
-        SuperMarketProduct model = service.createAndSave(dtoObj);
+    public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
+        SMProductCreationDTO dto = mapper.convertValue(dtoObj, SMProductCreationDTO.class);
+        SuperMarketProduct model = service.createAndSave(dto);
 
         URI uri = service.getUriForPersistedObject(model);
 

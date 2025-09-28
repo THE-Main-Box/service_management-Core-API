@@ -6,6 +6,7 @@ import br.com.studios.sketchbook.service_management_core.product.product_related
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.product_related.infra.services.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,19 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products/product")
-public class ProductController implements ProductRestControllerContract<
-        Product,
-        ProductCreationDTO,
-        ProductUpdateDTO,
-        ProductResponseDTO
-        > {
+public class ProductController implements ProductRestControllerContract {
 
     private final ProductService service;
+    private final ObjectMapper mapper;
 
     @Autowired
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, ObjectMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Page<ProductResponseDTO>> getAll(
+    public ResponseEntity<Page<Object>> getAll(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -49,7 +47,7 @@ public class ProductController implements ProductRestControllerContract<
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<Page<ProductResponseDTO>> getByName(
+    public ResponseEntity<Page<Object>> getByName(
             @PathVariable String name,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -64,7 +62,7 @@ public class ProductController implements ProductRestControllerContract<
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<ProductResponseDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<Object> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
                     new ProductResponseDTO(service.getInstanceById(id))//Transforma em dto a instancia retornada
@@ -75,23 +73,21 @@ public class ProductController implements ProductRestControllerContract<
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<ProductResponseDTO> update(
+    public ResponseEntity<Object> update(
             @PathVariable UUID id,
-            @RequestBody ProductUpdateDTO dto
+            @RequestBody Object dtoObj
     ) {
+        ProductUpdateDTO dto = mapper.convertValue(dtoObj, ProductUpdateDTO.class);
         return ResponseEntity.ok().body(
-                new ProductResponseDTO(
-                        service.update(
-                                service.getInstanceById(id),
-                                dto
-                        )
-                )
+                new ProductResponseDTO(service.update(service.getInstanceById(id), dto))
         );
     }
 
+    @Override
     @PutMapping("/new")
-    public ResponseEntity<ProductResponseDTO> create(@Valid @RequestBody ProductCreationDTO dtoObj) {
-        Product model = service.createAndSave(dtoObj);
+    public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
+        ProductCreationDTO dto = mapper.convertValue(dtoObj, ProductCreationDTO.class);
+        Product model = service.createAndSave(dto);
 
         URI uri = service.getUriForPersistedObject(model);
 

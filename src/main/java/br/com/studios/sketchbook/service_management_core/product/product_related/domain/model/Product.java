@@ -1,7 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.product.product_related.domain.model;
 
-import br.com.studios.sketchbook.service_management_core.product.price_related.domain.model.PriceEntry;
-import br.com.studios.sketchbook.service_management_core.product.price_related.shared.interfaces.PriceOwner;
+import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
@@ -11,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -24,6 +24,11 @@ public class Product implements Serializable, PriceOwner {
 
     //TODO: Reavaliar o hash code dos produtos
     // para impedir a adição de produtos semelhantes ou repetidos de forma indevida
+
+    /// Número de série da entidade
+    @Serial
+    @Column(name = "version")
+    private static final long serialVersionUID = 1L;
 
     /// Id geral do produto
     @Id

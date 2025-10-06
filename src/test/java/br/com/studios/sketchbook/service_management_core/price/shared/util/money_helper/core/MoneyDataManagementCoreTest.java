@@ -1,7 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.price.shared.util.money_helper.core;
 
-import br.com.studios.sketchbook.service_management_core.price.domain.model.Money;
-import br.com.studios.sketchbook.service_management_core.price.shared.dto.MoneyPercentDTO;
+import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
+import br.com.studios.sketchbook.service_management_core.price.money_related.shared.dto.MoneyPercentDTO;
+import br.com.studios.sketchbook.service_management_core.price.money_related.shared.util.money_helper.core.MoneyDataManagementCore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

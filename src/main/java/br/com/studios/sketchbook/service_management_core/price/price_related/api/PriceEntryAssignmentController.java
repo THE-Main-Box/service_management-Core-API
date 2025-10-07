@@ -17,41 +17,54 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/entry/price/assignment")
-public class PriceEntryAssignController {
+public class PriceEntryAssignmentController {
 
     private final PriceEntryAssignmentService assignmentService;
     private final PriceEntryService entryService;
 
     @Autowired
-    public PriceEntryAssignController(PriceEntryAssignmentService assignmentService, PriceEntryService entryService) {
+    public PriceEntryAssignmentController(PriceEntryAssignmentService assignmentService, PriceEntryService entryService) {
         this.assignmentService = assignmentService;
         this.entryService = entryService;
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<PriceEntryAssignmentDetailedDTO> getAssignmentById(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(
-                new PriceEntryAssignmentDetailedDTO(assignmentService.getById(id))
-        );
+        try {
+
+            return ResponseEntity.ok().body(
+                    new PriceEntryAssignmentDetailedDTO(assignmentService.getById(id))
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     @GetMapping("/owner/id/{id}")
     public ResponseEntity<PriceEntryAssignmentDetailedDTO> getAssignmentByOwnerId(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(
-                new PriceEntryAssignmentDetailedDTO(assignmentService.getByOwnerId(id))
-        );
+        try {
+            return ResponseEntity.ok().body(
+                    new PriceEntryAssignmentDetailedDTO(assignmentService.getByOwnerId(id))
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     @GetMapping("/entry/id/{id}")
     public ResponseEntity<PriceEntryAssignmentDetailedDTO> getAssignmentByEntryId(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(
-                new PriceEntryAssignmentDetailedDTO(assignmentService.getByEntryId(id))
-        );
+        try {
+            return ResponseEntity.ok().body(
+                    new PriceEntryAssignmentDetailedDTO(assignmentService.getByEntryId(id))
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 
-    @PatchMapping("/clean_orphan")
-    public ResponseEntity<?> cleanInvalidAssignments(){
-        assignmentService.cleanInvalidAssignments();
+    @DeleteMapping("/clean_orphan/id{id}")
+    public ResponseEntity<?> cleanInvalidAssignments(@PathVariable UUID id) {
+        assignmentService.cleanInvalidAssignment(id);
         return ResponseEntity.ok().body("ligações entre as entidades de preço foram limpas");
     }
 

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record PriceEntryAssignmentDetailedDTO(
         UUID id,
-        UUID priceId,
+        UUID entryId,
         UUID ownerId,
         String ownerType
 ) {

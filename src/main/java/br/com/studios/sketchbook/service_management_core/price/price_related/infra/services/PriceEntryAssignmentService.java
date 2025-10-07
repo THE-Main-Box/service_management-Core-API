@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.price.price_related.in
 
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntryAssignment;
+import br.com.studios.sketchbook.service_management_core.price.price_related.infra.components.PriceEntryAssignmentCleaner;
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.repositories.PriceEntryAssignmentRepository;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ApiUtils;
@@ -21,6 +22,9 @@ public class PriceEntryAssignmentService {
     /// Repositório do assignment
     private final PriceEntryAssignmentRepository assignmentRepository;
 
+    /// Componente de limpeza orfã
+    private final PriceEntryAssignmentCleaner cleaner;
+
     /// Repositório de produto
     private final ProductRepository productRepository;
     /// Repositório de produto de super mercado
@@ -32,9 +36,11 @@ public class PriceEntryAssignmentService {
     @Autowired
     public PriceEntryAssignmentService(
             PriceEntryAssignmentRepository assignmentRepository,
+            PriceEntryAssignmentCleaner cleaner,
             ProductRepository productRepository,
             SMProductRepository smProductRepository
     ) {
+        this.cleaner = cleaner;
         this.assignmentRepository = assignmentRepository;
         this.productRepository = productRepository;
         this.smProductRepository = smProductRepository;
@@ -81,6 +87,9 @@ public class PriceEntryAssignmentService {
         return assignmentRepository.findByEntryId(id);
     }
 
+    public void cleanInvalidAssignments(){
+        this.cleaner.cleanupOrphanAssignments();
+    }
 
     public URI getUriForPersistedObject(PriceEntryAssignment model) {
         return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/price/assignment/id/{id}");

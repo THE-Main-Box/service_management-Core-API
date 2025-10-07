@@ -35,6 +35,26 @@ public class PriceEntryAssignController {
         );
     }
 
+    @GetMapping("/owner/id/{id}")
+    public ResponseEntity<PriceEntryAssignmentDetailedDTO> getAssignmentByOwnerId(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(
+                new PriceEntryAssignmentDetailedDTO(assignmentService.getByOwnerId(id))
+        );
+    }
+
+    @GetMapping("/entry/id/{id}")
+    public ResponseEntity<PriceEntryAssignmentDetailedDTO> getAssignmentByEntryId(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(
+                new PriceEntryAssignmentDetailedDTO(assignmentService.getByEntryId(id))
+        );
+    }
+
+    @PatchMapping("/clean_orphan")
+    public ResponseEntity<?> cleanInvalidAssignments(){
+        assignmentService.cleanInvalidAssignments();
+        return ResponseEntity.ok().body("ligações entre as entidades de preço foram limpas");
+    }
+
     @PutMapping("/new")
     public ResponseEntity<PriceEntryAssignmentDetailedDTO> createAssignment(@RequestBody PriceEntryAssignmentCreationDTO dto) {
         try {

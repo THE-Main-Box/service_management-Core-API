@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/entry/price")
@@ -31,7 +29,18 @@ public class PriceEntryController {
     public ResponseEntity<PriceEntryResponseDTO> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new PriceEntryResponseDTO(service.getById(id))
+                    new PriceEntryResponseDTO(service.getInstanceById(id))
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("/owner/id/{id}")
+    public ResponseEntity<PriceEntryResponseDTO> getByOwnerId(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok().body(
+                    new PriceEntryResponseDTO(service.getInstanceByOwnerId(id))
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -40,35 +49,22 @@ public class PriceEntryController {
 
     @PutMapping("/new")
     public ResponseEntity<PriceEntryResponseDTO> create(@Valid @RequestBody PriceEntryCreationDTO dtoObj) {
-        PriceEntry entry = service.createAndSave(dtoObj);
-        URI uri = service.getUriForPersistedObject(entry);
+        try {
+            PriceEntry entry = service.createAndSave(dtoObj);
+            URI uri = service.getUriForPersistedObject(entry);
 
-        return ResponseEntity.created(uri).body(new PriceEntryResponseDTO(entry));
+            return ResponseEntity.created(uri).body(new PriceEntryResponseDTO(entry));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
-        service.delete(id);
-        return ResponseEntity.ok().body("Entrada de preço apagada com sucesso");
-    }
-
-    @DeleteMapping("/delete/many_id")
-    public ResponseEntity<?> removeManyById(@RequestBody List<UUID> idList) {
-        if (idList == null || idList.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204
-        }
-        List<UUID> deleted = new ArrayList<>();
-
-        for (UUID id : idList) {
-            if (service.delete(id)) {
-                deleted.add(id);
-            }
-        }
-
-        if (deleted.isEmpty()) {
-            return ResponseEntity.notFound().build(); //404
+        if(service.delete(id)) {
+            return ResponseEntity.ok().body("Entrada de preço apagada com sucesso");
         } else {
-            return ResponseEntity.ok(deleted.toString()); //201
+            return ResponseEntity.badRequest().body("Não foi possivel deletar a entry");
         }
     }
 

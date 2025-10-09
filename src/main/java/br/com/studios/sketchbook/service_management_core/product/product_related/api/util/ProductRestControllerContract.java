@@ -48,6 +48,4 @@ public interface ProductRestControllerContract {
     /// Obtém um id e usa ele para descobrir o objeto e deletar ele
     ResponseEntity<Object> removeById(UUID id);
 
-    /// Remove todos os objetos com as suas ids presentes na lista
-    ResponseEntity<Object> removeAll(List<UUID> idList);
 }

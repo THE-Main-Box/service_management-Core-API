@@ -99,24 +99,4 @@ public class ProductController implements ProductRestControllerContract {
         service.delete(id);
         return ResponseEntity.ok().body("Produto Removido com sucesso");
     }
-
-    @DeleteMapping("/delete/many_id")
-    public ResponseEntity<Object> removeAll(@RequestBody List<UUID> idList) {
-        if (idList == null || idList.isEmpty()) {
-            return ResponseEntity.noContent().build(); // 204
-        }
-        List<UUID> deleted = new ArrayList<>();
-
-        for (UUID id : idList) {
-            if (service.delete(id)) {
-                deleted.add(id);
-            }
-        }
-
-        if (deleted.isEmpty()) {
-            return ResponseEntity.notFound().build(); //404
-        } else {
-            return ResponseEntity.ok(deleted.toString()); //201
-        }
-    }
 }

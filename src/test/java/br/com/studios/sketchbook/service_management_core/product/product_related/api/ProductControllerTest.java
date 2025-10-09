@@ -136,23 +136,4 @@ public class ProductControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    public void removeManyTest() throws Exception {
-        JsonNode p1 = createProduct("Açúcar", VolumeType.KILOGRAM);
-        JsonNode p2 = createProduct("Farinha", VolumeType.KILOGRAM);
-
-        List<UUID> ids = List.of(
-                UUID.fromString(p1.get("id").asText()),
-                UUID.fromString(p2.get("id").asText())
-        );
-
-        String idsJson = mapper.writeValueAsString(ids);
-
-        mock.perform(delete("/products/product/delete/many_id")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(idsJson))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(p1.get("id").asText())))
-                .andExpect(content().string(containsString(p2.get("id").asText())));
-    }
 }

@@ -1,6 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.domain.model;
 
+import br.com.studios.sketchbook.service_management_core.api_utils.ClassToStringConverter;
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
+import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +14,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_PRICE_ENTRY")
+@Table(
+        name = "TB_PRICE_ENTRY",
+        indexes = {
+                @Index(name = "idx_price_entry_owner_id", columnList = "ownerId")
+        }
+)
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceEntry implements Serializable {
@@ -33,5 +40,17 @@ public class PriceEntry implements Serializable {
     @Embedded
     private Money price;
 
+    @Getter
+    /// Id do dono da entry
+    private UUID ownerId;
 
+    @Convert(converter = ClassToStringConverter.class)
+    @Getter
+    /// Tipo da classe do dono da entry
+    private Class<? extends PriceOwner> ownerType;
+
+    public PriceEntry(PriceOwner owner){
+        this.ownerId = owner.getId();
+        this.ownerType = owner.getClass();
+    }
 }

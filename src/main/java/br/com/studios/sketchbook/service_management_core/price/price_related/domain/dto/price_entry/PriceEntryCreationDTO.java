@@ -3,10 +3,14 @@ package br.com.studios.sketchbook.service_management_core.price.price_related.do
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public record PriceEntryCreationDTO(
         @NotNull
         Double price,
         @NotBlank
-        String currency
+        String currency,
+        @NotNull
+        UUID ownerId
 ) {
 }

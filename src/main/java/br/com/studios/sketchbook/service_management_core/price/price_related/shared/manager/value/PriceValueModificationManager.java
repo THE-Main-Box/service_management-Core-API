@@ -1,18 +1,18 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.value;
 
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
-import br.com.studios.sketchbook.service_management_core.price.money_related.shared.util.money_helper.core.MoneyDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.core.MoneyDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.enums.AdjustmentType;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.validation.PriceModValidationManager;
-import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-import static br.com.studios.sketchbook.service_management_core.product.storage_related.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
-import static br.com.studios.sketchbook.service_management_core.product.storage_related.shared.util.manager.value_related.StorageEntryConverterDataManager.toHumanReadable;
+import static br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
+import static br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.toHumanReadable;
 
 @Component
 public class PriceValueModificationManager {

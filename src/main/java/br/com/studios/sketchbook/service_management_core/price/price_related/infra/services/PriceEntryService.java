@@ -6,9 +6,9 @@ import br.com.studios.sketchbook.service_management_core.price.price_related.dom
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.repositories.PriceEntryRepository;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
-import br.com.studios.sketchbook.service_management_core.product.product_related.api.util.ApiUtils;
-import br.com.studios.sketchbook.service_management_core.product.product_related.infra.repositories.ProductRepository;
-import br.com.studios.sketchbook.service_management_core.product.product_related.infra.repositories.SMProductRepository;
+import br.com.studios.sketchbook.service_management_core.product.api.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
+import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +96,7 @@ public class PriceEntryService {
     }
 
     @Transactional
-    public void cleanInvalidAssignment(UUID assignmentId) {
+    private void cleanInvalidAssignment(UUID assignmentId) {
         Optional<PriceEntry> entryOpt = repository.findById(assignmentId);
         if (entryOpt.isEmpty()) return;
 

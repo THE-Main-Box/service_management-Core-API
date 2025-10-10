@@ -3,12 +3,12 @@ package br.com.studios.sketchbook.service_management_core.price.price_related.sh
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.enums.AdjustmentType;
-import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-import static br.com.studios.sketchbook.service_management_core.product.storage_related.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
+import static br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
 @Component
 public class PriceModInit {

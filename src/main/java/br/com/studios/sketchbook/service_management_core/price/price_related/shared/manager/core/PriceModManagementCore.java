@@ -7,7 +7,7 @@ import br.com.studios.sketchbook.service_management_core.price.price_related.sha
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.value.PriceValueModificationManager;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceModifier;
-import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

@@ -29,7 +29,7 @@ public class SuperMarketProduct extends Product {
     private String barcode;
 
     public SuperMarketProduct(String name, String barcode, VolumeType type) {
-        super(name, type);
+        super(name);
         this.barcode = barcode;
     }
 

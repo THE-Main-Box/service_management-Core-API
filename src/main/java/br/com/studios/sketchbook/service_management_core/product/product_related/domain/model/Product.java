@@ -4,6 +4,7 @@ import br.com.studios.sketchbook.service_management_core.price.price_related.sha
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.dto.def_product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.product.storage_related.shared.interfaces.StorageAble;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product implements Serializable, PriceOwner {
+public class Product implements Serializable, PriceOwner, StorageAble {
 
     //TODO: Reavaliar o hash code dos produtos
     // para impedir a adição de produtos semelhantes ou repetidos de forma indevida
@@ -43,26 +44,12 @@ public class Product implements Serializable, PriceOwner {
     @Column(name = "name", nullable = false)
     protected String name;
 
-    //TODO:Quando expandir a funcionalidade do sistema,
-    // talvez seja interessante separar as classes de modelo auxiliares para seus próprios pacotes
-
-    @Setter
-    @Getter
-    @Enumerated(EnumType.STRING)
-    protected VolumeType volumeType;
-
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Getter
-    @Setter
-    protected StorageEntry storageEntry;
-
-    public Product(String name, VolumeType type) {
+    public Product(String name) {
         this.name = name;
-        this.volumeType = type;
     }
 
     public Product(ProductCreationDTO dto){
-        this(dto.name(), dto.volumeType());
+        this(dto.name());
     }
 
     @Override
@@ -70,7 +57,6 @@ public class Product implements Serializable, PriceOwner {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", volumeType=" + volumeType +
                 '}';
     }
 }

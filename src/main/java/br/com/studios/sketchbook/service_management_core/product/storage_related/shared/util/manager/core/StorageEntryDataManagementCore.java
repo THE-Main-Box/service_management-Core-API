@@ -75,7 +75,7 @@ public class StorageEntryDataManagementCore {
 
     public BigDecimal getRemainder(StorageEntry entry) {
         long remainderRaw = getRemainderRaw(entry);
-        long scaleValue = getScaleByVolumeType(entry.getVType());
+        long scaleValue = getScaleByVolumeType(entry.getVolumeType());
         return StorageEntryConverterDataManager.toHumanReadable(remainderRaw, scaleValue);
     }
 
@@ -89,11 +89,11 @@ public class StorageEntryDataManagementCore {
     public BigDecimal getAmountAvailable(StorageEntry entry) {
         if (entry == null) return BigDecimal.ZERO;
 
-        long rawValue = entry.getVType().isCompostType()
+        long rawValue = entry.getVolumeType().isCompostType()
                 ? entry.getSubUnits()
                 : entry.getUnits();
 
-        long scaleValue = getScaleByVolumeType(entry.getVType());
+        long scaleValue = getScaleByVolumeType(entry.getVolumeType());
 
         return StorageEntryConverterDataManager.toHumanReadable(rawValue, scaleValue);
     }
@@ -104,7 +104,7 @@ public class StorageEntryDataManagementCore {
     public Long getAmountAvailableRaw(StorageEntry entry) {
 
         //Se for de um tipo composto então obtemos pela subunidade
-        if (entry.getVType().isCompostType()) {
+        if (entry.getVolumeType().isCompostType()) {
             return entry.getSubUnits();
         } else {//Se for de um tipo simples obtemos pelas unidades
             return entry.getUnits();
@@ -134,7 +134,7 @@ public class StorageEntryDataManagementCore {
      *                        ou se já estão convertidos de entrada
      */
     public void initEntry(StorageEntry entry, Long quantity, Long quantityPerUnit, boolean raw) {
-        if (entry.getVType().isCompostType()) {
+        if (entry.getVolumeType().isCompostType()) {
             initializer.initSpecialType(
                     entry,
                     quantity,

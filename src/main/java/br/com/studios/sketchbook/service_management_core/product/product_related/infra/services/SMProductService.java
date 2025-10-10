@@ -42,7 +42,6 @@ public class SMProductService implements ProductRestServiceContract<SuperMarketP
         SMProductUpdateDTO dto = (SMProductUpdateDTO) dtoObject;
 
         if (dto.name() != null) model.setName(dto.name());
-        if(dto.volumeType() != null) model.setVolumeType(dto.volumeType());
         if (dto.barCode() != null) model.setBarcode(dto.barCode());
 
         return repository.save(model);

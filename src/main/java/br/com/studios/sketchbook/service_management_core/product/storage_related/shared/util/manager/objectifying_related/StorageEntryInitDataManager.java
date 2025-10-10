@@ -17,7 +17,7 @@ public class StorageEntryInitDataManager {
      * @param raw      Indica se os valores recebidos já estão no formato mínimo
      */
     public void initSpecialType(StorageEntry entry, Long quantity, Long quantityPerUnit, boolean raw) {
-        if (!entry.getVType().isCompostType()) {
+        if (!entry.getVolumeType().isCompostType()) {
             throw new IllegalArgumentException(
                     "Tipo incorreto para init especial: "
                             + entry.getId()
@@ -33,7 +33,7 @@ public class StorageEntryInitDataManager {
 
         long scaleToEnter = raw
                 ? quantityPerUnit
-                : Math.multiplyExact(quantityPerUnit, getScaleByVolumeType(entry.getVType()));
+                : Math.multiplyExact(quantityPerUnit, getScaleByVolumeType(entry.getVolumeType()));
 
         entry.setQuantityPerUnit(scaleToEnter);
         entry.setUnits(quantity);
@@ -50,13 +50,13 @@ public class StorageEntryInitDataManager {
      * @param raw      Se precisamos realizar uma escalação pros valores serem armazenados corretamente
      */
     public void initBasicType(StorageEntry entry, Long quantity, boolean raw) {
-        if (entry.getVType().isCompostType()) {
-            throw new IllegalArgumentException("Tipo incorreto para init básico: " + entry.getProduct());
+        if (entry.getVolumeType().isCompostType()) {
+            throw new IllegalArgumentException("Tipo incorreto para init básico: " + entry.getId());
         }
 
         long units = raw
                 ? quantity
-                : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVType()));
+                : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVolumeType()));
 
         entry.setUnits(units);
         entry.setInit(true);

@@ -6,8 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record ProductCreationDTO(
         @NotBlank
-        String name,
-        @NotNull
-        VolumeType volumeType
+        String name
 ) {
 }

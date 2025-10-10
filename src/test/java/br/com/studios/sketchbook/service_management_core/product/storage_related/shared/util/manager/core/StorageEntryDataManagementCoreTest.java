@@ -35,8 +35,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para itens em KILOGRAM.
     @Test
     public void testKiloGramEntry() {
-        currentProduct = new Product("Areia", VolumeType.KILOGRAM);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("Areia");
+        entry = new StorageEntry(currentProduct, VolumeType.KILOGRAM);
 
         // Inicializa com 1 kg
         dataManager.initEntry(entry, 1L, 0L, false);
@@ -56,8 +56,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para itens UNIT (por unidade).
     @Test
     public void testUnitEntry() {
-        currentProduct = new Product("arroz", VolumeType.UNIT);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("arroz");
+        entry = new StorageEntry(currentProduct, VolumeType.UNIT);
 
         dataManager.initEntry(entry, 50L, 0L, false);
 
@@ -73,8 +73,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para LITER (litros).
     @Test
     public void testLiterEntry() {
-        currentProduct = new Product("Suco_refil", VolumeType.LITER);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("Suco_refil");
+        entry = new StorageEntry(currentProduct, VolumeType.LITER);
 
         dataManager.initEntry(entry, 1L, 0L, false);
 
@@ -96,8 +96,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para KILOGRAM_PER_UNIT (kg por unidade).
     @Test
     public void testKiloGramPerUnitEntry() {
-        currentProduct = new Product("Peito de frango", VolumeType.KILOGRAM_PER_UNIT);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("Peito de frango");
+        entry = new StorageEntry(currentProduct, VolumeType.KILOGRAM_PER_UNIT);
 
         dataManager.initEntry(entry, 20L, 1L, false);
 
@@ -122,8 +122,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para LITER_PER_UNITY (litros por unidade).
     @Test
     public void testLiterPerUnitEntry() {
-        currentProduct = new Product("Petróleo", VolumeType.LITER_PER_UNITY);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("Petróleo");
+        entry = new StorageEntry(currentProduct, VolumeType.LITER_PER_UNITY);
 
         dataManager.initEntry(entry, 100L, 10L, false);
 
@@ -148,8 +148,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa comportamento para UNITY_PER_UNITY (unidades por unidade).
     @Test
     public void testUnitPerUnitEntry() {
-        currentProduct = new Product("caixa_camisa", VolumeType.UNITY_PER_UNITY);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("caixa_camisa");
+        entry = new StorageEntry(currentProduct, VolumeType.UNITY_PER_UNITY);
 
         dataManager.initEntry(entry, 10L, 10L, false);
 
@@ -166,8 +166,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa edição completa de entrada.
     @Test
     public void testEditEntry() {
-        currentProduct = new Product("arroz", VolumeType.UNIT);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("arroz");
+        entry = new StorageEntry(currentProduct, VolumeType.UNIT);
 
         dataManager.initEntry(entry, 10L, 0L, true);
         assertEquals(10L, dataManager.getAmountAvailableRaw(entry));
@@ -183,7 +183,7 @@ public class StorageEntryDataManagementCoreTest {
 
         dataManager.editEntry(entry, dto);
 
-        assertEquals(dto.type(), entry.getVType());
+        assertEquals(dto.type(), entry.getVolumeType());
         assertEquals(100_000L, dataManager.getAmountAvailableRaw(entry));
         assertEquals(10_000L, entry.getQuantityPerUnit());
     }
@@ -191,8 +191,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa cálculo de quantidade disponível em litros.
     @Test
     public void testAmountAvailable() {
-        currentProduct = new Product("arroz", VolumeType.LITER_PER_UNITY);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("arroz");
+        entry = new StorageEntry(currentProduct, VolumeType.KILOGRAM_PER_UNIT);
 
         dataManager.initEntry(entry, 10L, 500L, true);
         assertEquals(5000L, dataManager.getAmountAvailableRaw(entry));
@@ -206,8 +206,8 @@ public class StorageEntryDataManagementCoreTest {
     /// Testa cálculo de resto (subunidades que não completam uma unidade).
     @Test
     public void testRemainderAvailable() {
-        currentProduct = new Product("arroz", VolumeType.LITER_PER_UNITY);
-        entry = new StorageEntry(currentProduct);
+        currentProduct = new Product("arroz");
+        entry = new StorageEntry(currentProduct, VolumeType.KILOGRAM_PER_UNIT);
 
         dataManager.initEntry(entry, 10L, 500L, true);
         assertEquals(5000L, dataManager.getAmountAvailableRaw(entry));

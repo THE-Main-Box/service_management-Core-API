@@ -31,7 +31,7 @@ public class StorageEntryValueDataManager {
                 // quantidade já está em subunidades
                 toSubtract = Math.subtractExact(current, quantity);
             } else {
-                long scale = getScaleByVolumeType(entry.getVType()); // 1000 para kg/l, 1 para unidade
+                long scale = getScaleByVolumeType(entry.getVolumeType()); // 1000 para kg/l, 1 para unidade
                 long converted = Math.multiplyExact(quantity, scale);
                 toSubtract = Math.subtractExact(current, converted);
             }
@@ -65,7 +65,7 @@ public class StorageEntryValueDataManager {
                 // 'quantity' já é o valor em subunidades
                 toAdd = Math.addExact(current, quantity);
             } else {
-                long scale = getScaleByVolumeType(entry.getVType());
+                long scale = getScaleByVolumeType(entry.getVolumeType());
                 long converted = Math.multiplyExact(quantity, scale);
                 toAdd = Math.addExact(current, converted);
             }
@@ -84,12 +84,12 @@ public class StorageEntryValueDataManager {
      *                 (false) usamos o valor com a necessidade de conversão, ou seja valor maior para converter
      */
     public void addUnit(StorageEntry entry, Long quantity, boolean raw) {
-        if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
+        if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getId());
 
-        if (!entry.getVType().isCompostType()) {
+        if (!entry.getVolumeType().isCompostType()) {
             long toAdd = raw
                     ? quantity
-                    : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVType()));
+                    : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVolumeType()));
 
             entry.setUnits(Math.addExact(entry.getUnits(), toAdd));
         } else {
@@ -114,10 +114,10 @@ public class StorageEntryValueDataManager {
      *                 se false, é um valor "human-readable" que precisa ser convertido
      */
     public void subtractUnit(StorageEntry entry, Long quantity, boolean raw) {
-        if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getProduct());
+        if (!entry.isInit()) throw new IllegalStateException("Produto não iniciado: " + entry.getId());
 
-        if (!entry.getVType().isCompostType()) {
-            long toSubtract = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVType()));
+        if (!entry.getVolumeType().isCompostType()) {
+            long toSubtract = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVolumeType()));
             entry.setUnits(Math.subtractExact(entry.getUnits(), toSubtract));
         } else {
             long subQuantity = Math.multiplyExact(quantity, entry.getQuantityPerUnit());

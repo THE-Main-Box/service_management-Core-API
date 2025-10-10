@@ -51,8 +51,8 @@ public class ProductControllerTest {
     /**
      * Utilitário para criar um produto via API e retornar o JSON de resposta.
      */
-    private JsonNode createProduct(String name, VolumeType type) throws Exception {
-        ProductCreationDTO dto = new ProductCreationDTO(name, type);
+    private JsonNode createProduct(String name) throws Exception {
+        ProductCreationDTO dto = new ProductCreationDTO(name);
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
@@ -69,7 +69,7 @@ public class ProductControllerTest {
 
     @Test
     public void createTest() throws Exception {
-        JsonNode created = createProduct("Arroz", VolumeType.UNIT);
+        JsonNode created = createProduct("Arroz");
 
         mock.perform(get("/products/product/id/{id}", created.get("id").asText()))
                 .andExpect(status().isOk())
@@ -78,10 +78,10 @@ public class ProductControllerTest {
 
     @Test
     public void updateTest() throws Exception {
-        JsonNode created = createProduct("Feijão", VolumeType.KILOGRAM);
+        JsonNode created = createProduct("Feijão");
         String id = created.get("id").asText();
 
-        ProductUpdateDTO dto = new ProductUpdateDTO("Feijão Preto", VolumeType.UNIT);
+        ProductUpdateDTO dto = new ProductUpdateDTO("Feijão Preto");
         String updateJson = mapper.writeValueAsString(dto);
 
         mock.perform(
@@ -95,7 +95,7 @@ public class ProductControllerTest {
 
     @Test
     public void getByIdTest() throws Exception {
-        JsonNode created = createProduct("Macarrão", VolumeType.KILOGRAM);
+        JsonNode created = createProduct("Macarrão");
         String id = created.get("id").asText();
 
         mock.perform(get("/products/product/id/{id}", id))
@@ -106,7 +106,7 @@ public class ProductControllerTest {
 
     @Test
     public void getByNameTest() throws Exception {
-        createProduct("Azeite", VolumeType.LITER);
+        createProduct("Azeite");
 
         mock.perform(get("/products/product/name/{name}", "Azeite"))
                 .andExpect(status().isOk())
@@ -115,8 +115,8 @@ public class ProductControllerTest {
 
     @Test
     public void getAllTest() throws Exception {
-        createProduct("Óleo", VolumeType.LITER);
-        createProduct("Sal", VolumeType.KILOGRAM);
+        createProduct("Óleo");
+        createProduct("Sal");
 
         mock.perform(get("/products/product/all?page=0&size=10"))
                 .andExpect(status().isOk())
@@ -125,7 +125,7 @@ public class ProductControllerTest {
 
     @Test
     public void removeByIdTest() throws Exception {
-        JsonNode created = createProduct("Café", VolumeType.KILOGRAM);
+        JsonNode created = createProduct("Café");
         String id = created.get("id").asText();
 
         mock.perform(delete("/products/product/delete/id/{id}", id))

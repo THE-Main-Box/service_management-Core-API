@@ -27,11 +27,11 @@ public class StorageEntryUpdateDataManager {
      */
     public void editEntry(StorageEntry entry, StorageEntryUpdateDTO dto, boolean raw) {
         // 1) decide tipo alvo (DTO tem prioridade)
-        VolumeType oldType = entry.getVType();
+        VolumeType oldType = entry.getVolumeType();
         if (dto.type() != null && dto.type() != oldType) {
-            entry.setVType(dto.type());
+            entry.setVolumeType(dto.type());
         }
-        VolumeType targetType = entry.getVType();
+        VolumeType targetType = entry.getVolumeType();
 
         if (dto.type() != null
                 && dto.type().isCompostType()
@@ -147,7 +147,7 @@ public class StorageEntryUpdateDataManager {
 
         Long qpu = entry.getQuantityPerUnit();
         if (qpu == null || qpu <= 0L) {
-            throw new IllegalStateException("quantityPerUnit inválido ou não configurado para: " + entry.getProduct());
+            throw new IllegalStateException("quantityPerUnit inválido ou não configurado para: " + entry.getId());
         }
 
         long sub = entry.getSubUnits() == null ? 0L : entry.getSubUnits();

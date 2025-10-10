@@ -1,7 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.product.storage_related.domain.model;
 
+import br.com.studios.sketchbook.service_management_core.api_utils.ClassToStringConverter;
 import br.com.studios.sketchbook.service_management_core.product.product_related.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.product.product_related.domain.model.Product;
+import br.com.studios.sketchbook.service_management_core.product.storage_related.shared.interfaces.StorageAble;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class StorageEntry implements Serializable {
 
-    /// Número de série da entidade
     @Serial
     @Column(name = "version")
     private static final long serialVersionUID = 1L;
@@ -26,15 +27,21 @@ public class StorageEntry implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name = "product_id", nullable = false)
     @Getter
-    /// Referência ao produto a quem isso daqui pertence
-    private Product product;
+    @Column(updatable = false, nullable = false)
+    /// Id do dono
+    private UUID ownerID;
+
+    @Getter
+    @Convert(converter = ClassToStringConverter.class)
+    @Column(updatable = false, nullable = false)
+    /// Tipo da classe do dono
+    private Class<? extends StorageAble> ownerType;
 
     @Getter
     @Setter
-    private VolumeType vType;
+    /// Tipo de controle de armazenamento
+    private VolumeType volumeType;
 
     @Getter
     @Setter
@@ -43,6 +50,7 @@ public class StorageEntry implements Serializable {
 
     @Getter
     @Setter
+    /// Sub-unidades existentes
     private Long subUnits;
 
     /**
@@ -51,32 +59,25 @@ public class StorageEntry implements Serializable {
      * ou seja, é uma escala contando objetos reais, e não de um pra outro, como 0,5, ou 1,9,
      * é um valor de produto real, como 10 pra uma unidade ou coisa parecida
      */
-    @Setter @Getter
+    @Setter
+    @Getter
     private Long quantityPerUnit;
 
     @Getter
     @Setter
     private boolean init;
 
-    public StorageEntry(Product product) {
-        this.product = product;
-        this.product.setStorageEntry(this);
-        this.vType = product.getVolumeType();
-    }
-
-    public void resetValues(){
-        this.units = null;
-        this.subUnits = null;
-        this.quantityPerUnit = null;
-
-        this.init = false;
+    public StorageEntry(StorageAble owner, VolumeType volumeType) {
+        this.ownerID = owner.getId();
+        this.ownerType = owner.getClass();
+        this.volumeType = volumeType;
     }
 
     @Override
     public String toString() {
         return "StorageEntry{" +
                 "id=" + id +
-                ", vType=" + vType +
+                ", vType=" + volumeType +
                 ", units=" + units +
                 ", subUnits=" + subUnits +
                 ", quantityPerUnit=" + quantityPerUnit +

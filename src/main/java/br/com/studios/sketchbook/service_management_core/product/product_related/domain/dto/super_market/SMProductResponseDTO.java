@@ -8,15 +8,13 @@ import java.util.UUID;
 public record SMProductResponseDTO(
         UUID id,
         String name,
-        String barCode,
-        VolumeType volume
+        String barCode
 ) {
     public SMProductResponseDTO(SuperMarketProduct model) {
         this(
                 model.getId(),
                 model.getName(),
-                model.getBarcode(),
-                model.getVolumeType()
+                model.getBarcode()
         );
     }
 

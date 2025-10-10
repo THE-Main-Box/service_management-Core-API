@@ -47,7 +47,6 @@ public class ProductService implements ProductRestServiceContract<Product> {
         ProductUpdateDTO dto = (ProductUpdateDTO) dtoObject;
 
         if (dto.name() != null) model.setName(dto.name());
-        if (dto.volumeType() != null) model.setVolumeType(dto.volumeType());
 
         return repository.save(model);
     }

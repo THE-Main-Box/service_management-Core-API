@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.api;
 
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import com.fasterxml.jackson.databind.JsonNode;

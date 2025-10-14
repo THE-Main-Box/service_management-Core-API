@@ -1,8 +1,8 @@
-package br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.core;
+package br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
 import br.com.studios.sketchbook.service_management_core.price.money_related.shared.dto.MoneyPercentDTO;
-import br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.value.MoneyValueDataManager;
+import br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.value.MoneyValueDataManager;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

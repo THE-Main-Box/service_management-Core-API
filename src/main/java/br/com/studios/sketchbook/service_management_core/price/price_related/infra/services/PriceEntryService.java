@@ -1,12 +1,12 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.repositories.PriceEntryRepository;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
-import br.com.studios.sketchbook.service_management_core.product.api.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;

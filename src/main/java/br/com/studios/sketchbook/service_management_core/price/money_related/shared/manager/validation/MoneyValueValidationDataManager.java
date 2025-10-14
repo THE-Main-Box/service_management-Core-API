@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.validation;
+package br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.validation;
 
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
 import org.springframework.stereotype.Component;

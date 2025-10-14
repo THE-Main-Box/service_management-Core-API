@@ -1,8 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.api;
 
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryResponseDTO;
-import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryResponseDTO;
+import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.services.PriceEntryService;
 import jakarta.persistence.EntityNotFoundException;

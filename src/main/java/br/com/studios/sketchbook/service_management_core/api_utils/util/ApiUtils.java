@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.product.api.util;
+package br.com.studios.sketchbook.service_management_core.api_utils.util;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage.api;
 
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryUpdateDTO;

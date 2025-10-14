@@ -1,11 +1,11 @@
-package br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.value;
+package br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.value;
 
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-import static br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.validation.MoneyValueValidationDataManager.*;
+import static br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.validation.MoneyValueValidationDataManager.*;
 
 @Component
 public class MoneyValueDataManager {

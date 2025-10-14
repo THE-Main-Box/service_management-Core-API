@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.price.money_related.shared.annotations;
+package br.com.studios.sketchbook.service_management_core.api_utils.annotations;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

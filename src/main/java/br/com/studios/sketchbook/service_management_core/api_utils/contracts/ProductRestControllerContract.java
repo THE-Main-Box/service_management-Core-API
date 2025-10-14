@@ -1,9 +1,8 @@
-package br.com.studios.sketchbook.service_management_core.product.api.util;
+package br.com.studios.sketchbook.service_management_core.api_utils.contracts;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 import java.util.UUID;
 
 /**

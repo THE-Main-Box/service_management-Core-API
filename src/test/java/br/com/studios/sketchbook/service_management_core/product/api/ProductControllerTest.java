@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.product.api;
 
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;

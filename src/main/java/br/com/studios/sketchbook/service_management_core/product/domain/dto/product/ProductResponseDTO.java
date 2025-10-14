@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product;
+package br.com.studios.sketchbook.service_management_core.product.domain.dto.product;
 
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 

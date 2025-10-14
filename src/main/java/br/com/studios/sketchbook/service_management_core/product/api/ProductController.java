@@ -1,9 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.product.api;
 
-import br.com.studios.sketchbook.service_management_core.product.api.util.ProductRestControllerContract;
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductResponseDTO;
-import br.com.studios.sketchbook.service_management_core.product.domain.dto.def_product.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.api_utils.contracts.ProductRestControllerContract;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductResponseDTO;
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.infra.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.price_entry;
+package br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
-import br.com.studios.sketchbook.service_management_core.price.money_related.shared.money_helper.core.MoneyDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.price.money_related.shared.manager.core.MoneyDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;

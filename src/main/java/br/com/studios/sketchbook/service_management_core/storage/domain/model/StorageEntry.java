@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage.domain.model;
 
-import br.com.studios.sketchbook.service_management_core.api_utils.ClassToStringConverter;
+import br.com.studios.sketchbook.service_management_core.api_utils.converters.ClassToStringConverter;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage.shared.interfaces.StorageAble;
 import jakarta.persistence.*;

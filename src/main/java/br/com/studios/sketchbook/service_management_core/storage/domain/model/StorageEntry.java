@@ -11,7 +11,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_STORAGE_ENTRY")
+@Table(name = "TB_STORAGE_ENTRY",
+        indexes = {
+                @Index(name = "idx_storage_entry_owner_id", columnList = "ownerId")
+        }
+)
 @NoArgsConstructor
 @AllArgsConstructor
 public class StorageEntry implements Serializable {

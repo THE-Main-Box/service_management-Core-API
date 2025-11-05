@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.domain.model;
 
-import br.com.studios.sketchbook.service_management_core.api_utils.converters.ClassToStringConverter;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.converters.ClassToStringConverter;
 import br.com.studios.sketchbook.service_management_core.price.money_related.domain.model.Money;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import jakarta.persistence.*;

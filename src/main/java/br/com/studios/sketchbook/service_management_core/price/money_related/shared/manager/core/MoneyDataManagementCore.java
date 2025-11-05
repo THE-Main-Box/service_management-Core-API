@@ -80,7 +80,7 @@ public class MoneyDataManagementCore {
                         values.get(i) //Passamos o valor atual como soma
                 );
 
-                ref.setValue(sum); //Atualizamos a referencia para conter a soma dos números corretos
+                ref.setPrice(sum); //Atualizamos a referencia para conter a soma dos números corretos
 
             } catch (IllegalArgumentException e) {
 
@@ -154,7 +154,7 @@ public class MoneyDataManagementCore {
                 result = valueManager.subtract(ref, value);
 
                 // Atualizamos a referência com o valor resultante
-                ref.setValue(result);
+                ref.setPrice(result);
 
             } catch (Exception e) {
                 if (e instanceof IllegalArgumentException) {
@@ -224,7 +224,7 @@ public class MoneyDataManagementCore {
         BigDecimal result;
 
         try {
-            result = ref.getValue();
+            result = ref.getPrice();
 
             // Multiplicação sequencial de cada fator
             for (BigDecimal factor : factors) {
@@ -283,7 +283,7 @@ public class MoneyDataManagementCore {
                         dto.percent()
                 );
 
-                ref.setValue(result);
+                ref.setPrice(result);
             }
 
             toReturnBuffer = ref;

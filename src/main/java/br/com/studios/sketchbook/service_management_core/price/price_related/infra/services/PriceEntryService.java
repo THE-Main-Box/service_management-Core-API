@@ -6,7 +6,7 @@ import br.com.studios.sketchbook.service_management_core.price.price_related.dom
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.repositories.PriceEntryRepository;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
-import br.com.studios.sketchbook.service_management_core.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -68,7 +68,7 @@ public class PriceEntryService {
         }
 
         if (dto.value() != null) {
-            model.getPrice().setValue(BigDecimal.valueOf(dto.value()));
+            model.getPrice().setPrice(BigDecimal.valueOf(dto.value()));
         }
 
         return repository.save(model);

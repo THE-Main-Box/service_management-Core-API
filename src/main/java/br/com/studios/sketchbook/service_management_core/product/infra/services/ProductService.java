@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.product.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.api_utils.util.ApiUtils;
-import br.com.studios.sketchbook.service_management_core.api_utils.contracts.ProductRestServiceContract;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.contracts.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;

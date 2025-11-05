@@ -14,7 +14,7 @@ public class MoneyValueDataManager {
     /// Realiza uma soma entre dois objetos do tipo Money e retorna o resultado
     public BigDecimal add(Money valueA, Money valueB) {
         validateCurrencyCompatibility(valueA, valueB);
-        return valueA.getValue().add(valueB.getValue());
+        return valueA.getPrice().add(valueB.getPrice());
     }
 
     /**
@@ -27,7 +27,7 @@ public class MoneyValueDataManager {
         validateCurrencyCompatibility(minuend, subtrahend);
         validateSubtractionAvailable(minuend, subtrahend);
 
-        return minuend.getValue().subtract(subtrahend.getValue());
+        return minuend.getPrice().subtract(subtrahend.getPrice());
     }
 
     /**
@@ -40,7 +40,7 @@ public class MoneyValueDataManager {
     public BigDecimal multiply(Money value, BigDecimal factor) {
         validateMultiplicationFactor(factor);
         if (isValidCurrency(value.getCurrency())) {
-            return value.getValue().multiply(factor);
+            return value.getPrice().multiply(factor);
         } else {
             throw new IllegalArgumentException("Campo do tipo de moeda está incorreta");
         }

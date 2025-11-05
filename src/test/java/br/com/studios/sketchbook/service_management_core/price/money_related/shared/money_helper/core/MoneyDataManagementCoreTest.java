@@ -47,7 +47,7 @@ public class MoneyDataManagementCoreTest {
 
         moneyC = moneyManager.subtract(moneyA, moneyB);//Armazenamos para verificar depois
 
-        assertEquals(5d, moneyC.getValue().doubleValue());
+        assertEquals(5d, moneyC.getPrice().doubleValue());
 
     }
 
@@ -68,7 +68,7 @@ public class MoneyDataManagementCoreTest {
 
         moneyC = moneyManager.subtractSeq(moneyA, moneyList);//Armazenamos para verificar depois
 
-        assertEquals(50d, moneyC.getValue().doubleValue());
+        assertEquals(50d, moneyC.getPrice().doubleValue());
 
     }
 
@@ -80,7 +80,7 @@ public class MoneyDataManagementCoreTest {
 
         moneyC = moneyManager.add(moneyA, moneyB);//Armazenamos para verificar depois
 
-        assertEquals(35d, moneyC.getValue().doubleValue());
+        assertEquals(35d, moneyC.getPrice().doubleValue());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class MoneyDataManagementCoreTest {
 
         moneyC = moneyManager.addAll(moneyList);//Armazenamos para verificar depois
 
-        assertEquals(50d, moneyC.getValue().doubleValue());
+        assertEquals(50d, moneyC.getPrice().doubleValue());
 
     }
 
@@ -110,7 +110,7 @@ public class MoneyDataManagementCoreTest {
                 new BigDecimal(2)
         );//Armazenamos para verificar depois
 
-        assertEquals(40d, moneyC.getValue().doubleValue());
+        assertEquals(40d, moneyC.getPrice().doubleValue());
 
     }
 
@@ -132,7 +132,7 @@ public class MoneyDataManagementCoreTest {
                 factorList
         );//Armazenamos para verificar depois
 
-        assertEquals(160d, moneyC.getValue().doubleValue());
+        assertEquals(160d, moneyC.getPrice().doubleValue());
 
     }
 
@@ -143,7 +143,7 @@ public class MoneyDataManagementCoreTest {
         moneyC = new Money();
         moneyC.setCurrency("brl");
 
-        moneyC.setValue(
+        moneyC.setPrice(
                 moneyManager.applyPercentage(
                         moneyA,
                         new BigDecimal(10)
@@ -151,8 +151,8 @@ public class MoneyDataManagementCoreTest {
         );
 
         // 10% de 100 = 10
-        assertEquals(10d, moneyC.getValue().doubleValue());
-        assertEquals(100d, moneyA.getValue().doubleValue());
+        assertEquals(10d, moneyC.getPrice().doubleValue());
+        assertEquals(100d, moneyA.getPrice().doubleValue());
     }
 
     @Test
@@ -169,7 +169,7 @@ public class MoneyDataManagementCoreTest {
 
         moneyC = moneyManager.applyPercentageSeq(dtos);
 
-        assertEquals(2d, moneyC.getValue().doubleValue());
+        assertEquals(2d, moneyC.getPrice().doubleValue());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class MoneyDataManagementCoreTest {
         moneyC = new Money();
         moneyC.setCurrency("BRL");
 
-        moneyC.setValue(
+        moneyC.setPrice(
                 moneyManager.calculateInterest(
                         moneyA,
                         new BigDecimal(10)
@@ -187,7 +187,7 @@ public class MoneyDataManagementCoreTest {
         );
 
         // 100 * 1.10 = 110
-        assertEquals(110d, moneyC.getValue().doubleValue());
+        assertEquals(110d, moneyC.getPrice().doubleValue());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class MoneyDataManagementCoreTest {
         moneyC = new Money();
         moneyC.setCurrency("BRL");
 
-        moneyC.setValue(
+        moneyC.setPrice(
                 moneyManager.calculateDiscount(
                         moneyA,
                         new BigDecimal(10)
@@ -206,7 +206,7 @@ public class MoneyDataManagementCoreTest {
         );
 
         // 100 * 0.90 = 90
-        assertEquals(90d, moneyC.getValue().doubleValue());
+        assertEquals(90d, moneyC.getPrice().doubleValue());
     }
 
 

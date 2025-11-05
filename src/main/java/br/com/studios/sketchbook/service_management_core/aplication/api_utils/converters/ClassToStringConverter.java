@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.api_utils.converters;
+package br.com.studios.sketchbook.service_management_core.aplication.api_utils.converters;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

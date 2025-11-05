@@ -70,7 +70,7 @@ public class PriceValueModificationManager {
                                 volumeType
                         )
                 )
-        ).getValue();//Retornamos apenas o valor
+        ).getPrice();//Retornamos apenas o valor
 
     }
 

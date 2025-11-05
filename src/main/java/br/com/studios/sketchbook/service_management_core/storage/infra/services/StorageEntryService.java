@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryCreationDTO;

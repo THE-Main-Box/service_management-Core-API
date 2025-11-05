@@ -14,7 +14,7 @@ public record PriceEntryResponseDTO (
     public PriceEntryResponseDTO(PriceEntry entry){
         this(
                 entry.getId(),
-                entry.getPrice().getValue().doubleValue(),
+                entry.getPrice().getPrice().doubleValue(),
                 entry.getPrice().getCurrency(),
                 entry.getOwnerId(),
                 entry.getOwnerType().getSimpleName()

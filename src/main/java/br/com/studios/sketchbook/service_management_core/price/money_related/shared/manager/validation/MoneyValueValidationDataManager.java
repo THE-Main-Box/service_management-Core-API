@@ -40,11 +40,11 @@ public class MoneyValueValidationDataManager {
      */
     public static void validateSubtractionAvailable(Money minuend, Money subtrahend) {
         // Comparação mais rápida usando double
-        if (minuend.getValue().doubleValue() < subtrahend.getValue().doubleValue()) {
+        if (minuend.getPrice().doubleValue() < subtrahend.getPrice().doubleValue()) {
             throw new ArithmeticException(
                     "O minuendo (valor a ser subtraído) precisa ser maior que o subtraendo " +
                             "para que o resultado seja maior ou igual a 0: " +
-                            minuend.getValue() + " - " + subtrahend.getValue()
+                            minuend.getPrice() + " - " + subtrahend.getPrice()
             );
         }
     }

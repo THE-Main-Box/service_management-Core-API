@@ -50,7 +50,7 @@ public class PriceEntryDataManagementCoreTest {
                 5.00,
                 priceEntry
                         .getPrice()
-                        .getValue()
+                        .getPrice()
                         .doubleValue()
         );
 
@@ -70,14 +70,14 @@ public class PriceEntryDataManagementCoreTest {
         Money price = priceEntry.getPrice();
 
         //Determinamos o valor com base no retorno de outro valor
-        price.setValue(
+        price.setPrice(
                 moneyManager.add(
                         price,
                         (5d)
-                ).getValue()
+                ).getPrice()
         );
 
-        assertEquals(10.00, price.getValue().doubleValue());
+        assertEquals(10.00, price.getPrice().doubleValue());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         //Atualizamos o preço do produto
-        priceEntry.getPrice().setValue(
+        priceEntry.getPrice().setPrice(
                 priceManager.getTotalSum(//descobrir o preço pela quantidade de produtos no armazém
                         priceEntry,
                         storageEntry.getVolumeType(),
@@ -119,7 +119,7 @@ public class PriceEntryDataManagementCoreTest {
          *
          * Para descobrir o preço pela unidade inteira é só colocar a quantidad de 1 unidade para vender
          */
-        assertEquals(250.00, price.getValue().doubleValue());
+        assertEquals(250.00, price.getPrice().doubleValue());
     }
 
     @Test
@@ -144,7 +144,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         //Atualizamos o preço do produto
-        priceEntry.getPrice().setValue(
+        priceEntry.getPrice().setPrice(
                 priceManager.getTotalSum(                //descobrir o preço pela quantidade de produtos no armazém
                         priceEntry,
                         storageEntry.getVolumeType(),
@@ -159,7 +159,7 @@ public class PriceEntryDataManagementCoreTest {
          * é só multiplicar pela quantidade por unidade que é 5, então seria 5*5, que é o mesmo que 25.00 reais
          * Para descobrir o preço pela unidade inteira é só colocar a quantidad de 1 unidade para vender
          */
-        assertEquals(25.00, price.getValue().doubleValue());
+        assertEquals(25.00, price.getPrice().doubleValue());
     }
 
     @Test
@@ -194,7 +194,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         //Atualizamos o preço do produto
-        priceEntry.getPrice().setValue(
+        priceEntry.getPrice().setPrice(
                 priceManager.getTotalSumModApplied(
                         priceEntry,
                         modifier,
@@ -209,7 +209,7 @@ public class PriceEntryDataManagementCoreTest {
          * é só multiplicar pela quantidade por unidade que é 5, então seria 5*5, que é o mesmo que 25.00 reais
          * Para descobrir o preço pela unidade inteira é só colocar a quantidad de 1 unidade para vender
          */
-        assertEquals(20.00, price.getValue().doubleValue());
+        assertEquals(20.00, price.getPrice().doubleValue());
     }
 
     @Test
@@ -244,7 +244,7 @@ public class PriceEntryDataManagementCoreTest {
         );
 
         //Atualizamos o preço do produto
-        priceEntry.getPrice().setValue(
+        priceEntry.getPrice().setPrice(
                 priceManager.getTotalSumModApplied(
                         priceEntry,
                         modifier,
@@ -259,7 +259,7 @@ public class PriceEntryDataManagementCoreTest {
          * é só multiplicar pela quantidade por unidade que é 5, então seria 5*5, que é o mesmo que 25.00 reais
          * Para descobrir o preço pela unidade inteira é só colocar a quantidad de 1 unidade para vender
          */
-        assertEquals(30.00, price.getValue().doubleValue());
+        assertEquals(30.00, price.getPrice().doubleValue());
     }
 
 }

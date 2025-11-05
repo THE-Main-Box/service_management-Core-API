@@ -21,32 +21,32 @@ public class Money implements Serializable {
 
     @Getter
     @Setter
-    @Column(name = "value", precision = 38, scale = 6, nullable = false)
-    private BigDecimal value;
+    @Column(precision = 38, scale = 6, nullable = false)
+    private BigDecimal price;
 
     @Getter
     @Setter
     @Column(name = "currency", length = 3, nullable = false)
     private String currency;
 
-    public Money(BigDecimal value, String currency) {
-        this.value = value;
+    public Money(BigDecimal price, String currency) {
+        this.price = price;
         this.currency = currency;
     }
 
-    public Money(double value, String currency) {
-        this.value = new BigDecimal(value);
+    public Money(double price, String currency) {
+        this.price = new BigDecimal(price);
         this.currency = currency;
     }
 
     public Money cpy() {
-        return new Money(this.value, this.currency);
+        return new Money(this.price, this.currency);
     }
 
     @Override
     public String toString() {
         return "Money{" +
-                "value=" + value +
+                "value=" + price +
                 ", currency='" + currency + '\'' +
                 '}';
     }

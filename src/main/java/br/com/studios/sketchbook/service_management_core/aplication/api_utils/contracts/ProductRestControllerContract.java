@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.api_utils.contracts;
+package br.com.studios.sketchbook.service_management_core.aplication.api_utils.contracts;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

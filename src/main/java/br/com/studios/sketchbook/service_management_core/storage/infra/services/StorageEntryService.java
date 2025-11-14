@@ -10,15 +10,18 @@ import br.com.studios.sketchbook.service_management_core.storage.infra.repositor
 import br.com.studios.sketchbook.service_management_core.storage.shared.interfaces.StorageAble;
 import br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.core.StorageEntryDataManagementCore;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.*;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+
 @Service
+@Transactional(storage_transaction_manager_ref)
 public class StorageEntryService {
 
     private final StorageEntryRepository repository;
@@ -62,7 +65,6 @@ public class StorageEntryService {
         return repository.save(entry);
     }
 
-    @Transactional
     public boolean delete(UUID id) {
         cleanInvalidAssignment(id);
         Optional<StorageEntry> model = repository.findById(id);
@@ -96,7 +98,6 @@ public class StorageEntryService {
         return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/storage/id/{id}");
     }
 
-    @Transactional
     private void cleanInvalidAssignment(UUID assignmentId) {
         Optional<StorageEntry> entryOpt = repository.findById(assignmentId);
         if (entryOpt.isEmpty()) return;

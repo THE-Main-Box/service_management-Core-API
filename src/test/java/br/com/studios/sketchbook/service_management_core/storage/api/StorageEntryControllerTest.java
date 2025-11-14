@@ -1,12 +1,12 @@
 package br.com.studios.sketchbook.service_management_core.storage.api;
 
+import br.com.studios.sketchbook.service_management_core.aplication.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,9 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -31,10 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *  - Deletar entry após remoção do dono (deve ocorrer)
  *  - Buscar entry por id e por id do dono
  */
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
-@SpringBootTest
-@Transactional
+@Transactional(storage_transaction_manager_ref)
+@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
 public class StorageEntryControllerTest {
 
     private final MockMvc mock;

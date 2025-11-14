@@ -7,19 +7,22 @@ import br.com.studios.sketchbook.service_management_core.product.domain.dto.supe
 import br.com.studios.sketchbook.service_management_core.product.domain.model.SuperMarketProduct;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+
 @Service
+@Transactional(storage_transaction_manager_ref)
 public class SMProductService implements ProductRestServiceContract<SuperMarketProduct> {
 
     private final SMProductRepository repository;
@@ -29,7 +32,6 @@ public class SMProductService implements ProductRestServiceContract<SuperMarketP
         this.repository = repository;
     }
 
-    @Transactional
     public boolean delete(UUID id) {
         Optional<SuperMarketProduct> model = repository.findById(id);
         if (model.isEmpty()) return false;
@@ -37,7 +39,6 @@ public class SMProductService implements ProductRestServiceContract<SuperMarketP
         return true;
     }
 
-    @Transactional
     public SuperMarketProduct update(SuperMarketProduct model, Record dtoObject) {
         SMProductUpdateDTO dto = (SMProductUpdateDTO) dtoObject;
 
@@ -54,7 +55,6 @@ public class SMProductService implements ProductRestServiceContract<SuperMarketP
     }
 
     /// Cria e salva uma instancia com base em um dto no banco
-    @Transactional
     public SuperMarketProduct createAndSave(Record dto) {
         return repository.save(new SuperMarketProduct((SMProductCreationDTO) dto));
     }

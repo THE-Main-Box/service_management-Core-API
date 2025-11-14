@@ -1,25 +1,28 @@
 package br.com.studios.sketchbook.service_management_core.price.price_related.infra.services;
 
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.price.price_related.infra.repositories.PriceEntryRepository;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.*;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+
 @Service
+@Transactional(storage_transaction_manager_ref)
 public class PriceEntryService {
 
     private final PriceEntryRepository repository;
@@ -60,7 +63,6 @@ public class PriceEntryService {
         );
     }
 
-    @Transactional
     public PriceEntry update(PriceEntry model, PriceEntryUpdateDTO dto) {
 
         if (dto.currency() != null) {
@@ -74,7 +76,6 @@ public class PriceEntryService {
         return repository.save(model);
     }
 
-    @Transactional
     /// Cria a entrada de preço com base no dto e salva ele
     public PriceEntry createAndSave(PriceEntryCreationDTO dto) {
         PriceEntry entry = new PriceEntry(//iniciamos a entry
@@ -87,7 +88,6 @@ public class PriceEntryService {
         return entry;
     }
 
-    @Transactional
     public boolean delete(UUID id) {
         cleanInvalidAssignment(id);
         Optional<PriceEntry> model = repository.findById(id);
@@ -95,7 +95,6 @@ public class PriceEntryService {
         return model.isEmpty();
     }
 
-    @Transactional
     private void cleanInvalidAssignment(UUID assignmentId) {
         Optional<PriceEntry> entryOpt = repository.findById(assignmentId);
         if (entryOpt.isEmpty()) return;

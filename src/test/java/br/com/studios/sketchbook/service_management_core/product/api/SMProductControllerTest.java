@@ -1,10 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.product.api;
 
+import br.com.studios.sketchbook.service_management_core.aplication.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.super_market.SMProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,7 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -26,10 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Cada teste roda dentro de uma transação e é revertido no final,
  * garantindo independência entre eles.
  */
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
-@SpringBootTest
-@Transactional
+@Transactional(storage_transaction_manager_ref)
+@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
 public class SMProductControllerTest {
 
     private final MockMvc mock;

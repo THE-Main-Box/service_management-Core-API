@@ -1,25 +1,28 @@
 package br.com.studios.sketchbook.service_management_core.product.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.aplication.api_utils.contracts.ProductRestServiceContract;
+import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+
 @Service
+@Transactional(storage_transaction_manager_ref)
 public class ProductService implements ProductRestServiceContract<Product> {
 
     private final ProductRepository repository;
@@ -41,7 +44,6 @@ public class ProductService implements ProductRestServiceContract<Product> {
         return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/products/product/id/{id}");
     }
 
-    @Transactional
     @Override
     public Product update(Product model, Record dtoObject) {
         ProductUpdateDTO dto = (ProductUpdateDTO) dtoObject;
@@ -63,12 +65,10 @@ public class ProductService implements ProductRestServiceContract<Product> {
         return repository.ListByName(name, pageable);
     }
 
-    @Transactional
     public Product createAndSave(Record creationDTO) {
         return repository.save(new Product((ProductCreationDTO) creationDTO));
     }
 
-    @Transactional
     public boolean delete(UUID id) {
         Optional<Product> model = repository.findById(id);
         if (model.isEmpty()) return false;

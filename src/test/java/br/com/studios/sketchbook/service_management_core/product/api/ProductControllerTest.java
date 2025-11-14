@@ -1,10 +1,10 @@
 package br.com.studios.sketchbook.service_management_core.product.api;
 
+import br.com.studios.sketchbook.service_management_core.aplication.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,26 +12,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Testes de integração para o ProductController.
- *
- * Endpoints cobertos:
- *  - Criar produto
- *  - Atualizar produto
- *  - Buscar por ID
- *  - Buscar por Nome
- *  - Buscar todos
- *  - Remover por ID
- *  - Remover lista de IDs
- */
-@ActiveProfiles("test")
+
+@ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
-@SpringBootTest
-@Transactional
+@Transactional(storage_transaction_manager_ref)
+@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
 public class ProductControllerTest {
 
     private final MockMvc mock;

@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage.api;
 
+import br.com.studios.sketchbook.service_management_core.product.domain.dto.product.ProductResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryUpdateDTO;
@@ -8,6 +9,7 @@ import br.com.studios.sketchbook.service_management_core.storage.infra.services.
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,20 @@ public class StorageEntryController {
         try {
             return ResponseEntity.ok().body(
                     new StorageEntryResponseDTO(service.getInstanceById(id))
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Page<Object>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+            return ResponseEntity.ok().body(
+                    service.getAllInstances(page, size).map(StorageEntryResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();

@@ -5,14 +5,14 @@ public enum VolumeType {
     UNIT,
     LITER,
     KILOGRAM_PER_UNIT,
-    LITER_PER_UNITY,
-    UNITY_PER_UNITY;
+    LITER_PER_UNIT,
+    UNIT_PER_UNIT;
 
     public boolean isCompostType() {
         return switch (this) {
             case KILOGRAM_PER_UNIT,
-                 LITER_PER_UNITY,
-                 UNITY_PER_UNITY -> true;
+                 LITER_PER_UNIT,
+                 UNIT_PER_UNIT -> true;
             default -> false;
         };
     }

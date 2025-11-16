@@ -123,7 +123,7 @@ public class StorageEntryDataManagementCoreTest {
     @Test
     public void testLiterPerUnitEntry() {
         currentProduct = new Product("Petróleo");
-        entry = new StorageEntry(currentProduct, VolumeType.LITER_PER_UNITY);
+        entry = new StorageEntry(currentProduct, VolumeType.LITER_PER_UNIT);
 
         dataManager.initEntry(entry, 100L, 10L, false);
 
@@ -149,7 +149,7 @@ public class StorageEntryDataManagementCoreTest {
     @Test
     public void testUnitPerUnitEntry() {
         currentProduct = new Product("caixa_camisa");
-        entry = new StorageEntry(currentProduct, VolumeType.UNITY_PER_UNITY);
+        entry = new StorageEntry(currentProduct, VolumeType.UNIT_PER_UNIT);
 
         dataManager.initEntry(entry, 10L, 10L, false);
 

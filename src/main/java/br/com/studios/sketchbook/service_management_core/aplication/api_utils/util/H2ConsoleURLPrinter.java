@@ -13,7 +13,8 @@ public class H2ConsoleURLPrinter {
             String url = "http://localhost:" + port + consolePath;
             System.out.println("\n" + "=".repeat(80));
             System.out.println("🗄️  H2 Console: " + url);
-            System.out.println("📋 JDBC URL: " + env.getProperty("spring.datasource.url"));
+            System.out.println("📋 JDBC URL: " + env.getProperty("spring.datasource.storage.url"));
+            System.out.println("📋 JDBC URL: " + env.getProperty("spring.datasource.shipment.url"));
             System.out.println("=".repeat(80) + "\n");
         }
     }

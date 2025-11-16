@@ -9,8 +9,13 @@ import br.com.studios.sketchbook.service_management_core.price.price_related.sha
 import br.com.studios.sketchbook.service_management_core.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
+import br.com.studios.sketchbook.service_management_core.storage.domain.model.StorageEntry;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +54,11 @@ public class PriceEntryService {
                         productRepository
                 )
         );
+    }
+
+    public Page<PriceEntry> getAllInstances(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable);
     }
 
     public PriceEntry getInstanceById(UUID id) {

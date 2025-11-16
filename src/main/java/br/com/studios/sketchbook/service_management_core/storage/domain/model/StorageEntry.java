@@ -3,6 +3,7 @@ package br.com.studios.sketchbook.service_management_core.storage.domain.model;
 import br.com.studios.sketchbook.service_management_core.aplication.api_utils.converters.ClassToStringConverter;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage.shared.interfaces.StorageAble;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +18,6 @@ import java.util.UUID;
         }
 )
 @NoArgsConstructor
-@AllArgsConstructor
 public class StorageEntry implements Serializable {
 
     @Serial
@@ -31,7 +31,7 @@ public class StorageEntry implements Serializable {
     private UUID id;
 
     @Getter
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false, unique = true)
     /// Id do dono
     private UUID ownerId;
 
@@ -68,12 +68,32 @@ public class StorageEntry implements Serializable {
 
     @Getter
     @Setter
-    private boolean init;
+    @Transient
+    private boolean init = false;
 
     public StorageEntry(StorageAble owner, VolumeType volumeType) {
         this.ownerId = owner.getId();
         this.ownerType = owner.getClass();
         this.volumeType = volumeType;
+    }
+
+    public StorageEntry(
+            UUID id,
+            UUID ownerId,
+            Class<? extends StorageAble> ownerType,
+            VolumeType volumeType,
+            Long units,
+            Long subUnits,
+            Long quantityPerUnit
+    ) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.ownerType = ownerType;
+        this.volumeType = volumeType;
+        this.units = units;
+        this.subUnits = subUnits;
+        this.quantityPerUnit = quantityPerUnit;
+        this.init = true;
     }
 
     @Override

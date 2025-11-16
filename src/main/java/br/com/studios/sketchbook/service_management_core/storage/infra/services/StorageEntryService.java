@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.storage.infra.services;
 
 import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.product.infra.repositories.SMProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryCreationDTO;
@@ -11,6 +12,10 @@ import br.com.studios.sketchbook.service_management_core.storage.shared.interfac
 import br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.core.StorageEntryDataManagementCore;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +68,11 @@ public class StorageEntryService {
         );
 
         return repository.save(entry);
+    }
+
+    public Page<StorageEntry> getAllInstances(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable);
     }
 
     public boolean delete(UUID id) {

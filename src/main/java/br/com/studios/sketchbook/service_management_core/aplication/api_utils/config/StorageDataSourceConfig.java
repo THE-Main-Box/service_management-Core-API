@@ -24,7 +24,7 @@ import static br.com.studios.sketchbook.service_management_core.aplication.api_u
 
 @Configuration
 @EnableTransactionManagement
-@Profile({"test", "prod", "storage"})
+@Profile({"prod", "storage"})
 @EnableJpaRepositories(
         basePackages = base_package_path,
         entityManagerFactoryRef = storage_entity_manager_factory_ref,
@@ -43,9 +43,15 @@ public class StorageDataSourceConfig {
 
     @Primary
     @Bean(name = storage_data_source_ref)
-    @ConfigurationProperties("spring.datasource.storage.configuration")
     /// Inicializa o dataSource com as configurações passadas para o storage
     public DataSource storageDataSource(@Qualifier(storage_data_source_properties_ref) DataSourceProperties properties) {
+        System.out.println("========================================");
+        System.out.println("🔧 Configurando DataSource:");
+        System.out.println("   URL: " + properties.getUrl());
+        System.out.println("   Driver: " + properties.getDriverClassName());
+        System.out.println("   Username: " + properties.getUsername());
+        System.out.println("========================================");
+
         return properties.initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
@@ -75,6 +81,7 @@ public class StorageDataSourceConfig {
         return builder
                 .dataSource(dataSource)
                 .packages(base_package_path)
+                .persistenceUnit("storage")
                 .properties(properties)
                 .build();
     }

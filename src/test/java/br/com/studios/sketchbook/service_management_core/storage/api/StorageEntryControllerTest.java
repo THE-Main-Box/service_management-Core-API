@@ -113,7 +113,7 @@ public class StorageEntryControllerTest {
         JsonNode owner = createOwnerProduct("Produto Estoque 2");
         UUID ownerId = UUID.fromString(owner.get("id").asText());
 
-        JsonNode created = createEntry(ownerId, VolumeType.UNITY_PER_UNITY, 20L, 4L, true);
+        JsonNode created = createEntry(ownerId, VolumeType.UNIT_PER_UNIT, 20L, 4L, true);
         String id = created.get("id").asText();
 
         StorageEntryUpdateDTO dto = new StorageEntryUpdateDTO(VolumeType.UNIT, 50L, 0L, 4L, false);
@@ -162,7 +162,7 @@ public class StorageEntryControllerTest {
         JsonNode owner = createOwnerProduct("Produto Estoque 5");
         UUID ownerId = UUID.fromString(owner.get("id").asText());
 
-        JsonNode created = createEntry(ownerId, VolumeType.UNITY_PER_UNITY, 15L, 3L, true);
+        JsonNode created = createEntry(ownerId, VolumeType.UNIT_PER_UNIT, 15L, 3L, true);
         String entryId = created.get("id").asText();
 
         mock.perform(get("/entry/storage/owner/id/{id}", ownerId))
@@ -176,7 +176,7 @@ public class StorageEntryControllerTest {
         JsonNode owner = createOwnerProduct("Produto Estoque 6");
         UUID ownerId = UUID.fromString(owner.get("id").asText());
 
-        JsonNode created = createEntry(ownerId, VolumeType.UNITY_PER_UNITY, 25L, 5L, true);
+        JsonNode created = createEntry(ownerId, VolumeType.UNIT_PER_UNIT, 25L, 5L, true);
         String entryId = created.get("id").asText();
 
         mock.perform(get("/entry/storage/id/{id}", entryId))

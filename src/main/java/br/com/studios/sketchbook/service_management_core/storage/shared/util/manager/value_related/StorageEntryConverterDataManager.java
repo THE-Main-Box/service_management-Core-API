@@ -70,9 +70,9 @@ public class StorageEntryConverterDataManager {
      */
     public static Long getScaleByVolumeType(VolumeType vType) {
         return switch (vType) {
-            case LITER, LITER_PER_UNITY -> LITERS.getScale();
+            case LITER, LITER_PER_UNIT -> LITERS.getScale();
             case KILOGRAM, KILOGRAM_PER_UNIT -> KILOGRAMS.getScale();
-            case UNIT, UNITY_PER_UNITY -> 1L;
+            case UNIT, UNIT_PER_UNIT -> 1L;
         };
     }
 

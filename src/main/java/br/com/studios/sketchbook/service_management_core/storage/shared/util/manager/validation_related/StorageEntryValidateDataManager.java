@@ -5,7 +5,6 @@ import br.com.studios.sketchbook.service_management_core.storage.domain.model.St
 public class StorageEntryValidateDataManager {
 
     public static void validateSpecialType(StorageEntry entry) {
-        if (!entry.isInit()) throw new IllegalStateException("Dados não iniciados: " + entry.getId());
         if (!entry.getVolumeType().isCompostType()) {
             throw new IllegalStateException("Operação válida apenas para tipos especiais: " + entry.getId());
         }

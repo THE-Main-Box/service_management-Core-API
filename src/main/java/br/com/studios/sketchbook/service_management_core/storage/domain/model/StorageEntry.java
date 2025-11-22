@@ -66,11 +66,6 @@ public class StorageEntry implements Serializable {
     @Getter
     private Long quantityPerUnit;
 
-    @Getter
-    @Setter
-    @Transient
-    private boolean init = false;
-
     public StorageEntry(StorageAble owner, VolumeType volumeType) {
         this.ownerId = owner.getId();
         this.ownerType = owner.getClass();
@@ -93,7 +88,6 @@ public class StorageEntry implements Serializable {
         this.units = units;
         this.subUnits = subUnits;
         this.quantityPerUnit = quantityPerUnit;
-        this.init = true;
     }
 
     @Override

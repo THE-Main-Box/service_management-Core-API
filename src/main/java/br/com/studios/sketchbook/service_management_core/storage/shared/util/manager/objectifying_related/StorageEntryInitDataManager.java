@@ -38,7 +38,6 @@ public class StorageEntryInitDataManager {
         entry.setQuantityPerUnit(scaleToEnter);
         entry.setUnits(quantity);
         entry.setSubUnits(Math.multiplyExact(quantity, scaleToEnter));
-        entry.setInit(true);
     }
 
     /**
@@ -59,7 +58,6 @@ public class StorageEntryInitDataManager {
                 : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVolumeType()));
 
         entry.setUnits(units);
-        entry.setInit(true);
     }
 
 

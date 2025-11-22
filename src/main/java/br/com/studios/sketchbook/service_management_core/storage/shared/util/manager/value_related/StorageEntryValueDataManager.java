@@ -84,8 +84,6 @@ public class StorageEntryValueDataManager {
      *                 (false) usamos o valor com a necessidade de conversão, ou seja valor maior para converter
      */
     public void addUnit(StorageEntry entry, Long quantity, boolean raw) {
-        if (!entry.isInit()) throw new IllegalStateException("Dados não iniciado: " + entry.getId());
-
         if (!entry.getVolumeType().isCompostType()) {
             long toAdd = raw
                     ? quantity
@@ -114,7 +112,6 @@ public class StorageEntryValueDataManager {
      *                 se false, é um valor "human-readable" que precisa ser convertido
      */
     public void subtractUnit(StorageEntry entry, Long quantity, boolean raw) {
-        if (!entry.isInit()) throw new IllegalStateException("Dados não iniciado: " + entry.getId());
 
         if (!entry.getVolumeType().isCompostType()) {
             long toSubtract = raw ? quantity : Math.multiplyExact(quantity, getScaleByVolumeType(entry.getVolumeType()));

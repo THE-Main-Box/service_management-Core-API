@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.*;
 import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.PackageNames.base_package_path;
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ConfigurationPropertiesPrinter.printDSProperties;
 
 @Configuration
 @EnableTransactionManagement
@@ -45,12 +46,10 @@ public class StorageDataSourceConfig {
     @Bean(name = storage_data_source_ref)
     /// Inicializa o dataSource com as configurações passadas para o storage
     public DataSource storageDataSource(@Qualifier(storage_data_source_properties_ref) DataSourceProperties properties) {
-        System.out.println("========================================");
-        System.out.println("🔧 Configurando DataSource:");
-        System.out.println("   URL: " + properties.getUrl());
-        System.out.println("   Driver: " + properties.getDriverClassName());
-        System.out.println("   Username: " + properties.getUsername());
-        System.out.println("========================================");
+        printDSProperties(
+                storage_data_source_properties_ref,
+                properties
+        );
 
         return properties.initializeDataSourceBuilder()
                 .type(HikariDataSource.class)

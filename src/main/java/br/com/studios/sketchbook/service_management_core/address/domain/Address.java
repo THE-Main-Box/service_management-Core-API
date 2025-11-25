@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.address.domain;
 
+import br.com.studios.sketchbook.service_management_core.address.domain.dto.AddressCreationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -75,4 +76,56 @@ public class Address implements Serializable {
     @Column(name = "zip_code", length = 20)
     private String zipCode;
 
+    public Address(
+            String description,
+            String street,
+            String number,
+            String complement,
+            String neighborhood,
+            String city,
+            String state,
+            String zipCode
+    ) {
+        this.description = description;
+        this.street = street;
+        this.number = number;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+    }
+
+    public Address(AddressCreationDTO dto){
+        this.description = dto.description();
+
+        // Seguindo a lógica condicional para os campos restantes:
+        if (dto.street() != null) {
+            this.street = dto.street();
+        }
+
+        if (dto.number() != null) {
+            this.number = dto.number();
+        }
+
+        if (dto.complement() != null) {
+            this.complement = dto.complement();
+        }
+
+        if (dto.neighborhood() != null) {
+            this.neighborhood = dto.neighborhood();
+        }
+
+        if (dto.city() != null) {
+            this.city = dto.city();
+        }
+
+        if (dto.state() != null) {
+            this.state = dto.state();
+        }
+
+        if (dto.zipCode() != null) {
+            this.zipCode = dto.zipCode();
+        }
+    }
 }

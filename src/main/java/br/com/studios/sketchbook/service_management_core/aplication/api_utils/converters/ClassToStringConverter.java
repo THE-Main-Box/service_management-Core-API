@@ -8,7 +8,7 @@ public class ClassToStringConverter implements AttributeConverter<Class<?>, Stri
 
     @Override
     public String convertToDatabaseColumn(Class<?> attribute) {
-        return attribute != null ? attribute.getName() : null;
+        return attribute != null ? attribute.getName(): null;
     }
 
     @Override

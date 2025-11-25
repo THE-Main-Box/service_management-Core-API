@@ -19,7 +19,7 @@ public record StorageEntryResponseDTO(
         this(
                 entry.getId(),
                 entry.getOwnerId(),
-                entry.getOwnerType().getSimpleName(),
+                entry.getOwnerName(),
                 entry.getVolumeType(),
                 entry.getUnits(),
                 entry.getSubUnits(),

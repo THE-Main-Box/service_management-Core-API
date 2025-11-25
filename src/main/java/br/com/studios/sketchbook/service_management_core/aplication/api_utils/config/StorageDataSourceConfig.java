@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.*;
 import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.PackageNames.base_package_path;
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ConfigurationPropertiesPrinter.printDSProperties;
+import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.printers.ConfigurationPropertiesPrinter.printDSProperties;
 
 @Configuration
 @EnableTransactionManagement

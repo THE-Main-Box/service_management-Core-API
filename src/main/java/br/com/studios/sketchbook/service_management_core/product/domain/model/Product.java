@@ -32,14 +32,14 @@ public class Product implements Serializable, PriceOwner, StorageAble {
     /// Id geral do produto
     @Id
     @Getter
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected UUID id;
 
     /// Nome com o qual o produto será referenciado
     @Getter
     @Setter
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     protected String name;
 
     public Product(String name) {

@@ -1,6 +1,5 @@
 package br.com.studios.sketchbook.service_management_core.address.domain;
 
-import br.com.studios.sketchbook.service_management_core.address.domain.dto.AddressCreationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Table(name = "TB_ADDRESS")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address implements Serializable {
+public class AddressEntry implements Serializable {
 
     /// Número de série da entidade
     @Serial
@@ -76,7 +75,7 @@ public class Address implements Serializable {
     @Column(name = "zip_code", length = 20)
     private String zipCode;
 
-    public Address(
+    public AddressEntry(
             String description,
             String street,
             String number,
@@ -96,36 +95,4 @@ public class Address implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public Address(AddressCreationDTO dto){
-        this.description = dto.description();
-
-        // Seguindo a lógica condicional para os campos restantes:
-        if (dto.street() != null) {
-            this.street = dto.street();
-        }
-
-        if (dto.number() != null) {
-            this.number = dto.number();
-        }
-
-        if (dto.complement() != null) {
-            this.complement = dto.complement();
-        }
-
-        if (dto.neighborhood() != null) {
-            this.neighborhood = dto.neighborhood();
-        }
-
-        if (dto.city() != null) {
-            this.city = dto.city();
-        }
-
-        if (dto.state() != null) {
-            this.state = dto.state();
-        }
-
-        if (dto.zipCode() != null) {
-            this.zipCode = dto.zipCode();
-        }
-    }
 }

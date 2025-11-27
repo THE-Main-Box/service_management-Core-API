@@ -21,9 +21,6 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Product implements Serializable, PriceOwner, StorageAble {
 
-    //TODO: Reavaliar o hash code dos produtos
-    // para impedir a adição de produtos semelhantes ou repetidos de forma indevida
-
     /// Número de série da entidade
     @Serial
     @Column(name = "version")

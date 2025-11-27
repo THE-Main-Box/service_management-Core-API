@@ -2,7 +2,7 @@ package br.com.studios.sketchbook.service_management_core.address.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AddressCreationDTO (
+public record AddressEntryCreationDTO(
         @NotBlank
         String description,
         String street,

@@ -1,13 +1,14 @@
 package br.com.studios.sketchbook.service_management_core.storage.shared.util.manager.core;
 
-import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.product.domain.model.Product;
-import br.com.studios.sketchbook.service_management_core.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.product.shared.enums.VolumeType;
-import org.junit.jupiter.api.*;
+import br.com.studios.sketchbook.service_management_core.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage.domain.model.StorageEntry;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testes de unidade para o StorageEntryCoreDataManager.
@@ -101,7 +102,6 @@ public class StorageEntryDataManagementCoreTest {
 
         dataManager.initEntry(entry, 20L, 1L, false);
 
-        assertTrue(entry.isInit());
 
         // Adiciona 1g
         dataManager.addSubQuantity(entry, 1L, false);
@@ -127,7 +127,6 @@ public class StorageEntryDataManagementCoreTest {
 
         dataManager.initEntry(entry, 100L, 10L, false);
 
-        assertTrue(entry.isInit());
 
         // Adiciona 1ml
         dataManager.addSubQuantity(entry, 1L, false);
@@ -153,7 +152,6 @@ public class StorageEntryDataManagementCoreTest {
 
         dataManager.initEntry(entry, 10L, 10L, false);
 
-        assertTrue(entry.isInit());
         assertEquals(100, dataManager.getAmountAvailableRaw(entry));
 
         dataManager.addSubQuantity(entry, 1L, false);

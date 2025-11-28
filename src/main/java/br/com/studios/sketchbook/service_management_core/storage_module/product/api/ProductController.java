@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.api;
 
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.contracts.ProductRestControllerContract;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.contracts.ProductRestControllerContract;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;

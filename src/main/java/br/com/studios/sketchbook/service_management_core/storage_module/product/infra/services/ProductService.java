@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.contracts.ProductRestServiceContract;
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.contracts.ProductRestServiceContract;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 
 @Service
 @Transactional(storage_transaction_manager_ref)

@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.aplication.api_utils.config;
+package br.com.studios.sketchbook.service_management_core.application.api_utils.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,35 +19,36 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.*;
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.PackageNames.base_package_path;
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.printers.ConfigurationPropertiesPrinter.printDSProperties;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.printers.ConfigurationPropertiesPrinter.printDSProperties;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.AddressConfig.*;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.address_module_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.base_package_path;
 
 @Configuration
 @EnableTransactionManagement
-@Profile({"prod", "storage"})
+@Profile({"prod", "address"})
 @EnableJpaRepositories(
-        basePackages = base_package_path,
-        entityManagerFactoryRef = storage_entity_manager_factory_ref,
-        transactionManagerRef = storage_transaction_manager_ref
+        basePackages = address_module_path,
+        entityManagerFactoryRef = address_entity_manager_factory_ref,
+        transactionManagerRef = address_data_source_ref
 )
-@EntityScan(base_package_path)
-public class StorageDataSourceConfig {
+@EntityScan(address_module_path)
+public class AddressEntryDataSourceConfig {
 
+    /// Configura as propriedades do dataSource para o address
     @Primary
-    @Bean(name = storage_data_source_properties_ref)
-    @ConfigurationProperties("spring.datasource.storage")
-    /// Configura as propriedades do dataSource para o storage
-    public DataSourceProperties storageDataSourceProperties() {
+    @Bean(name = address_data_source_properties_ref)//nome do bean
+    @ConfigurationProperties("spring.datasource.address")//carrega as config de address
+    public DataSourceProperties addressDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Primary
-    @Bean(name = storage_data_source_ref)
+    @Bean(name = address_data_source_ref)
     /// Inicializa o dataSource com as configurações passadas para o storage
-    public DataSource storageDataSource(@Qualifier(storage_data_source_properties_ref) DataSourceProperties properties) {
+    public DataSource addressDataSource(@Qualifier(address_data_source_properties_ref) DataSourceProperties properties) {
         printDSProperties(
-                storage_data_source_properties_ref,
+                address_data_source_properties_ref,
                 properties
         );
 
@@ -57,11 +58,12 @@ public class StorageDataSourceConfig {
     }
 
     @Primary
-    @Bean(name = storage_entity_manager_factory_ref)
+    @Bean(name = address_entity_manager_factory_ref)
     /// Configura e cria o sistema de gerenciamento de entidades
     public LocalContainerEntityManagerFactoryBean storageEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier(storage_data_source_ref) DataSource dataSource) {
+            @Qualifier(address_data_source_ref) DataSource dataSource
+    ) {
 
         HashMap<String, Object> properties = new HashMap<>();
         properties.put(
@@ -79,19 +81,18 @@ public class StorageDataSourceConfig {
 
         return builder
                 .dataSource(dataSource)
-                .packages(base_package_path)
-                .persistenceUnit("storage")
+                .packages(address_module_path)
+                .persistenceUnit("address")
                 .properties(properties)
                 .build();
     }
 
     @Primary
-    @Bean(name = storage_transaction_manager_ref)
+    @Bean(name = address_transaction_manager_ref)
     public PlatformTransactionManager storageTransactionManager(
-            @Qualifier(storage_entity_manager_factory_ref) LocalContainerEntityManagerFactoryBean storageEntityManagerFactory
+            @Qualifier(address_entity_manager_factory_ref) LocalContainerEntityManagerFactoryBean storageEntityManagerFactory
     ) {
         assert storageEntityManagerFactory.getObject() != null;
         return new JpaTransactionManager(storageEntityManagerFactory.getObject());
     }
-
 }

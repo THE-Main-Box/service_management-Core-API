@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.aplication.api_utils.printers;
+package br.com.studios.sketchbook.service_management_core.application.api_utils.printers;
 
 import org.springframework.core.env.Environment;
 

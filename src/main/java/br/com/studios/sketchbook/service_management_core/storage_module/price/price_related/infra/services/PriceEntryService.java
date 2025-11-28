@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceEntry;
@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.*;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 
 @Service
 @Transactional(storage_transaction_manager_ref)

@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.api;
 
-import br.com.studios.sketchbook.service_management_core.aplication.ServiceManagementCoreApiApplication;
+import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

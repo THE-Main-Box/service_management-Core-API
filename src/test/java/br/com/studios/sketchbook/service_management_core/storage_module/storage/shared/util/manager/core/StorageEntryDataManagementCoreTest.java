@@ -4,7 +4,6 @@ import br.com.studios.sketchbook.service_management_core.storage_module.product.
 import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.core.StorageEntryDataManagementCore;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

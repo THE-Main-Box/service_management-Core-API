@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.aplication.api_utils.annotations;
+package br.com.studios.sketchbook.service_management_core.application.api_utils.annotations;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

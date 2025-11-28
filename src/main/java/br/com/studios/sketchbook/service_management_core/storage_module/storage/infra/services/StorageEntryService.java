@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.storage.infra.services;
 
-import br.com.studios.sketchbook.service_management_core.aplication.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.SMProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.net.URI;
 import java.util.*;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 
 @Service
 @Transactional(storage_transaction_manager_ref)

@@ -1,12 +1,12 @@
-package br.com.studios.sketchbook.service_management_core.aplication;
+package br.com.studios.sketchbook.service_management_core.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.PackageNames.base_package_path;
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.printers.H2ConsoleURLPrinter.printH2ConsoleUrl;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.base_package_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.printers.H2ConsoleURLPrinter.printH2ConsoleUrl;
 
 @SpringBootApplication
 @ComponentScan(basePackages = base_package_path) // Pacote base de Services, Controllers, etc.

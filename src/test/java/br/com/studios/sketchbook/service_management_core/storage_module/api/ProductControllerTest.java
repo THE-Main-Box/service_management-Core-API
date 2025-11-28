@@ -1,6 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.api;
 
-import br.com.studios.sketchbook.service_management_core.aplication.ServiceManagementCoreApiApplication;
+import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static br.com.studios.sketchbook.service_management_core.aplication.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 

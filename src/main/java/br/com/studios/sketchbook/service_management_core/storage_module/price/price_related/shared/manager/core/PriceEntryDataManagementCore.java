@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
 public class PriceEntryDataManagementCore {
 
     private final PriceEntryInitDataManager initManager;

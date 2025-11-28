@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
-@Component
 public class StorageEntryInitDataManager {
 
     /**

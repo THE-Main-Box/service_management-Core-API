@@ -29,22 +29,20 @@ import static br.com.studios.sketchbook.service_management_core.application.api_
 @EnableJpaRepositories(
         basePackages = registry_module_path,
         entityManagerFactoryRef = address_entity_manager_factory_ref,
-        transactionManagerRef = address_data_source_ref
+        transactionManagerRef = address_transaction_manager_ref
 )
 @EntityScan(registry_module_path)
 public class AddressEntryDataSourceConfig {
 
     /// Configura as propriedades do dataSource para o address
-    @Primary
     @Bean(name = address_data_source_properties_ref)//nome do bean
     @ConfigurationProperties("spring.datasource.registry")//carrega as config de address
     public DataSourceProperties addressDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Primary
-    @Bean(name = address_data_source_ref)
     /// Inicializa o dataSource com as configurações passadas para o storage
+    @Bean(name = address_data_source_ref)
     public DataSource addressDataSource(@Qualifier(address_data_source_properties_ref) DataSourceProperties properties) {
         printDSProperties(
                 address_data_source_properties_ref,
@@ -56,10 +54,9 @@ public class AddressEntryDataSourceConfig {
                 .build();
     }
 
-    @Primary
-    @Bean(name = address_entity_manager_factory_ref)
     /// Configura e cria o sistema de gerenciamento de entidades
-    public LocalContainerEntityManagerFactoryBean storageEntityManagerFactory(
+    @Bean(name = address_entity_manager_factory_ref)
+    public LocalContainerEntityManagerFactoryBean addressEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
             @Qualifier(address_data_source_ref) DataSource dataSource
     ) {
@@ -86,12 +83,11 @@ public class AddressEntryDataSourceConfig {
                 .build();
     }
 
-    @Primary
     @Bean(name = address_transaction_manager_ref)
-    public PlatformTransactionManager storageTransactionManager(
-            @Qualifier(address_entity_manager_factory_ref) LocalContainerEntityManagerFactoryBean storageEntityManagerFactory
+    public PlatformTransactionManager addressTransactionManager(
+            @Qualifier(address_entity_manager_factory_ref) LocalContainerEntityManagerFactoryBean addressEntityManagerFactory
     ) {
-        assert storageEntityManagerFactory.getObject() != null;
-        return new JpaTransactionManager(storageEntityManagerFactory.getObject());
+        assert addressEntityManagerFactory.getObject() != null;
+        return new JpaTransactionManager(addressEntityManagerFactory.getObject());
     }
 }

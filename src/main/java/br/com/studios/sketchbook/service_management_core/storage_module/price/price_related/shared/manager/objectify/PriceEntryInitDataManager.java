@@ -4,7 +4,6 @@ import br.com.studios.sketchbook.service_management_core.storage_module.price.mo
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceEntry;
 import org.springframework.stereotype.Component;
 
-@Component
 public class PriceEntryInitDataManager {
 
     public void initEntry(PriceEntry entry, double price, String currency){

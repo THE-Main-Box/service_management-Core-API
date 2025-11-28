@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
 public class PriceModManagementCore {
     private final PriceModInit initManager;
     private final PriceValueModificationManager valueManager;

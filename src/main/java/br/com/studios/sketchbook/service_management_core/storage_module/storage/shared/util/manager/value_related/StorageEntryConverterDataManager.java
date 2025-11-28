@@ -9,7 +9,6 @@ import java.math.MathContext;
 import static br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeScaleConstants.KILOGRAMS;
 import static br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeScaleConstants.LITERS;
 
-@Component
 public class StorageEntryConverterDataManager {
 
     /**

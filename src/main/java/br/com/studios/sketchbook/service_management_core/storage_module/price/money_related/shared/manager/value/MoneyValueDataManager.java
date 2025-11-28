@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 import static br.com.studios.sketchbook.service_management_core.storage_module.price.money_related.shared.manager.validation.MoneyValueValidationDataManager.*;
 
-@Component
 public class MoneyValueDataManager {
 
 

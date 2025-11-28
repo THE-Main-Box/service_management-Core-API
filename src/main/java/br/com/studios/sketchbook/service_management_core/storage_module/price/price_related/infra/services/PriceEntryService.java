@@ -37,13 +37,12 @@ public class PriceEntryService {
     @Autowired
     public PriceEntryService(
             PriceEntryRepository repository,
-            PriceEntryDataManagementCore manager,
             SMProductRepository smProductRepository,
             ProductRepository productRepository
     ) {
         this.repository = repository;
-        this.manager = manager;
 
+        this.manager = new PriceEntryDataManagementCore();
         priceOwnerRepositoryList = new ArrayList<>();
 
         priceOwnerRepositoryList.addAll(

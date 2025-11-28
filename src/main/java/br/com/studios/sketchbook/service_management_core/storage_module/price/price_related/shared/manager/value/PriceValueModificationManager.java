@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.toHumanReadable;
 
-@Component
 public class PriceValueModificationManager {
 
     private final MoneyDataManagementCore moneyManager;

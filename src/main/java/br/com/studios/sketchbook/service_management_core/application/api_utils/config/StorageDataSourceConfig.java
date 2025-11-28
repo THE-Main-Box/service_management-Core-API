@@ -34,18 +34,21 @@ import static br.com.studios.sketchbook.service_management_core.application.api_
 @EntityScan(storage_module_path)
 public class StorageDataSourceConfig {
 
+
+    /// Configura as propriedades do dataSource para o storage
     @Primary
     @Bean(name = storage_data_source_properties_ref)
-    @ConfigurationProperties("spring.datasource.storage")
-    /// Configura as propriedades do dataSource para o storage
+    @ConfigurationProperties(prefix = "spring.datasource.storage")
     public DataSourceProperties storageDataSourceProperties() {
         return new DataSourceProperties();
     }
 
+    /// Inicializa o dataSource com as configurações passadas para o storage
     @Primary
     @Bean(name = storage_data_source_ref)
-    /// Inicializa o dataSource com as configurações passadas para o storage
-    public DataSource storageDataSource(@Qualifier(storage_data_source_properties_ref) DataSourceProperties properties) {
+    public DataSource storageDataSource(
+            @Qualifier(storage_data_source_properties_ref) DataSourceProperties properties
+    ) {
         printDSProperties(
                 storage_data_source_properties_ref,
                 properties
@@ -56,12 +59,13 @@ public class StorageDataSourceConfig {
                 .build();
     }
 
+    /// Configura e cria o sistema de gerenciamento de entidades
     @Primary
     @Bean(name = storage_entity_manager_factory_ref)
-    /// Configura e cria o sistema de gerenciamento de entidades
     public LocalContainerEntityManagerFactoryBean storageEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier(storage_data_source_ref) DataSource dataSource) {
+            @Qualifier(storage_data_source_ref) DataSource dataSource
+    ) {
 
         HashMap<String, Object> properties = new HashMap<>();
         properties.put(

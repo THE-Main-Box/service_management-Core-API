@@ -1,19 +1,23 @@
-package br.com.studios.sketchbook.service_management_core.storage_module.api;
+package br.com.studios.sketchbook.service_management_core.storage_module.product.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.super_market.SMProductCreationDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.storage_module_path;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,7 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
 @Transactional(storage_transaction_manager_ref)
-@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
+@SpringBootTest(classes = {
+        ServiceManagementCoreApiApplication.class,
+        StorageDataSourceConfig.class
+})
 public class SMProductControllerTest {
 
     private final MockMvc mock;

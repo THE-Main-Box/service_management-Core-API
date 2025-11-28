@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.storage.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
@@ -36,7 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
 @Transactional(storage_transaction_manager_ref)
-@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
+@SpringBootTest(classes = {
+        ServiceManagementCoreApiApplication.class,
+        StorageDataSourceConfig.class
+})
 public class StorageEntryControllerTest {
 
     private final MockMvc mock;

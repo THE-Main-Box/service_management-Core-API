@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-@Component
 public class MoneyValueValidationDataManager {
 
     /// Verifica se estamos usando tipos diferentes de moeda

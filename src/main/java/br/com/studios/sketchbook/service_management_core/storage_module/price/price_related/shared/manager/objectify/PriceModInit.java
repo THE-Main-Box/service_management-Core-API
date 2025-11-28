@@ -4,13 +4,11 @@ import br.com.studios.sketchbook.service_management_core.storage_module.price.pr
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentType;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.value_related.StorageEntryConverterDataManager.getScaleByVolumeType;
 
-@Component
 public class PriceModInit {
 
     public PriceModifier initPriceMod(

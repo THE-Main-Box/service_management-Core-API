@@ -3,7 +3,7 @@ package br.com.studios.sketchbook.service_management_core.application.api_utils.
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter
 public class ClassToStringConverter implements AttributeConverter<Class<?>, String> {
 
     @Override

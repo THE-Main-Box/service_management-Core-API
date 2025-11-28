@@ -21,24 +21,23 @@ import java.util.HashMap;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.printers.ConfigurationPropertiesPrinter.printDSProperties;
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.AddressConfig.*;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.address_module_path;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.base_package_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.registry_module_path;
 
 @Configuration
 @EnableTransactionManagement
-@Profile({"prod", "address"})
+@Profile({"prod", "registry"})
 @EnableJpaRepositories(
-        basePackages = address_module_path,
+        basePackages = registry_module_path,
         entityManagerFactoryRef = address_entity_manager_factory_ref,
         transactionManagerRef = address_data_source_ref
 )
-@EntityScan(address_module_path)
+@EntityScan(registry_module_path)
 public class AddressEntryDataSourceConfig {
 
     /// Configura as propriedades do dataSource para o address
     @Primary
     @Bean(name = address_data_source_properties_ref)//nome do bean
-    @ConfigurationProperties("spring.datasource.address")//carrega as config de address
+    @ConfigurationProperties("spring.datasource.registry")//carrega as config de address
     public DataSourceProperties addressDataSourceProperties() {
         return new DataSourceProperties();
     }
@@ -81,7 +80,7 @@ public class AddressEntryDataSourceConfig {
 
         return builder
                 .dataSource(dataSource)
-                .packages(address_module_path)
+                .packages(registry_module_path)
                 .persistenceUnit("address")
                 .properties(properties)
                 .build();

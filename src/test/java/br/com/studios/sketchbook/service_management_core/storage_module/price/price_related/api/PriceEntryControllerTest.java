@@ -57,7 +57,7 @@ public class PriceEntryControllerTest {
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
-                        put("/entry/price/new")
+                        post("/entry/price/new")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isCreated())
@@ -88,7 +88,7 @@ public class PriceEntryControllerTest {
         PriceEntryCreationDTO dto = new PriceEntryCreationDTO(12.0, "BRL", null);
         String json = mapper.writeValueAsString(dto);
 
-        mock.perform(put("/entry/price/new")
+        mock.perform(post("/entry/price/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest());
@@ -106,7 +106,7 @@ public class PriceEntryControllerTest {
         PriceEntryUpdateDTO dto = new PriceEntryUpdateDTO(25.0, "USD");
         String json = mapper.writeValueAsString(dto);
 
-        mock.perform(patch("/entry/price/update/{id}", id)
+        mock.perform(put("/entry/price/update/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())

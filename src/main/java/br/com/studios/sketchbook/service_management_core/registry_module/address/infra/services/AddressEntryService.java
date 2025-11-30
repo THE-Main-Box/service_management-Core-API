@@ -75,7 +75,7 @@ public class AddressEntryService {
         );
     }
 
-    public URI getUriForPersistedObject(StorageEntry model) {
+    public URI getUriForPersistedObject(AddressEntry model) {
         return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/address/id/{id}");
     }
 }

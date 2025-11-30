@@ -85,7 +85,7 @@ public class SMProductController implements ProductRestControllerContract {
     }
 
 
-    @PutMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
         SMProductCreationDTO dto = mapper.convertValue(dtoObj, SMProductCreationDTO.class);
         SuperMarketProduct model = service.createAndSave(dto);

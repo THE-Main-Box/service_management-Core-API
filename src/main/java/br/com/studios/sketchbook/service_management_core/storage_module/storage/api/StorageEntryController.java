@@ -62,7 +62,7 @@ public class StorageEntryController {
         }
     }
 
-    @PutMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<StorageEntryResponseDTO> create(@Valid @RequestBody StorageEntryCreationDTO dtoObj) {
         try {
             StorageEntry entry = service.createAndSave(dtoObj);
@@ -83,7 +83,7 @@ public class StorageEntryController {
         }
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<StorageEntryResponseDTO> updateById(
             @PathVariable UUID id,
             @RequestBody StorageEntryUpdateDTO dto

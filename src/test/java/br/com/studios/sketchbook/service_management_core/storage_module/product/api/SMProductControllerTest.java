@@ -57,7 +57,7 @@ public class SMProductControllerTest {
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
-                        put("/products/super-market/new")
+                        post("/products/super-market/new")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isCreated())

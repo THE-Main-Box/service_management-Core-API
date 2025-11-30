@@ -82,7 +82,7 @@ public class ProductController implements ProductRestControllerContract {
     }
 
     @Override
-    @PutMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
         ProductCreationDTO dto = mapper.convertValue(dtoObj, ProductCreationDTO.class);
         Product model = service.createAndSave(dto);

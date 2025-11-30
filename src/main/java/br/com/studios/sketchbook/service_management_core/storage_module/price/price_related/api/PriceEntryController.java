@@ -62,7 +62,7 @@ public class PriceEntryController {
         }
     }
 
-    @PutMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<PriceEntryResponseDTO> create(@Valid @RequestBody PriceEntryCreationDTO dtoObj) {
         try {
             PriceEntry entry = service.createAndSave(dtoObj);
@@ -83,7 +83,7 @@ public class PriceEntryController {
         }
     }
 
-    @PatchMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<PriceEntryResponseDTO> updateById(
             @PathVariable UUID id,
             @RequestBody PriceEntryUpdateDTO dto

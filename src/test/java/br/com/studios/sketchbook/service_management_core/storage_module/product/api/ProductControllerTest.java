@@ -1,7 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
-import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,21 +21,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles({"test", "storage"})
 @AutoConfigureMockMvc
-@Transactional(storage_transaction_manager_ref)
-@SpringBootTest(classes = {
-        ServiceManagementCoreApiApplication.class,
-        StorageDataSourceConfig.class
-})
+@Transactional(transactionManager = storage_transaction_manager_ref)
+@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
 public class ProductControllerTest {
 
-    private final MockMvc mock;
-    private final ObjectMapper mapper;
+    @Autowired
+    private MockMvc mock;
 
     @Autowired
-    public ProductControllerTest(MockMvc mock, ObjectMapper mapper) {
-        this.mock = mock;
-        this.mapper = mapper;
-    }
+    private ObjectMapper mapper;
 
     /**
      * Utilitário para criar um produto via API e retornar o JSON de resposta.
@@ -46,7 +39,7 @@ public class ProductControllerTest {
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
-                        put("/products/product/new")
+                        post("/products/product/new")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isCreated())
@@ -80,7 +73,6 @@ public class ProductControllerTest {
                                 .content(updateJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Feijão Preto"));
-        // volumeType não aparece no ResponseDTO, então não validamos aqui
     }
 
     @Test

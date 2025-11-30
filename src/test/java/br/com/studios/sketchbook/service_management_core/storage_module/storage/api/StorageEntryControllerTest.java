@@ -58,7 +58,7 @@ public class StorageEntryControllerTest {
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
-                        put("/products/product/new")
+                        post("/products/product/new")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isCreated())
@@ -75,7 +75,7 @@ public class StorageEntryControllerTest {
         String json = mapper.writeValueAsString(dto);
 
         String response = mock.perform(
-                        put("/entry/storage/new")
+                        post("/entry/storage/new")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andReturn()
@@ -90,7 +90,7 @@ public class StorageEntryControllerTest {
         JsonNode owner = createOwnerProduct("Produto Estoque 1");
         UUID ownerId = UUID.fromString(owner.get("id").asText());
 
-        mock.perform(put("/entry/storage/new")
+        mock.perform(post("/entry/storage/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(
                                 new StorageEntryCreationDTO(ownerId, VolumeType.UNIT, 10L, 2L, true)
@@ -104,7 +104,7 @@ public class StorageEntryControllerTest {
     public void createEntryWithoutOwnerTest() throws Exception {
         UUID fakeOwnerId = UUID.randomUUID();
 
-        mock.perform(put("/entry/storage/new")
+        mock.perform(post("/entry/storage/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(
                                 new StorageEntryCreationDTO(fakeOwnerId, VolumeType.UNIT, 5L, 1L, true)
@@ -122,7 +122,7 @@ public class StorageEntryControllerTest {
 
         StorageEntryUpdateDTO dto = new StorageEntryUpdateDTO(VolumeType.UNIT, 50L, 0L, 4L, false);
 
-        mock.perform(patch("/entry/storage/update/{id}", id)
+        mock.perform(put("/entry/storage/update/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())

@@ -24,7 +24,7 @@ public class H2ConsoleURLPrinter {
             // CORREÇÃO CRUCIAL: As chaves JDBC corretas são `jdbc-url`, não `url`.
             // As chaves que você usou antes (e que funcionaram) eram `spring.datasource.storage.jdbc-url`.
             System.out.println("📋 JDBC URL (Storage): " + env.getProperty("spring.datasource.storage.url"));
-            System.out.println("📋 JDBC URL (Shipment): " + env.getProperty("spring.datasource.shipment.url"));
+            System.out.println("📋 JDBC URL (Registry): " + env.getProperty("spring.datasource.registry.url"));
             // Se houver módulo Audit:
             System.out.println("📋 JDBC URL (Audit): " + env.getProperty("spring.datasource.audit.url"));
 

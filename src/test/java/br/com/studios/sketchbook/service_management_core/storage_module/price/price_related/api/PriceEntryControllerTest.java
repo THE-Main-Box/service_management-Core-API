@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.storage_module.price.p
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
@@ -24,13 +25,13 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ActiveProfiles({"test", "storage"})
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional(storage_transaction_manager_ref)
 @SpringBootTest(classes = {
         ServiceManagementCoreApiApplication.class,
-        StorageDataSourceConfig.class
+        TestConfig.class
 })
+@Transactional
 public class PriceEntryControllerTest {
 
     private final MockMvc mock;

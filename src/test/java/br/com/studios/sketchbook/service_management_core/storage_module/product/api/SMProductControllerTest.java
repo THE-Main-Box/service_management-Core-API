@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.storage_module.product
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.super_market.SMProductCreationDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,13 +32,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Cada teste roda dentro de uma transação e é revertido no final,
  * garantindo independência entre eles.
  */
-@ActiveProfiles({"test", "storage"})
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional(storage_transaction_manager_ref)
 @SpringBootTest(classes = {
         ServiceManagementCoreApiApplication.class,
-        StorageDataSourceConfig.class
+        TestConfig.class
 })
+@Transactional
 public class SMProductControllerTest {
 
     private final MockMvc mock;

@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.storage_module.storage
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
@@ -23,24 +24,13 @@ import static br.com.studios.sketchbook.service_management_core.application.api_
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Testes de integração para o StorageEntryController.
- *
- * Casos cobertos:
- *  - Criar entry com dono válido
- *  - Criar entry com dono inexistente (erro 404)
- *  - Editar entry existente
- *  - Deletar entry com dono existente (deve falhar)
- *  - Deletar entry após remoção do dono (deve ocorrer)
- *  - Buscar entry por id e por id do dono
- */
-@ActiveProfiles({"test", "storage"})
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional(storage_transaction_manager_ref)
 @SpringBootTest(classes = {
         ServiceManagementCoreApiApplication.class,
-        StorageDataSourceConfig.class
+        TestConfig.class
 })
+@Transactional
 public class StorageEntryControllerTest {
 
     private final MockMvc mock;

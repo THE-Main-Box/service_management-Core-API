@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
+import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,10 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@ActiveProfiles({"test", "storage"})
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional(transactionManager = storage_transaction_manager_ref)
-@SpringBootTest(classes = ServiceManagementCoreApiApplication.class)
+@SpringBootTest(classes = {
+        ServiceManagementCoreApiApplication.class,
+        TestConfig.class
+})
+@Transactional
 public class ProductControllerTest {
 
     @Autowired

@@ -23,7 +23,7 @@ public class ServiceManagementCoreApiApplication {
         SpringApplication app = new SpringApplication(ServiceManagementCoreApiApplication.class);
 
         //Adicionamos o profile padrão a ser utilizado
-        app.setAdditionalProfiles("prod", "storage","shipment", "registry");
+        app.setAdditionalProfiles("prod", "storage", "registry");
 
         //Rodamos o aplicativo passando os argumentos da inicialização
         ConfigurableApplicationContext context = app.run(args);

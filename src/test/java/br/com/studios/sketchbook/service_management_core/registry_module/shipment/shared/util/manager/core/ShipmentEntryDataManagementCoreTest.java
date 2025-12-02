@@ -35,7 +35,7 @@ public class ShipmentEntryDataManagementCoreTest {
         ShipmentEntryCreationDTO creationDTO = getEntryCreationDTO();
 
         // 3. Execução
-        ShipmentEntry result = manager.createEntryById(creationDTO);
+        ShipmentEntry result = manager.createByDTO(creationDTO);
 
         // 4. Verificação
         // A. Verifica a Entidade Principal
@@ -98,7 +98,7 @@ public class ShipmentEntryDataManagementCoreTest {
         ShipmentEntryCreationDTO creationDTO = getShipmentEntryCreationDTO();
 
         // 2. Execução
-        ShipmentEntry result = manager.createEntryById(creationDTO);
+        ShipmentEntry result = manager.createByDTO(creationDTO);
 
         // 3. Verificação
         assertThat(result).isNotNull();

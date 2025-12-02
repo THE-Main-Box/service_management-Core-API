@@ -92,13 +92,13 @@ public class StorageEntryService {
 
     public StorageEntry getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Entrada de armazenamento com id [" + id + "] não encontrado")
+                () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 
     public StorageEntry getInstanceByOwnerId(UUID id) {
         return repository.findByOwnerId(id).orElseThrow(
-                () -> new EntityNotFoundException("Entrada de armazenamento com id [" + id + "] não encontrado")
+                () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 

@@ -17,6 +17,6 @@ public interface AddressEntryRepository extends JpaRepository<AddressEntry, UUID
             WHERE LOWER(a.description) LIKE LOWER(CONCAT('%', :description, '%'))
             ORDER BY a.description
             """)
-    Page<AddressEntry> ListByAddress(String description, Pageable pageable);
+    Page<AddressEntry> listByDescription(String description, Pageable pageable);
 
 }

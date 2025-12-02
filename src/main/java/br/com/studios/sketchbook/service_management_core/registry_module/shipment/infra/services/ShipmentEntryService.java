@@ -1,11 +1,12 @@
-package br.com.studios.sketchbook.service_management_core.registry_module.address.infra.services;
+package br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.req.AddressEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.req.AddressEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.model.AddressEntry;
-import br.com.studios.sketchbook.service_management_core.registry_module.address.infra.repositories.AddressEntryRepository;
-import br.com.studios.sketchbook.service_management_core.registry_module.address.shared.manager.core.AddressEntryDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.ShipmentEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.model.ShipmentEntry;
+import br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.repositories.ShipmentEntryRepository;
+import br.com.studios.sketchbook.service_management_core.registry_module.shipment.shared.util.manager.core.ShipmentEntryDataManagementCore;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,32 +23,29 @@ import static br.com.studios.sketchbook.service_management_core.application.api_
 
 @Service
 @Transactional(address_transaction_manager_ref)
-public class AddressEntryService {
+public class ShipmentEntryService {
 
-    private final AddressEntryDataManagementCore manager;
-    private final AddressEntryRepository repository;
+    private final ShipmentEntryRepository repository;
+    private final ShipmentEntryDataManagementCore manager;
 
     @Autowired
-    public AddressEntryService(
-            AddressEntryRepository repository
-    ) {
+    public ShipmentEntryService(ShipmentEntryRepository repository) {
         this.repository = repository;
-        this.manager = new AddressEntryDataManagementCore();
+        this.manager = new ShipmentEntryDataManagementCore();
     }
 
-
-    public AddressEntry createAndSave(AddressEntryCreationDTO dto) {
+    public ShipmentEntry createAndSave(ShipmentEntryCreationDTO dto) {
         return repository.save(
                 manager.createByDTO(dto)
         );
     }
 
-    public Page<AddressEntry> getAllInstances(int page, int size) {
+    public Page<ShipmentEntry> getAllInstances(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(pageable);
     }
 
-    public Page<AddressEntry> getByDescription(int page, int size, String description) {
+    public Page<ShipmentEntry> getByDescription(int page, int size, String description) {
         Pageable pageable = PageRequest.of(page, size);
         return repository.listByDescription(description, pageable);
     }
@@ -55,28 +53,19 @@ public class AddressEntryService {
     public boolean delete(UUID id) {
         repository.deleteById(id);
 
-        Optional<AddressEntry> model = repository.findById(id);
+        Optional<ShipmentEntry> model = repository.findById(id);
 
         return model.isEmpty();
     }
 
-    public AddressEntry update(AddressEntry toUpdate, AddressEntryUpdateDTO dto) {
-
-        manager.editEntryByDTO(
-                toUpdate,
-                dto
-        );
-
-        return toUpdate;
-    }
-
-    public AddressEntry getInstanceById(UUID id) {
+    public ShipmentEntry getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 
-    public URI getUriForPersistedObject(AddressEntry model) {
-        return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/address/id/{id}");
+    public URI getUriForPersistedObject(ShipmentEntry model) {
+        return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/shipment/id/{id}");
     }
+
 }

@@ -15,7 +15,7 @@ public class ShipmentEntryDataManagementCore {
      * @param dto DTO de entrada que irá conter os dados base e outros DTOs para a criação do objeto
      * @return Retornamos um novo objeto usando os dados obtidos do DTO
      */
-    public ShipmentEntry createEntryById(ShipmentEntryCreationDTO dto) {
+    public ShipmentEntry createByDTO(ShipmentEntryCreationDTO dto) {
         AddressRef originRef = new AddressRef(
                 dto.originAddress().id(),
                 dto.originAddress().description()

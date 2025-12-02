@@ -32,7 +32,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
 
     /// Data que a viagem foi feita
     @Getter
-    @Column(name = "trip_date", updatable = false)
+    @Column(name = "trip_date", updatable = false, nullable = false)
     private LocalDate tripDate;
 
     /// Referência em snapshot de endereço de origem
@@ -43,7 +43,6 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
                     name = "addressId",
                     column = @Column(
                             name = "origin_address_id",
-                            nullable = false,
                             updatable = false
                     )
             ),
@@ -65,15 +64,14 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
             @AttributeOverride(
                     name = "addressId",
                     column = @Column(
-                            name = "destiny_address_id",
-                            nullable = false,
+                            name = "destination_address_id",
                             updatable = false
                     )
             ),
             @AttributeOverride(
                     name = "description",
                     column = @Column(
-                            name = "destiny_address_description",
+                            name = "destination_address_description",
                             nullable = false,
                             updatable = false
                     )
@@ -84,6 +82,13 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
     @Getter
     @Embedded
     @AttributeOverrides({
+            @AttributeOverride(
+                    name = "itemId",
+                    column = @Column(
+                            name = "item_id",
+                            updatable = false
+                    )
+            ),
             @AttributeOverride(
                     name = "name",
                     column = @Column(
@@ -114,7 +119,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
 
     /// Data de emissão de documento
     @Getter
-    @Column(name = "issue_date", updatable = false)
+    @Column(name = "issue_date", updatable = false, nullable = false)
     private LocalDate issueDate;
 
     public ShipmentEntry(

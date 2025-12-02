@@ -42,7 +42,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
             @AttributeOverride(
                     name = "addressId",
                     column = @Column(
-                            name = "address_id",
+                            name = "origin_address_id",
                             nullable = false,
                             updatable = false
                     )
@@ -50,7 +50,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
             @AttributeOverride(
                     name = "description",
                     column = @Column(
-                            name = "address_description",
+                            name = "origin_address_description",
                             nullable = false,
                             updatable = false
                     )
@@ -65,7 +65,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
             @AttributeOverride(
                     name = "addressId",
                     column = @Column(
-                            name = "address_id",
+                            name = "destiny_address_id",
                             nullable = false,
                             updatable = false
                     )
@@ -73,7 +73,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
             @AttributeOverride(
                     name = "description",
                     column = @Column(
-                            name = "address_description",
+                            name = "destiny_address_description",
                             nullable = false,
                             updatable = false
                     )

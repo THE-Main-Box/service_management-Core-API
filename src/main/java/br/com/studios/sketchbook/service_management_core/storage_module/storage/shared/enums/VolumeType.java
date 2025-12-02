@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums;
+package br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums;
 
 public enum VolumeType {
     KILOGRAM,

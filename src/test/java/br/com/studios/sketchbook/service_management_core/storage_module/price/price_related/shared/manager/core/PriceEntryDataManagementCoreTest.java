@@ -3,13 +3,12 @@ package br.com.studios.sketchbook.service_management_core.storage_module.price.p
 import br.com.studios.sketchbook.service_management_core.storage_module.price.money_related.domain.model.Money;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.money_related.shared.manager.core.MoneyDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceModifier;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.manager.core.PriceEntryDataManagementCore;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentType;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.core.StorageEntryDataManagementCore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -3,7 +3,7 @@ package br.com.studios.sketchbook.service_management_core.storage_module.price.p
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceModifier;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentTrigger;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.enums.AdjustmentType;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 
 import java.math.BigDecimal;
 

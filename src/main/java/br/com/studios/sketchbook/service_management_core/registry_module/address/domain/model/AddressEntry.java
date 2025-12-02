@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_ADDRESS_ENTRY")
+@Table(name = "TB_ADDRESS_ENTRY", schema = "assets")
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressEntry implements Serializable {

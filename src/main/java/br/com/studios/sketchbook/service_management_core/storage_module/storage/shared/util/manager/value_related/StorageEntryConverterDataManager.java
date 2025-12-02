@@ -1,13 +1,12 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.value_related;
 
-import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
-import org.springframework.stereotype.Component;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import static br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeScaleConstants.KILOGRAMS;
-import static br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeScaleConstants.LITERS;
+import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeScaleConstants.KILOGRAMS;
+import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeScaleConstants.LITERS;
 
 public class StorageEntryConverterDataManager {
 

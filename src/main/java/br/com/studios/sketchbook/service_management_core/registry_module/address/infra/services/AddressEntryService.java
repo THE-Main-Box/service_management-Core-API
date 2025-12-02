@@ -54,6 +54,8 @@ public class AddressEntryService {
     }
 
     public boolean delete(UUID id) {
+        repository.deleteById(id);
+
         Optional<AddressEntry> model = repository.findById(id);
 
         return model.isEmpty();

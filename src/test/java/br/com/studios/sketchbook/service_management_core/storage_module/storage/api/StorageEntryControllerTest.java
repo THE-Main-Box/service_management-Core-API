@@ -2,10 +2,10 @@ package br.com.studios.sketchbook.service_management_core.storage_module.storage
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryUpdateDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

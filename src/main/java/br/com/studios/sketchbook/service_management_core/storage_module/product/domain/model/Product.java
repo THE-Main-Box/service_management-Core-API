@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model;
 
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.interfaces.PriceOwner;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.interfaces.StorageAble;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

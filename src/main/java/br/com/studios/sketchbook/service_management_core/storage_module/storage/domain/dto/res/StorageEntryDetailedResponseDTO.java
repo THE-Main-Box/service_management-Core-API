@@ -1,21 +1,21 @@
-package br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto;
+package br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.res;
 
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 
 import java.util.UUID;
 
-public record StorageEntryResponseDTO(
+public record StorageEntryDetailedResponseDTO(
         UUID id,
         UUID ownerId,
-        String ownerType,
+        String ownerName,
         VolumeType volumeType,
         Long units,
         Long subUnits,
         Long quantityPerUnit
 ) {
 
-    public StorageEntryResponseDTO(StorageEntry entry){
+    public StorageEntryDetailedResponseDTO(StorageEntry entry){
         this(
                 entry.getId(),
                 entry.getOwnerId(),

@@ -1,7 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
-import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.req.AddressEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.model.AddressEntry;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.ShipmentEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.model.ShipmentEntry;
@@ -45,9 +44,34 @@ public class ShipmentEntryService {
         return repository.findAll(pageable);
     }
 
-    public Page<ShipmentEntry> getByDescription(int page, int size, String description) {
+    public Page<ShipmentEntry> getByOriginAddressDescription(String description, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return repository.listByDescription(description, pageable);
+        return repository.findByOriginAddressDescription(description, pageable);
+    }
+
+    public Page<ShipmentEntry> getByDestinationAddressDescription(String description, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByDestinationAddressDescription(description, pageable);
+    }
+
+    public Page<ShipmentEntry> getByItemName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByItemName(name, pageable);
+    }
+
+    public Page<ShipmentEntry> getByOriginAddressId(UUID addressId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByOriginAddressId(addressId, pageable);
+    }
+
+    public Page<ShipmentEntry> getByDestinationAddressId(UUID addressId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByDestinationAddressId(addressId, pageable);
+    }
+
+    public Page<ShipmentEntry> getByItemId(UUID itemId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByItemId(itemId, pageable);
     }
 
     public boolean delete(UUID id) {
@@ -57,7 +81,6 @@ public class ShipmentEntryService {
 
         return model.isEmpty();
     }
-
     public ShipmentEntry getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
@@ -67,5 +90,4 @@ public class ShipmentEntryService {
     public URI getUriForPersistedObject(ShipmentEntry model) {
         return ApiUtils.getUriForPersistedObject(model.getId().toString(), "/entry/shipment/id/{id}");
     }
-
 }

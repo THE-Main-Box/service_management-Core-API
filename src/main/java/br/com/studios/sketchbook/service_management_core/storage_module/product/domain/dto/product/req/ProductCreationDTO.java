@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product;
+package br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req;
 
 import jakarta.validation.constraints.NotBlank;
 

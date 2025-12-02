@@ -1,9 +1,10 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.api;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.contracts.ProductRestControllerContract;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductResponseDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.res.ProductDetailedResponseDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.res.ProductSumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ public class ProductController implements ProductRestControllerContract {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getAllInstances(page, size).map(ProductResponseDTO::new)
+                    service.getAllInstances(page, size).map(ProductSumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -52,7 +53,7 @@ public class ProductController implements ProductRestControllerContract {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getInstancesByName(name, page, size).map(ProductResponseDTO::new)
+                    service.getInstancesByName(name, page, size).map(ProductDetailedResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -63,7 +64,7 @@ public class ProductController implements ProductRestControllerContract {
     public ResponseEntity<Object> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new ProductResponseDTO(service.getInstanceById(id))//Transforma em dto a instancia retornada
+                    new ProductDetailedResponseDTO(service.getInstanceById(id))//Transforma em dto a instancia retornada
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -77,7 +78,7 @@ public class ProductController implements ProductRestControllerContract {
     ) {
         ProductUpdateDTO dto = mapper.convertValue(dtoObj, ProductUpdateDTO.class);
         return ResponseEntity.ok().body(
-                new ProductResponseDTO(service.update(service.getInstanceById(id), dto))
+                new ProductDetailedResponseDTO(service.update(service.getInstanceById(id), dto))
         );
     }
 
@@ -89,7 +90,7 @@ public class ProductController implements ProductRestControllerContract {
 
         URI uri = service.getUriForPersistedObject(model);
 
-        return ResponseEntity.created(uri).body(new ProductResponseDTO(model));
+        return ResponseEntity.created(uri).body(new ProductDetailedResponseDTO(model));
     }
 
     @DeleteMapping("/delete/id/{id}")

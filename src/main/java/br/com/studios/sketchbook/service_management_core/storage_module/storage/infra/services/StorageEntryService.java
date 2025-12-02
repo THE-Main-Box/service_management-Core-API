@@ -3,8 +3,8 @@ package br.com.studios.sketchbook.service_management_core.storage_module.storage
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.SMProductRepository;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.infra.repositories.StorageEntryRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.interfaces.StorageAble;

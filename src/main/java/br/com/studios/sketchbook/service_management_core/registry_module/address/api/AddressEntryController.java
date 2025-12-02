@@ -3,12 +3,9 @@ package br.com.studios.sketchbook.service_management_core.registry_module.addres
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.req.AddressEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.req.AddressEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.res.AddressEntryDetailedResponseDTO;
+import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.dto.res.AddressEntrySumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.model.AddressEntry;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.infra.services.AddressEntryService;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryResponseDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +46,7 @@ public class AddressEntryController{
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getAllInstances(page, size).map(AddressEntryDetailedResponseDTO::new)
+                    service.getAllInstances(page, size).map(AddressEntrySumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();

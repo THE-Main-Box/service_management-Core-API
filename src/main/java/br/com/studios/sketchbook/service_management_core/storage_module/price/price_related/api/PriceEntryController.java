@@ -1,8 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.api;
 
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryResponseDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.res.PriceEntryDetailedResponseDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.res.PriceEntrySumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.infra.services.PriceEntryService;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,10 +28,10 @@ public class PriceEntryController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<PriceEntryResponseDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<PriceEntryDetailedResponseDTO> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new PriceEntryResponseDTO(service.getInstanceById(id))
+                    new PriceEntryDetailedResponseDTO(service.getInstanceById(id))
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -44,7 +45,7 @@ public class PriceEntryController {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getAllInstances(page, size).map(PriceEntryResponseDTO::new)
+                    service.getAllInstances(page, size).map(PriceEntrySumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -52,10 +53,10 @@ public class PriceEntryController {
     }
 
     @GetMapping("/owner/id/{id}")
-    public ResponseEntity<PriceEntryResponseDTO> getByOwnerId(@PathVariable UUID id) {
+    public ResponseEntity<PriceEntryDetailedResponseDTO> getByOwnerId(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new PriceEntryResponseDTO(service.getInstanceByOwnerId(id))
+                    new PriceEntryDetailedResponseDTO(service.getInstanceByOwnerId(id))
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -63,12 +64,12 @@ public class PriceEntryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<PriceEntryResponseDTO> create(@Valid @RequestBody PriceEntryCreationDTO dtoObj) {
+    public ResponseEntity<PriceEntryDetailedResponseDTO> create(@Valid @RequestBody PriceEntryCreationDTO dtoObj) {
         try {
             PriceEntry entry = service.createAndSave(dtoObj);
             URI uri = service.getUriForPersistedObject(entry);
 
-            return ResponseEntity.created(uri).body(new PriceEntryResponseDTO(entry));
+            return ResponseEntity.created(uri).body(new PriceEntryDetailedResponseDTO(entry));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
         }
@@ -84,12 +85,12 @@ public class PriceEntryController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PriceEntryResponseDTO> updateById(
+    public ResponseEntity<PriceEntryDetailedResponseDTO> updateById(
             @PathVariable UUID id,
             @RequestBody PriceEntryUpdateDTO dto
     ) {
         return ResponseEntity.ok().body(
-                new PriceEntryResponseDTO(
+                new PriceEntryDetailedResponseDTO(
                         service.update(
                                 service.getInstanceById(id),
                                 dto

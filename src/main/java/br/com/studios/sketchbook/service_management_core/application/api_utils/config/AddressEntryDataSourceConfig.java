@@ -44,10 +44,6 @@ public class AddressEntryDataSourceConfig {
     /// Inicializa o dataSource com as configurações passadas para o storage
     @Bean(name = address_data_source_ref)
     public DataSource addressDataSource(@Qualifier(address_data_source_properties_ref) DataSourceProperties properties) {
-        printDSProperties(
-                address_data_source_properties_ref,
-                properties
-        );
 
         return properties.initializeDataSourceBuilder()
                 .type(HikariDataSource.class)

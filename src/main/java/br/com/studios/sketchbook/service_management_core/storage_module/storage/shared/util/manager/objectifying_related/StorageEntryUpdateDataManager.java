@@ -1,8 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.objectifying_related;
 
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.shared.enums.VolumeType;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.validation_related.StorageEntryValidateDataManager.validateEntryPostUpdate;
 import static br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.util.manager.validation_related.StorageEntryValidateDataManager.validateSpecialType;

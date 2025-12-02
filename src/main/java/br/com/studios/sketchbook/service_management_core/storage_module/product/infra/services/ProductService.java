@@ -2,8 +2,8 @@ package br.com.studios.sketchbook.service_management_core.storage_module.product
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.contracts.ProductRestServiceContract;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;

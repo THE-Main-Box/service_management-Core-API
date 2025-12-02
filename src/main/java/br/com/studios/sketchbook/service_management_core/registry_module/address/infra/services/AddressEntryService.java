@@ -6,7 +6,6 @@ import br.com.studios.sketchbook.service_management_core.registry_module.address
 import br.com.studios.sketchbook.service_management_core.registry_module.address.domain.model.AddressEntry;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.infra.repositories.AddressEntryRepository;
 import br.com.studios.sketchbook.service_management_core.registry_module.address.shared.manager.core.AddressEntryDataManagementCore;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,10 +49,12 @@ public class AddressEntryService {
 
     public Page<AddressEntry> getByDescription(int page, int size, String description) {
         Pageable pageable = PageRequest.of(page, size);
-        return repository.ListByAddress(description, pageable);
+        return repository.listByDescription(description, pageable);
     }
 
     public boolean delete(UUID id) {
+        repository.deleteById(id);
+
         Optional<AddressEntry> model = repository.findById(id);
 
         return model.isEmpty();
@@ -71,7 +72,7 @@ public class AddressEntryService {
 
     public AddressEntry getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Entrada de armazenamento com id [" + id + "] não encontrado")
+                () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 

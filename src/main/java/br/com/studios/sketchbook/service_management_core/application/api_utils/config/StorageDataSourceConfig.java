@@ -49,11 +49,6 @@ public class StorageDataSourceConfig {
     public DataSource storageDataSource(
             @Qualifier(storage_data_source_properties_ref) DataSourceProperties properties
     ) {
-        printDSProperties(
-                storage_data_source_properties_ref,
-                properties
-        );
-
         return properties.initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();

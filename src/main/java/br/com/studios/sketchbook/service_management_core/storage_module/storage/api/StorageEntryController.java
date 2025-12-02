@@ -1,8 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.storage.api;
 
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryResponseDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.res.StorageEntryDetailedResponseDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.res.StorageEntrySumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.infra.services.StorageEntryService;
 import jakarta.persistence.EntityNotFoundException;
@@ -27,10 +28,10 @@ public class StorageEntryController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<StorageEntryResponseDTO> getById(@PathVariable UUID id) {
+    public ResponseEntity<StorageEntryDetailedResponseDTO> getById(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new StorageEntryResponseDTO(service.getInstanceById(id))
+                    new StorageEntryDetailedResponseDTO(service.getInstanceById(id))
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -44,7 +45,7 @@ public class StorageEntryController {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getAllInstances(page, size).map(StorageEntryResponseDTO::new)
+                    service.getAllInstances(page, size).map(StorageEntrySumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -52,10 +53,10 @@ public class StorageEntryController {
     }
 
     @GetMapping("/owner/id/{id}")
-    public ResponseEntity<StorageEntryResponseDTO> getByOwnerId(@PathVariable UUID id) {
+    public ResponseEntity<StorageEntryDetailedResponseDTO> getByOwnerId(@PathVariable UUID id) {
         try {
             return ResponseEntity.ok().body(
-                    new StorageEntryResponseDTO(service.getInstanceByOwnerId(id))
+                    new StorageEntryDetailedResponseDTO(service.getInstanceByOwnerId(id))
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
@@ -63,12 +64,12 @@ public class StorageEntryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<StorageEntryResponseDTO> create(@Valid @RequestBody StorageEntryCreationDTO dtoObj) {
+    public ResponseEntity<StorageEntryDetailedResponseDTO> create(@Valid @RequestBody StorageEntryCreationDTO dtoObj) {
         try {
             StorageEntry entry = service.createAndSave(dtoObj);
             URI uri = service.getUriForPersistedObject(entry);
 
-            return ResponseEntity.created(uri).body(new StorageEntryResponseDTO(entry));
+            return ResponseEntity.created(uri).body(new StorageEntryDetailedResponseDTO(entry));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
         }
@@ -84,12 +85,12 @@ public class StorageEntryController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<StorageEntryResponseDTO> updateById(
+    public ResponseEntity<StorageEntryDetailedResponseDTO> updateById(
             @PathVariable UUID id,
             @RequestBody StorageEntryUpdateDTO dto
     ) {
         return ResponseEntity.ok().body(
-                new StorageEntryResponseDTO(
+                new StorageEntryDetailedResponseDTO(
                         service.update(
                                 service.getInstanceById(id),
                                 dto

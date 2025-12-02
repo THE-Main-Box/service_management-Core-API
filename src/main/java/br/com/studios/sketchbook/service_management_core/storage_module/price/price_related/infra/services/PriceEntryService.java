@@ -1,8 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.infra.services;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.model.PriceEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.infra.repositories.PriceEntryRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.interfaces.PriceOwner;

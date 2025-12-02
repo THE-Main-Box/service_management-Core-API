@@ -3,8 +3,8 @@ package br.com.studios.sketchbook.service_management_core.storage_module.storage
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.ProductRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.SMProductRepository;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.StorageEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.infra.repositories.StorageEntryRepository;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.interfaces.StorageAble;
@@ -92,13 +92,13 @@ public class StorageEntryService {
 
     public StorageEntry getInstanceById(UUID id) {
         return repository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Entrada de armazenamento com id [" + id + "] não encontrado")
+                () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 
     public StorageEntry getInstanceByOwnerId(UUID id) {
         return repository.findByOwnerId(id).orElseThrow(
-                () -> new EntityNotFoundException("Entrada de armazenamento com id [" + id + "] não encontrado")
+                () -> new EntityNotFoundException("Entrada com id [" + id + "] não encontrado")
         );
     }
 

@@ -1,10 +1,9 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
-import br.com.studios.sketchbook.service_management_core.application.api_utils.config.StorageDataSourceConfig;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryCreationDTO;
-import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.PriceEntryUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.domain.dto.req.PriceEntryUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.repositories.ProductRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.storage_transaction_manager_ref;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

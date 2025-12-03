@@ -4,7 +4,6 @@ import br.com.studios.sketchbook.service_management_core.storage_module.price.pr
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.interfaces.StorageAble;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,35 +14,32 @@ import java.util.UUID;
 
 /// Classe base para todos os produtos que poderão existir dentro do meu sistema
 @Entity
-@Table(name = "TB_PRODUCT")
+@Table(
+        name = "TB_PRODUCT"
+)
 @NoArgsConstructor
-@AllArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Product implements Serializable, PriceOwner, StorageAble {
+public class Product implements Serializable, PriceOwner, StorageAble, Item {
 
     /// Número de série da entidade
     @Serial
-    @Column(name = "version")
     private static final long serialVersionUID = 1L;
 
-    /// Id geral do produto
     @Id
     @Getter
     @Column(updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected UUID id;
+    private UUID id;
 
-    /// Nome com o qual o produto será referenciado
     @Getter
     @Setter
-    @Column(nullable = false)
-    protected String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
     public Product(String name) {
         this.name = name;
     }
 
-    public Product(ProductCreationDTO dto){
+    public Product(ProductCreationDTO dto) {
         this(dto.name());
     }
 

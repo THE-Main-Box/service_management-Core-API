@@ -1,25 +1,39 @@
 package br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model;
 
 
+import br.com.studios.sketchbook.service_management_core.storage_module.price.price_related.shared.interfaces.PriceOwner;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.super_market.req.SMProductCreationDTO;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.interfaces.StorageAble;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
+import java.io.Serializable;
+import java.util.UUID;
 
 /// Modelo de produtos de supermercado
 @Entity
-@Table(name = "TB_SUPER_MARKET_PRODUCTS")
+@Table(
+        name = "TB_SUPER_MARKET_PRODUCTS"
+)
 @NoArgsConstructor
-public class SuperMarketProduct extends Product {
+public class SuperMarketProduct implements Serializable, PriceOwner, StorageAble, Item{
     /// Número de série da entidade
     @Serial
-    @Column(name = "version")
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @Getter
+    @Column(updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Getter
+    @Setter
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
     /// Código de barras do produto
     @Column(name = "bar_code")
@@ -28,7 +42,7 @@ public class SuperMarketProduct extends Product {
     private String barcode;
 
     public SuperMarketProduct(String name, String barcode) {
-        super(name);
+        this.name = name;
         this.barcode = barcode;
     }
 
@@ -37,5 +51,10 @@ public class SuperMarketProduct extends Product {
                 dto.name(),
                 dto.barCode()
         );
+    }
+
+    @Override
+    public String getItemType() {
+        return this.getClass().getSimpleName();
     }
 }

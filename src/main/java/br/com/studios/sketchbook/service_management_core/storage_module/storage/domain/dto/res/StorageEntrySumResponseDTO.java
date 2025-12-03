@@ -8,12 +8,14 @@ import java.util.UUID;
 public record StorageEntrySumResponseDTO(
         UUID id,
         UUID ownerId,
+        String ownerName,
         VolumeType volumeType
 ) {
     public StorageEntrySumResponseDTO(StorageEntry entry){
         this(
                 entry.getId(),
                 entry.getOwnerId(),
+                entry.getOwnerName(),
                 entry.getVolumeType()
         );
     }

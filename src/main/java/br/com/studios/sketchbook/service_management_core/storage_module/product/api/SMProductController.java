@@ -54,7 +54,7 @@ public class SMProductController implements ProductRestControllerContract {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getInstancesByName(name, page, size).map(SMProductDetailedResponseDTO::new)
+                    service.getInstancesByName(name, page, size).map(SMProductSumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();

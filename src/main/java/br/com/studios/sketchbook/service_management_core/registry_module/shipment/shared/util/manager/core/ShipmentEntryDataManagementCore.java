@@ -17,20 +17,15 @@ public class ShipmentEntryDataManagementCore {
      */
     public ShipmentEntry createByDTO(ShipmentEntryCreationDTO dto) {
         AddressRef originRef = new AddressRef(
-                dto.originAddress().id(),
-                dto.originAddress().description()
+                dto.originAddress()
         );
 
         AddressRef destinationRef = new AddressRef(
-                dto.destinationAddress().id(),
-                dto.destinationAddress().description()
+                dto.destinationAddress()
         );
 
         ItemShipped itemShipped = new ItemShipped(
-                dto.itemShipped().itemId(),
-                dto.itemShipped().name(),
-                dto.itemShipped().units(),
-                dto.itemShipped().volumeType()
+                dto.itemShipped()
         );
 
         LocalDate issueDate = LocalDate.now();

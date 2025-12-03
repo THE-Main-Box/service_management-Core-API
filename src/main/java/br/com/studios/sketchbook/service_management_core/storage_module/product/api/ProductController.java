@@ -53,7 +53,7 @@ public class ProductController implements ProductRestControllerContract {
     ) {
         try {
             return ResponseEntity.ok().body(
-                    service.getInstancesByName(name, page, size).map(ProductDetailedResponseDTO::new)
+                    service.getInstancesByName(name, page, size).map(ProductSumResponseDTO::new)
             );
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();

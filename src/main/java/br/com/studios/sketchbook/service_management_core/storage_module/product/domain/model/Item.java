@@ -5,5 +5,7 @@ import java.util.UUID;
 public interface Item {
     UUID getId();
 
+    String getItemType();
+
     String getName();
 }

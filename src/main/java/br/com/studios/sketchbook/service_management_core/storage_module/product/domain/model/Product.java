@@ -50,4 +50,9 @@ public class Product implements Serializable, PriceOwner, StorageAble, Item {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    @Override
+    public String getItemType() {
+        return this.getClass().getSimpleName();
+    }
 }

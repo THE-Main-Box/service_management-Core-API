@@ -52,4 +52,9 @@ public class SuperMarketProduct implements Serializable, PriceOwner, StorageAble
                 dto.barCode()
         );
     }
+
+    @Override
+    public String getItemType() {
+        return this.getClass().getSimpleName();
+    }
 }

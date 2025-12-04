@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.registry_core_module.address.api;
+package br.com.studios.sketchbook.service_management_core.registry_module.address.api;
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;

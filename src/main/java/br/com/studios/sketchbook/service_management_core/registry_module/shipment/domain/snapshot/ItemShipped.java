@@ -9,16 +9,14 @@ import java.util.UUID;
 @Embeddable
 public record ItemShipped(
         UUID itemId,
-        String itemType,
-        String name,
+        String itemName,
         Long units,
         VolumeType volumeType
 ) {
     public ItemShipped(ItemShippedCreationDTO dto) {
         this(
                 dto.itemId(),
-                dto.itemType(),
-                dto.name(),
+                dto.itemName(),
                 dto.units(),
                 dto.volumeType()
         );

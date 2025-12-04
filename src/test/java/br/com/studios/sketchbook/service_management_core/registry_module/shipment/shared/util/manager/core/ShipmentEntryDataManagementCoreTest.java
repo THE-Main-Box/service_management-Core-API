@@ -59,7 +59,7 @@ public class ShipmentEntryDataManagementCoreTest {
         // E. Verifica o Snapshot do Item
         assertThat(result.getItemShipped()).isNotNull();
         assertThat(result.getItemShipped().itemId()).isEqualTo(ITEM_ID);
-        assertThat(result.getItemShipped().name()).isEqualTo("Caixa de Eletrônicos");
+        assertThat(result.getItemShipped().itemName()).isEqualTo("Caixa de Eletrônicos");
         assertThat(result.getItemShipped().units()).isEqualTo(50L);
         assertThat(result.getItemShipped().volumeType()).isEqualTo(VolumeType.UNIT);
     }

@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.res;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.model.ShipmentEntry;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -20,7 +21,8 @@ public record ShipmentEntrySumResponseDTO(
 
         UUID itemId,
         String itemName,
-        Long itemUnits
+        Long itemUnits,
+        VolumeType itemVolume
 ) {
     public ShipmentEntrySumResponseDTO(ShipmentEntry entry){
         this(
@@ -32,7 +34,8 @@ public record ShipmentEntrySumResponseDTO(
                 entry.getDestinationAddressRef().description(),
                 entry.getItemShipped().itemId(),
                 entry.getItemShipped().name(),
-                entry.getItemShipped().units()
+                entry.getItemShipped().units(),
+                entry.getItemShipped().volumeType()
         );
     }
 

@@ -2,13 +2,11 @@ package br.com.studios.sketchbook.service_management_core.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.printers.H2ConsoleURLPrinter.printH2ConsoleUrl;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.*;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.*;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {

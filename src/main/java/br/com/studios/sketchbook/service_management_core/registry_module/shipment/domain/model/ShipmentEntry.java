@@ -21,7 +21,6 @@ import java.util.UUID;
 public class ShipmentEntry implements AddressOwnerTypes, Serializable {
 
     @Serial
-    @Column(name = "version")
     private static final long serialVersionUID = 1L;
 
     @Id

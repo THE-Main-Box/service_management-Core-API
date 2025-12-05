@@ -20,8 +20,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.*;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.printers.ConfigurationPropertiesPrinter.printDSProperties;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.storage_module_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.storage_module_path;
 
 @Configuration
 @EnableTransactionManagement

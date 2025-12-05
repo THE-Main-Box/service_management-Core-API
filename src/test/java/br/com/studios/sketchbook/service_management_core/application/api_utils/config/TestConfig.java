@@ -25,7 +25,8 @@ import java.util.function.Function;
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.AddressConfig.*;
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.StorageConfig.*;
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.ConfigRefNames.TestConfig.*;
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PackageNames.*;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.registry_module_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.storage_module_path;
 
 @Configuration
 @EnableTransactionManagement

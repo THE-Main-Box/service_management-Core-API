@@ -33,7 +33,7 @@ public record ShipmentEntrySumResponseDTO(
                 entry.getDestinationAddressRef().addressId(),
                 entry.getDestinationAddressRef().description(),
                 entry.getItemShipped().itemId(),
-                entry.getItemShipped().name(),
+                entry.getItemShipped().itemName(),
                 entry.getItemShipped().units(),
                 entry.getItemShipped().volumeType()
         );

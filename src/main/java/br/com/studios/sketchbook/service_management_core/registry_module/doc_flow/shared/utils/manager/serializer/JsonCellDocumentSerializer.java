@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_cell_folder_path;
 import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.converter.ConvertFromString.convertToType;
@@ -58,7 +60,34 @@ public class JsonCellDocumentSerializer {
         }
     }
 
-    public void deleteCellJson(Integer rowId, Integer cellId) {
+    public List<Cell> loadCellList(Integer rowId, List<Integer> cellIdList) {
+        try {
+            List<Cell> toReturnList = new ArrayList<>();//salva em lista
+            String fileName;//Nome do arquivo
+            Path filePath;//Caminho do arquivo
+            String json;//Conteúdo do arquivo json
+
+            for(Integer cellId : cellIdList){ //itera pela lista de id
+
+                fileName = cellFileName(rowId, cellId); //Atualiza o nome do arquivo
+                filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
+
+                if(!FileDocumentManagerUtils.exists(filePath)) continue;//se não existir prossegue pra próxima iteração
+
+                json = FileDocumentManagerUtils.read(filePath);//Armazena o conteúdo
+
+                toReturnList.add(//Adiciona o objeto criado a partir do conteúdo dentro da lista
+                        deserializeCell(json)
+                );
+            }
+
+            return toReturnList; //retorna lista
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao carregar a lista de células em JSON", e);
+        }
+    }
+
+    public void deleteCellJsonIfPresent(Integer rowId, Integer cellId) {
         try {
             String fileName = cellFileName(rowId, cellId);
             Path filePath = document_cell_folder_path.resolve(fileName);

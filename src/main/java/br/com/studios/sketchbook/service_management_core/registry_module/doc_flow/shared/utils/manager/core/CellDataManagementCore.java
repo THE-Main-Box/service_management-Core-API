@@ -28,24 +28,5 @@ public class CellDataManagementCore {
         return jsonSerializer.isCellJsonPresent(rowId, cellId);
     }
 
-    public static String cellFileName(Integer rowId, Integer cellId) {
-        return "cell_" + rowId + "_" + cellId + ".json";
-    }
 
-    public static String rowFileName(Integer rowId) {
-        return "row_" + rowId + ".json";
-    }
-
-    public static Object convertToType(Object value, String typeName) {
-        // Lógica de conversão baseada no typeName
-        if (value == null) return null;
-
-        return switch (typeName.toLowerCase()) {
-            case "integer" -> Integer.valueOf(value.toString());
-            case "double" -> Double.valueOf(value.toString());
-            case "float" -> Float.valueOf(value.toString());
-            case "string" -> value.toString();
-            default -> value; // Mantém como está
-        };
-    }
 }

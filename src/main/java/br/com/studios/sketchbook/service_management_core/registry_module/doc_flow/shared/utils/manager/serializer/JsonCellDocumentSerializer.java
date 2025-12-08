@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_cell_folder_path;
-import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.CellDataManagementCore.cellFileName;
-import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.CellDataManagementCore.convertToType;
+import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.converter.ConvertFromString.convertToType;
+import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.cellFileName;
 
 public class JsonCellDocumentSerializer {
 

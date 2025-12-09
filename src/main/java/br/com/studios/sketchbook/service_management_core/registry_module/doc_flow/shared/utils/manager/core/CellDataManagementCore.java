@@ -1,9 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Cell;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonCellDocumentSerializer;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonRowDocumentSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
@@ -18,19 +16,27 @@ public class CellDataManagementCore {
 
     // // // // JSON // // // // // //
     public Cell loadCellFromJson(Integer rowId, Integer cellId) {
-        return cellJSONSerializer.loadCell(rowId, cellId);
+        return cellJSONSerializer.loadCellFromJson(rowId, cellId);
     }
 
-    public List<Cell> loadCellListFromJson(Integer rowId, List<Integer> cellIdList) {
-        return cellJSONSerializer.loadCellList(rowId, cellIdList);
+    public List<Cell> loadCellListFromJson(List<Integer> rowIdList, List<Integer> cellIdList) {
+        return cellJSONSerializer.loadCellListFromJson(rowIdList, cellIdList);
     }
 
-    public void saveCellFromJson(Cell cell) {
-        cellJSONSerializer.saveCell(cell);
+    public void saveCellInJson(Cell cell) {
+        cellJSONSerializer.saveCellInJson(cell);
+    }
+
+    public void saveCellListInJson(List<Cell> cellList) {
+        cellJSONSerializer.saveCellListInJson(cellList);
     }
 
     public void deleteCellJsonIfPresent(Integer rowId, Integer cellId) {
         cellJSONSerializer.deleteCellJsonIfPresent(rowId, cellId);
+    }
+
+    public void deleteCellListJsonIfPresent(List<Integer> rowIdList, List<Integer> cellIdList){
+        cellJSONSerializer.deleteCellListJsonIfPresent(rowIdList, cellIdList);
     }
 
     public boolean isCellJsonPresent(Integer rowId, Integer cellId){

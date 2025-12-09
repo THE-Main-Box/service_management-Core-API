@@ -36,7 +36,7 @@ public class JsonCellDocumentSerializer {
         return new Cell(model.id(), model.rowId(), value);
     }
 
-    public void saveCell(Cell cell) {
+    public void saveCellInJson(Cell cell) {
         try {
             String json = serializeCell(cell);
             String fileName = cellFileName(cell.getRowId(), cell.getId());
@@ -44,11 +44,33 @@ public class JsonCellDocumentSerializer {
 
             FileDocumentManagerUtils.save(json, filePath);
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar célula em JSON", e);
+            throw new RuntimeException("Erro ao salvar célula em JSON: ", e);
         }
     }
 
-    public Cell loadCell(Integer rowId, Integer cellId) {
+    /// Salva uma lista de células com base no modelo
+    public void saveCellListInJson(List<Cell> cellList) {
+        try {
+            String fileName;//Nome do arquivo
+            Path filePath;//Caminho do arquivo
+            String json;//Conteúdo do arquivo json
+
+            for (Cell cell : cellList) { //itera pela lista de id
+
+                json = serializeCell(cell);//Converte para um json
+                fileName = cellFileName(cell.getRowId(), cell.getId());//Cria um nome de arquivo
+                filePath = document_cell_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
+
+                FileDocumentManagerUtils.save(json, filePath);//Salva
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar a lista de células em JSON: ", e);
+        }
+    }
+
+    /// Carrega um objeto de célula contendo dados, a partir de um documento json
+    public Cell loadCellFromJson(Integer rowId, Integer cellId) {
         try {
             String fileName = cellFileName(rowId, cellId);
             Path filePath = document_cell_folder_path.resolve(fileName);
@@ -56,34 +78,37 @@ public class JsonCellDocumentSerializer {
             String json = FileDocumentManagerUtils.read(filePath);
             return deserializeCell(json);
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar célula em JSON", e);
+            throw new RuntimeException("Erro ao carregar célula em JSON: ", e);
         }
     }
 
-    public List<Cell> loadCellList(Integer rowId, List<Integer> cellIdList) {
+    /// Carrega uma lista de cells com base numa lista de dados passada
+    public List<Cell> loadCellListFromJson(List<Integer> rowIdList, List<Integer> cellIdList) {
         try {
             List<Cell> toReturnList = new ArrayList<>();//salva em lista
             String fileName;//Nome do arquivo
             Path filePath;//Caminho do arquivo
             String json;//Conteúdo do arquivo json
 
-            for(Integer cellId : cellIdList){ //itera pela lista de id
+            for (Integer rowId : rowIdList) {
+                for (Integer cellId : cellIdList) { //itera pela lista de id
 
-                fileName = cellFileName(rowId, cellId); //Atualiza o nome do arquivo
-                filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
+                    fileName = cellFileName(rowId, cellId); //Atualiza o nome do arquivo
+                    filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
 
-                if(!FileDocumentManagerUtils.exists(filePath)) continue;//se não existir prossegue pra próxima iteração
+                    if (!FileDocumentManagerUtils.exists(filePath))
+                        continue;//se não existir prossegue pra próxima iteração
 
-                json = FileDocumentManagerUtils.read(filePath);//Armazena o conteúdo
+                    json = FileDocumentManagerUtils.read(filePath);//Armazena o conteúdo
 
-                toReturnList.add(//Adiciona o objeto criado a partir do conteúdo dentro da lista
-                        deserializeCell(json)
-                );
+                    toReturnList.add(//Adiciona o objeto criado a partir do conteúdo dentro da lista
+                            deserializeCell(json)
+                    );
+                }
             }
-
             return toReturnList; //retorna lista
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar a lista de células em JSON", e);
+            throw new RuntimeException("Erro ao carregar a lista de células em JSON: ", e);
         }
     }
 
@@ -92,17 +117,38 @@ public class JsonCellDocumentSerializer {
             String fileName = cellFileName(rowId, cellId);
             Path filePath = document_cell_folder_path.resolve(fileName);
 
-            if(FileDocumentManagerUtils.exists(filePath)) {
+            if (FileDocumentManagerUtils.exists(filePath)) {
                 FileDocumentManagerUtils.delete(filePath);
-            } else {
-                throw new IOException("célula não existe");
             }
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao deletar célula em JSON", e);
+            throw new RuntimeException("Erro ao deletar célula em JSON: ", e);
         }
     }
 
-    public boolean isCellJsonPresent(Integer rowId, Integer cellId){
+    /// Deleta uma lista de células caso encontremos os arquivos com os nomes contendo os ids deles
+    public void deleteCellListJsonIfPresent(List<Integer> rowIdList, List<Integer> cellIdList) {
+        try {
+            String fileName; // Nome do arquivo
+            Path filePath;   // Caminho do arquivo
+
+            for(Integer rowId : rowIdList) { // itera pela lista de id de coluna
+                for(Integer cellId : cellIdList){ //Itera pela lista de id de células
+
+                    fileName = cellFileName(rowId, cellId); //Atualiza o nome do arquivo
+                    filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
+
+                    if (FileDocumentManagerUtils.exists(filePath)) {
+                        FileDocumentManagerUtils.delete(filePath);
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao deletar lista de colunas em JSON: ", e);
+        }
+    }
+
+    public boolean isCellJsonPresent(Integer rowId, Integer cellId) {
         String fileName = cellFileName(rowId, cellId);
         Path filePath = document_cell_folder_path.resolve(fileName);
 

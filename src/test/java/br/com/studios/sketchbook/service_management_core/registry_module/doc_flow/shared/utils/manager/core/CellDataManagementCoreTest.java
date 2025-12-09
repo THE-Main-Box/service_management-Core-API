@@ -26,6 +26,8 @@ public class CellDataManagementCoreTest {
 
     @AfterEach
     void end() {
+        if(currentCell == null) return;
+
         System.out.println("// // // // // // // // // //");
         System.out.println(
                 "cell________: " + currentCell.getId()
@@ -52,10 +54,10 @@ public class CellDataManagementCoreTest {
     }
 
     @Test
-    public void CreateCellTest() {
+    public void CreateCellInJsonTest() {
         createDummyCell(1, 1, "testando");
 
-        manager.saveCellFromJson(currentCell);
+        manager.saveCellInJson(currentCell);
 
         Cell tmpCell = manager.loadCellFromJson(currentCell.getRowId(), currentCell.getId());
 
@@ -76,7 +78,31 @@ public class CellDataManagementCoreTest {
     }
 
     @Test
-    public void loadMultipleCellsTest() {
+    public void saveCellListInJsonTest() {
+        Cell c1 = new Cell(10, 2, "A");
+        Cell c2 = new Cell(11, 2, false);
+        Cell c3 = new Cell(12, 2, 555);
+
+        List<Cell> list = List.of(c1, c2, c3);
+
+        manager.saveCellListInJson(list);
+
+        Cell l1 = manager.loadCellFromJson(2, 10);
+        Cell l2 = manager.loadCellFromJson(2, 11);
+        Cell l3 = manager.loadCellFromJson(2, 12);
+
+        assertEquals("A", l1.getValue());
+        assertEquals(false, l2.getValue());
+        assertEquals(555, l3.getValue());
+
+        manager.deleteCellJsonIfPresent(2, 10);
+        manager.deleteCellJsonIfPresent(2, 11);
+        manager.deleteCellJsonIfPresent(2, 12);
+    }
+
+
+    @Test
+    public void loadMultipleCellsInJsonTest() {
         Integer rowId = 1;
 
         // cria 3 células dummy
@@ -85,15 +111,16 @@ public class CellDataManagementCoreTest {
         Cell cell3 = new Cell(3, rowId, true);
 
         // salva todas
-        manager.saveCellFromJson(cell1);
-        manager.saveCellFromJson(cell2);
-        manager.saveCellFromJson(cell3);
+        manager.saveCellInJson(cell1);
+        manager.saveCellInJson(cell2);
+        manager.saveCellInJson(cell3);
 
-        // lista de IDs
-        List<Integer> idList = List.of(1, 2, 3);
+        // listas para novo formato
+        List<Integer> rowIdList = List.of(rowId);
+        List<Integer> cellIdList = List.of(1, 2, 3);
 
         // carrega várias
-        List<Cell> loaded = manager.loadCellListFromJson(rowId, idList);
+        List<Cell> loaded = manager.loadCellListFromJson(rowIdList, cellIdList);
 
         // valida tamanho
         assertEquals(3, loaded.size());
@@ -114,11 +141,12 @@ public class CellDataManagementCoreTest {
         manager.deleteCellJsonIfPresent(rowId, 3);
     }
 
+
     @Test
-    public void deleteCellTest() {
+    public void deleteCellInJsonTest() {
         createDummyCell(1, 1, 123L);
 
-        manager.saveCellFromJson(currentCell);
+        manager.saveCellInJson(currentCell);
 
         manager.deleteCellJsonIfPresent(
                 currentCell.getRowId(),
@@ -133,5 +161,28 @@ public class CellDataManagementCoreTest {
         );
 
     }
+
+    @Test
+    public void deleteCellListInJsonTest() {
+        Integer rowId = 5;
+
+        Cell c1 = new Cell(1, rowId, 1);
+        Cell c2 = new Cell(2, rowId, 2);
+        Cell c3 = new Cell(3, rowId, 3);
+
+        manager.saveCellInJson(c1);
+        manager.saveCellInJson(c2);
+        manager.saveCellInJson(c3);
+
+        List<Integer> rowIds = List.of(rowId);
+        List<Integer> cells = List.of(1, 2, 3);
+
+        manager.deleteCellListJsonIfPresent(rowIds, cells);
+
+        assertFalse(manager.isCellJsonPresent(rowId, 1));
+        assertFalse(manager.isCellJsonPresent(rowId, 2));
+        assertFalse(manager.isCellJsonPresent(rowId, 3));
+    }
+
 
 }

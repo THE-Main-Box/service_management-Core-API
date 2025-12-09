@@ -51,7 +51,7 @@ public class JsonRowDocumentSerializer {
 
             FileDocumentManagerUtils.save(json, filePath);//Salva
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar coluna em JSON", e);
+            throw new RuntimeException("Erro ao salvar coluna em JSON: ", e);
         }
     }
 
@@ -72,7 +72,7 @@ public class JsonRowDocumentSerializer {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar a lista de coluna em JSON", e);
+            throw new RuntimeException("Erro ao salvar a lista de coluna em JSON: ", e);
         }
     }
 
@@ -86,7 +86,7 @@ public class JsonRowDocumentSerializer {
             String json = FileDocumentManagerUtils.read(filePath);//Lê o path gerado
             return deserializeRow(json);//Retorna o objeto com base no json
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar coluna em JSON", e);
+            throw new RuntimeException("Erro ao carregar coluna em JSON: ", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class JsonRowDocumentSerializer {
 
             return toReturnList; //retorna lista
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar a lista de coluna em JSON", e);
+            throw new RuntimeException("Erro ao carregar a lista de coluna em JSON: ", e);
         }
     }
 
@@ -126,11 +126,10 @@ public class JsonRowDocumentSerializer {
 
             if(FileDocumentManagerUtils.exists(filePath)) {//Se o path existir
                 FileDocumentManagerUtils.delete(filePath);//deleta
-            } else {
-                throw new IOException("coluna não existe");//se não lança um erro
             }
+
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao deletar coluna em JSON", e);
+            throw new RuntimeException("Erro ao deletar coluna em JSON: ", e);
         }
     }
 
@@ -151,7 +150,7 @@ public class JsonRowDocumentSerializer {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao deletar lista de colunas em JSON", e);
+            throw new RuntimeException("Erro ao deletar lista de colunas em JSON: ", e);
         }
     }
 

@@ -7,10 +7,11 @@ import java.util.List;
 
 public class Row {
 
-    /// Id da coluna
+    /// Id da linha
     @Getter
     private final Integer id;
 
+    /// Id da tabela a quem pertence
     @Getter
     private final Integer tableId;
 

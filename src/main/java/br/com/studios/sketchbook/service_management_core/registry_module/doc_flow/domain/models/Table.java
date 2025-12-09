@@ -11,6 +11,7 @@ public class Table {
     @Getter
     private final Integer id;
 
+    /// Lista de linhas que pertencem a essa tabela
     @Getter
     private final List<Row> rowList;
 

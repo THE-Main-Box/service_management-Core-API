@@ -4,6 +4,7 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 
 public record CellJSONSerialModel(
         Integer id,
+        Integer tableId,
         Integer rowId,
         Object value,
         String valueType
@@ -11,6 +12,7 @@ public record CellJSONSerialModel(
     public CellJSONSerialModel(Cell model){
         this(
                 model.getId(),
+                model.getTableId(),
                 model.getRowId(),
                 model.getValue(),
                 model.getValueType().getSimpleName()

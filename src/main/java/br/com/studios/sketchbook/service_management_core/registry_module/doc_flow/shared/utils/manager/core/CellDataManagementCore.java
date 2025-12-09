@@ -15,12 +15,28 @@ public class CellDataManagementCore {
     }
 
     // // // // JSON // // // // // //
-    public Cell loadCellFromJson(Integer rowId, Integer cellId) {
-        return cellJSONSerializer.loadCellFromJson(rowId, cellId);
+    public Cell loadCellFromJson(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        return cellJSONSerializer.loadCellFromJson(
+                tableId,
+                rowId,
+                cellId
+        );
     }
 
-    public List<Cell> loadCellListFromJson(List<Integer> rowIdList, List<Integer> cellIdList) {
-        return cellJSONSerializer.loadCellListFromJson(rowIdList, cellIdList);
+    public List<Cell> loadCellListFromJson(
+            List<Integer> tableIdList,
+            List<Integer> rowIdList,
+            List<Integer> cellIdList
+    ) {
+        return cellJSONSerializer.loadCellListFromJson(
+                tableIdList,
+                rowIdList,
+                cellIdList
+        );
     }
 
     public void saveCellInJson(Cell cell) {
@@ -31,16 +47,40 @@ public class CellDataManagementCore {
         cellJSONSerializer.saveCellListInJson(cellList);
     }
 
-    public void deleteCellJsonIfPresent(Integer rowId, Integer cellId) {
-        cellJSONSerializer.deleteCellJsonIfPresent(rowId, cellId);
+    public void deleteCellJsonIfPresent(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        cellJSONSerializer.deleteCellJsonIfPresent(
+                tableId,
+                rowId,
+                cellId
+        );
     }
 
-    public void deleteCellListJsonIfPresent(List<Integer> rowIdList, List<Integer> cellIdList){
-        cellJSONSerializer.deleteCellListJsonIfPresent(rowIdList, cellIdList);
+    public void deleteCellListJsonIfPresent(
+            List<Integer> tableIdList,
+            List<Integer> rowIdList,
+            List<Integer> cellIdList
+    ) {
+        cellJSONSerializer.deleteCellListJsonIfPresent(
+                tableIdList,
+                rowIdList,
+                cellIdList
+        );
     }
 
-    public boolean isCellJsonPresent(Integer rowId, Integer cellId){
-        return cellJSONSerializer.isCellJsonPresent(rowId, cellId);
+    public boolean isCellJsonPresent(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        return cellJSONSerializer.isCellJsonPresent(
+                tableId,
+                rowId,
+                cellId
+        );
     }
 
 

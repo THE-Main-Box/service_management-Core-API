@@ -11,17 +11,22 @@ public class Row {
     @Getter
     private final Integer id;
 
+    @Getter
+    private final Integer tableId;
+
     /// Lista de id a respeito das cell
     @Getter
     private final List<Integer> cellIdList;
 
-    public Row(Integer id) {
+    public Row(Integer id, Integer tableId) {
         this.id = id;
-        cellIdList = new ArrayList<>();
+        this.tableId = tableId;
+        this.cellIdList = new ArrayList<>();
     }
 
-    public Row(Integer id, List<Integer> cellIdList) {
+    public Row(Integer id, Integer tableId, List<Integer> cellIdList) {
         this.id = id;
+        this.tableId = tableId;
         this.cellIdList = cellIdList;
     }
 

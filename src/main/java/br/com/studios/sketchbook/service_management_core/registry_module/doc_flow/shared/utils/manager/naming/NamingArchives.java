@@ -4,7 +4,7 @@ public class NamingArchives {
     /**
      * Cria um nome de arquivo para Cell
      *
-     * @param rowId id da coluna em que estamos inserindo a cell
+     * @param rowId  id da coluna em que estamos inserindo a cell
      * @param cellId id da Cell
      */
     public static String cellFileName(Integer rowId, Integer cellId) {
@@ -13,11 +13,11 @@ public class NamingArchives {
 
     /**
      * Cria um nome para o arquivo do objeto Row
-     *
+     * @param tableId id da tabela a quem o objeto pertence
      * @param rowId id da coluna
      */
-    public static String rowFileName(Integer rowId) {
-        return "row_" + rowId + ".json";
+    public static String rowFileName(Integer tableId, Integer rowId) {
+        return "table_" + tableId + "_" + "row_" + rowId + ".json";
     }
 
 

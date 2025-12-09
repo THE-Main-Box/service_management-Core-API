@@ -16,12 +16,12 @@ public class RowDataManagementCore {
 
     // // // // JSON // // // // // //
 
-    public Row loadRowFromJson(Integer rowId) {
-        return rowJSONSerializer.loadRowInJson(rowId);
+    public Row loadRowFromJson(Integer tableId, Integer rowId) {
+        return rowJSONSerializer.loadRowInJson(tableId, rowId);
     }
 
-    public List<Row> loadRowListFromJson(List<Integer> rowIdList) {
-        return rowJSONSerializer.loadRowListInJson(rowIdList);
+    public List<Row> loadRowListFromJson(List<Integer> tableIdList, List<Integer> rowIdList) {
+        return rowJSONSerializer.loadRowListInJson(tableIdList, rowIdList);
     }
 
     public void saveRowToJson(Row row) {
@@ -32,16 +32,16 @@ public class RowDataManagementCore {
         rowJSONSerializer.saveRowListInJson(rowList);
     }
 
-    public void deleteRowJsonIfPresent(Integer rowId) {
-        rowJSONSerializer.deleteColumnJsonIfPresent(rowId);
+    public void deleteRowJsonIfPresent(Integer tableId, Integer rowId) {
+        rowJSONSerializer.deleteColumnJsonIfPresent(tableId, rowId);
     }
 
-    public void deleteRowListJsonIfPresent(List<Integer> rowIdList) {
-        rowJSONSerializer.deleteColumnListJsonIfPresent(rowIdList);
+    public void deleteRowListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
+        rowJSONSerializer.deleteColumnListJsonIfPresent(tableIdList, rowIdList);
     }
 
-    public boolean isRowJsonPresent(Integer rowId){
-        return rowJSONSerializer.isColumnJsonPresent(rowId);
+    public boolean isRowJsonPresent(Integer tableId, Integer rowId) {
+        return rowJSONSerializer.isColumnJsonPresent(tableId, rowId);
     }
 
 }

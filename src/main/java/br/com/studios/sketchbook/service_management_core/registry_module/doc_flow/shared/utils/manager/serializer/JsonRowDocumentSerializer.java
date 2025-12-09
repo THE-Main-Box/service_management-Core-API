@@ -38,6 +38,7 @@ public class JsonRowDocumentSerializer {
 
         return new Row(//Criamos um objeto com base no modelo intermediário criado
                 model.id(),
+                model.tableId(),
                 model.cellIds()
         );
     }
@@ -46,7 +47,12 @@ public class JsonRowDocumentSerializer {
     public void saveRowInJson(Row row) {
         try {
             String json = serializeRow(row);//Cria o arquivo a ser salvo
-            String fileName = rowFileName(row.getId());//Cria o nome
+
+            String fileName = rowFileName(
+                    row.getTableId(),
+                    row.getId()
+            );//Cria o nome
+
             Path filePath = document_row_folder_path.resolve(fileName);//Cria um path
 
             FileDocumentManagerUtils.save(json, filePath);//Salva
@@ -62,10 +68,15 @@ public class JsonRowDocumentSerializer {
             Path filePath;//Caminho do arquivo
             String json;//Conteúdo do arquivo json
 
-            for(Row row : rowList){ //itera pela lista de id
+            for (Row row : rowList) { //itera pela lista de id
 
                 json = serializeRow(row);//Converte para um json
-                fileName = rowFileName(row.getId());//Cria um nome de arquivo
+
+                fileName = rowFileName(
+                        row.getTableId(),
+                        row.getId()
+                );//Cria um nome de arquivo
+
                 filePath = document_row_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
 
                 FileDocumentManagerUtils.save(json, filePath);//Salva
@@ -77,9 +88,9 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Carrega uma coluna com base no id do modelo
-    public Row loadRowInJson(Integer rowId) {
+    public Row loadRowInJson(Integer tableId, Integer rowId) {
         try {
-            String fileName = rowFileName(rowId);//Nome do arquivo
+            String fileName = rowFileName(tableId, rowId);//Nome do arquivo
 
             Path filePath = document_row_folder_path.resolve(fileName);//Caminho do arquivo
 
@@ -91,27 +102,33 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Carrega uma lista de colunas com base numa lista de ids do modelo
-    public List<Row> loadRowListInJson(List<Integer> rowId) {
+    public List<Row> loadRowListInJson(List<Integer> tableIdList, List<Integer> rowId) {
         try {
             List<Row> toReturnList = new ArrayList<>();//salva em lista
             String fileName;//Nome do arquivo
             Path filePath;//Caminho do arquivo
             String json;//Conteúdo do arquivo json
 
-            for(Integer id : rowId){ //itera pela lista de id
+            for (Integer tableId : tableIdList) { //itera pela lista de id
+                for (Integer id : rowId) { //itera pela lista de id
 
-                fileName = rowFileName(id); //Atualiza o nome do arquivo
-                filePath = document_row_folder_path.resolve(fileName);//Atualiza o path do arquivo
+                    fileName = rowFileName(
+                            tableId,
+                            id
+                    ); //Atualiza o nome do arquivo
 
-                if(!FileDocumentManagerUtils.exists(filePath)) continue;//se não existir prossegue pra próxima iteração
+                    filePath = document_row_folder_path.resolve(fileName);//Atualiza o path do arquivo
 
-                json = FileDocumentManagerUtils.read(filePath);//Armazena o conteúdo
+                    if (!FileDocumentManagerUtils.exists(filePath))
+                        continue;//se não existir prossegue pra próxima iteração
 
-                toReturnList.add(//Adiciona o objeto criado a partir do conteúdo dentro da lista
-                        deserializeRow(json)
-                );
+                    json = FileDocumentManagerUtils.read(filePath);//Armazena o conteúdo
+
+                    toReturnList.add(//Adiciona o objeto criado a partir do conteúdo dentro da lista
+                            deserializeRow(json)
+                    );
+                }
             }
-
             return toReturnList; //retorna lista
         } catch (IOException e) {
             throw new RuntimeException("Erro ao carregar a lista de coluna em JSON: ", e);
@@ -119,12 +136,15 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Deleta uma coluna caso encontremos o arquivo com o nome contendo o id dele
-    public void deleteColumnJsonIfPresent(Integer rowId) {
+    public void deleteColumnJsonIfPresent(Integer tableId, Integer rowId) {
         try {
-            String fileName = rowFileName(rowId);//Cria um nome para o arquivo
+            String fileName = rowFileName(
+                    tableId,
+                    rowId
+            );//Cria um nome para o arquivo
             Path filePath = document_row_folder_path.resolve(fileName);//Cria um path pro arquivo
 
-            if(FileDocumentManagerUtils.exists(filePath)) {//Se o path existir
+            if (FileDocumentManagerUtils.exists(filePath)) {//Se o path existir
                 FileDocumentManagerUtils.delete(filePath);//deleta
             }
 
@@ -134,18 +154,24 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Deleta uma lista de colunas caso encontremos os arquivos com os nomes contendo os ids deles
-    public void deleteColumnListJsonIfPresent(List<Integer> rowIdList) {
+    public void deleteColumnListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
         try {
             String fileName; // Nome do arquivo
             Path filePath;   // Caminho do arquivo
 
-            for(Integer rowId : rowIdList) { // itera pela lista
+            for (Integer tableId : tableIdList) { // itera pela lista
+                for (Integer rowId : rowIdList) { // itera pela lista
 
-                fileName = rowFileName(rowId); // cria nome
-                filePath = document_row_folder_path.resolve(fileName); // cria path
+                    fileName = rowFileName(
+                            tableId,
+                            rowId
+                    ); // cria nome
 
-                if (FileDocumentManagerUtils.exists(filePath)) { // se existe
-                    FileDocumentManagerUtils.delete(filePath);   // deleta
+                    filePath = document_row_folder_path.resolve(fileName); // cria path
+
+                    if (FileDocumentManagerUtils.exists(filePath)) { // se existe
+                        FileDocumentManagerUtils.delete(filePath);   // deleta
+                    }
                 }
             }
 
@@ -156,8 +182,11 @@ public class JsonRowDocumentSerializer {
 
 
     /// Verifica se a coluna está presente
-    public boolean isColumnJsonPresent(Integer rowId){
-        String fileName = rowFileName(rowId);//Cria um nome com o id passado
+    public boolean isColumnJsonPresent(Integer tableId, Integer rowId) {
+        String fileName = rowFileName(
+                tableId,
+                rowId
+        );//Cria um nome com o id passado
         Path filePath = document_row_folder_path.resolve(fileName); //Cria um path seguindo o nome do arquivo
 
         return FileDocumentManagerUtils.exists(filePath);//Verifica se o path existe, e consequentemente o arquivo

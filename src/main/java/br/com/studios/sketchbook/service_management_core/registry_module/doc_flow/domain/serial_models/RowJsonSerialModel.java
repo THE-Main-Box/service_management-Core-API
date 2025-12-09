@@ -6,11 +6,13 @@ import java.util.List;
 
 public record RowJsonSerialModel (
         Integer id,
+        Integer tableId,
         List<Integer> cellIds
 ){
     public RowJsonSerialModel(Row row){
         this(
                 row.getId(),
+                row.getTableId(),
                 row.getCellIdList()
         );
     }

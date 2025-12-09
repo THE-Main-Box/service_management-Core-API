@@ -17,19 +17,27 @@ public class RowDataManagementCore {
     // // // // JSON // // // // // //
 
     public Row loadRowFromJson(Integer rowId) {
-        return rowJSONSerializer.loadRow(rowId);
+        return rowJSONSerializer.loadRowInJson(rowId);
     }
 
     public List<Row> loadRowListFromJson(List<Integer> rowIdList) {
-        return rowJSONSerializer.loadRowList(rowIdList);
+        return rowJSONSerializer.loadRowListInJson(rowIdList);
     }
 
-    public void saveRowFromJson(Row row) {
-        rowJSONSerializer.saveRow(row);
+    public void saveRowToJson(Row row) {
+        rowJSONSerializer.saveRowInJson(row);
+    }
+
+    public void saveRowListToJson(List<Row> rowList) {
+        rowJSONSerializer.saveRowListInJson(rowList);
     }
 
     public void deleteRowJsonIfPresent(Integer rowId) {
         rowJSONSerializer.deleteColumnJsonIfPresent(rowId);
+    }
+
+    public void deleteRowListJsonIfPresent(List<Integer> rowIdList) {
+        rowJSONSerializer.deleteColumnListJsonIfPresent(rowIdList);
     }
 
     public boolean isRowJsonPresent(Integer rowId){

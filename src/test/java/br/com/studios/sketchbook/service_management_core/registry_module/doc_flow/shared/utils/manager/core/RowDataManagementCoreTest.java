@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RowDataManagementCoreTest {
 
@@ -26,6 +25,8 @@ public class RowDataManagementCoreTest {
 
     @AfterEach
     void end() {
+        if (currentRow == null) return;
+
         System.out.println("// // // // // // // // // //");
         System.out.println("row_________: " + currentRow.getId());
         System.out.println("cell_ids____: " + currentRow.getCellIdList());
@@ -33,13 +34,15 @@ public class RowDataManagementCoreTest {
         if (manager.isRowJsonPresent(currentRow.getId())) {
             manager.deleteRowJsonIfPresent(currentRow.getId());
         }
+
+        currentRow = null;
     }
 
     @Test
-    public void createRowTest() {
-        createDummyRow(1, List.of(10, 20, 30));
+    public void createRowJsonTest() {
+        createDummyRow(1, List.of(0, 10, 50));
 
-        manager.saveRowFromJson(currentRow);
+        manager.saveRowToJson(currentRow);
 
         Row tmpRow = manager.loadRowFromJson(currentRow.getId());
 
@@ -48,14 +51,51 @@ public class RowDataManagementCoreTest {
     }
 
     @Test
-    public void loadMultipleRowsTest() {
+    public void saveRowListJsonTest() {
+        Row row1 = new Row(11, List.of(5, 6));
+        Row row2 = new Row(12, List.of(7, 8, 9));
+
+        manager.saveRowListToJson(List.of(row1, row2));
+
+        Row loaded1 = manager.loadRowFromJson(11);
+        Row loaded2 = manager.loadRowFromJson(12);
+
+
+        assertEquals(row1.getCellIdList(), loaded1.getCellIdList());
+        assertEquals(row2.getCellIdList(), loaded2.getCellIdList());
+
+        manager.deleteRowJsonIfPresent(11);
+        manager.deleteRowJsonIfPresent(12);
+    }
+
+    @Test
+    public void deleteRowListJsonIfPresentTest() {
+        Row r1 = new Row(30, List.of(11));
+        Row r2 = new Row(31, List.of(110));
+
+        manager.saveRowToJson(r1);
+        manager.saveRowToJson(r2);
+
+        manager.deleteRowListJsonIfPresent(List.of(30, 31));
+
+        assertFalse(manager.isRowJsonPresent(30));
+        assertFalse(manager.isRowJsonPresent(31));
+    }
+
+    @Test
+    public void deleteNonExistentRowJsonThrowsTest() {
+        assertThrows(RuntimeException.class, () -> manager.deleteRowJsonIfPresent(999));
+    }
+
+    @Test
+    public void loadMultipleRowsJsonTest() {
         Row row1 = new Row(1, List.of(1, 2));
         Row row2 = new Row(2, List.of(3, 4, 5));
         Row row3 = new Row(3, List.of());
 
-        manager.saveRowFromJson(row1);
-        manager.saveRowFromJson(row2);
-        manager.saveRowFromJson(row3);
+        manager.saveRowToJson(row1);
+        manager.saveRowToJson(row2);
+        manager.saveRowToJson(row3);
 
         List<Integer> idList = List.of(1, 2, 3);
 
@@ -73,10 +113,10 @@ public class RowDataManagementCoreTest {
     }
 
     @Test
-    public void deleteRowTest() {
+    public void deleteRowJsonTest() {
         createDummyRow(10, List.of(7, 8, 9));
 
-        manager.saveRowFromJson(currentRow);
+        manager.saveRowToJson(currentRow);
 
         manager.deleteRowJsonIfPresent(currentRow.getId());
 

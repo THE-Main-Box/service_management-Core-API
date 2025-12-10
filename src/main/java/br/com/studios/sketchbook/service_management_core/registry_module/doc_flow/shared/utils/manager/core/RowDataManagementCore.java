@@ -8,40 +8,40 @@ import java.util.List;
 
 public class RowDataManagementCore {
 
-    private final JsonRowDocumentSerializer rowJSONSerializer;
+    private final JsonRowDocumentSerializer rowJsonSerializer;
 
     public RowDataManagementCore() {
-        rowJSONSerializer = new JsonRowDocumentSerializer(new ObjectMapper());
+        rowJsonSerializer = new JsonRowDocumentSerializer(new ObjectMapper());
     }
 
     // // // // JSON // // // // // //
 
     public Row loadRowFromJson(Integer tableId, Integer rowId) {
-        return rowJSONSerializer.loadRowInJson(tableId, rowId);
+        return rowJsonSerializer.loadRow(tableId, rowId);
     }
 
     public List<Row> loadRowListFromJson(List<Integer> tableIdList, List<Integer> rowIdList) {
-        return rowJSONSerializer.loadRowListInJson(tableIdList, rowIdList);
+        return rowJsonSerializer.loadRowList(tableIdList, rowIdList);
     }
 
     public void saveRowToJson(Row row) {
-        rowJSONSerializer.saveRowInJson(row);
+        rowJsonSerializer.saveRow(row);
     }
 
     public void saveRowListToJson(List<Row> rowList) {
-        rowJSONSerializer.saveRowListInJson(rowList);
+        rowJsonSerializer.saveRowList(rowList);
     }
 
     public void deleteRowJsonIfPresent(Integer tableId, Integer rowId) {
-        rowJSONSerializer.deleteColumnJsonIfPresent(tableId, rowId);
+        rowJsonSerializer.deleteColumnIfPresent(tableId, rowId);
     }
 
     public void deleteRowListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
-        rowJSONSerializer.deleteColumnListJsonIfPresent(tableIdList, rowIdList);
+        rowJsonSerializer.deleteColumnListIfPresent(tableIdList, rowIdList);
     }
 
     public boolean isRowJsonPresent(Integer tableId, Integer rowId) {
-        return rowJSONSerializer.isColumnJsonPresent(tableId, rowId);
+        return rowJsonSerializer.isColumnPresent(tableId, rowId);
     }
 
 }

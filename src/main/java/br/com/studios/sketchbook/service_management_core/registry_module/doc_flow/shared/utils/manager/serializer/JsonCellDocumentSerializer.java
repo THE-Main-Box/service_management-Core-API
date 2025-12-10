@@ -2,7 +2,7 @@ package br.com.studios.sketchbook.service_management_core.registry_module.doc_fl
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.FileDocumentManagerUtils;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Cell;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.CellJSONSerialModel;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json.CellJsonSerialModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -24,15 +24,15 @@ public class JsonCellDocumentSerializer {
 
     /// Converte para JSON a partir do modelo original
     private String serializeCell(Cell cell) throws IOException {
-        CellJSONSerialModel serialModel = new CellJSONSerialModel(cell);
+        CellJsonSerialModel serialModel = new CellJsonSerialModel(cell);
 
         return objectMapper.writeValueAsString(serialModel);
     }
 
     private Cell deserializeCell(String json) throws IOException {
-        CellJSONSerialModel model = objectMapper.readValue(
+        CellJsonSerialModel model = objectMapper.readValue(
                 json,
-                CellJSONSerialModel.class
+                CellJsonSerialModel.class
         );
 
         // Converte string de volta para tipo correto
@@ -48,7 +48,7 @@ public class JsonCellDocumentSerializer {
         );
     }
 
-    public void saveCellInJson(Cell cell) {
+    public void saveCell(Cell cell) {
         try {
             String json = serializeCell(cell);
             String fileName = cellFileName(
@@ -65,7 +65,7 @@ public class JsonCellDocumentSerializer {
     }
 
     /// Salva uma lista de células com base no modelo
-    public void saveCellListInJson(List<Cell> cellList) {
+    public void saveCellList(List<Cell> cellList) {
         try {
             String fileName;//Nome do arquivo
             Path filePath;//Caminho do arquivo
@@ -92,7 +92,7 @@ public class JsonCellDocumentSerializer {
     }
 
     /// Carrega um objeto de célula contendo dados, a partir de um documento json
-    public Cell loadCellFromJson(Integer tableId, Integer rowId, Integer cellId) {
+    public Cell loadCell(Integer tableId, Integer rowId, Integer cellId) {
         try {
             String fileName = cellFileName(
                     tableId,
@@ -109,7 +109,7 @@ public class JsonCellDocumentSerializer {
     }
 
     /// Carrega uma lista de cells com base numa lista de dados passada
-    public List<Cell> loadCellListFromJson(List<Integer> tableIdList, List<Integer> rowIdList, List<Integer> cellIdList) {
+    public List<Cell> loadCellList(List<Integer> tableIdList, List<Integer> rowIdList, List<Integer> cellIdList) {
         try {
             List<Cell> toReturnList = new ArrayList<>();//salva em lista
             String fileName;//Nome do arquivo
@@ -146,7 +146,7 @@ public class JsonCellDocumentSerializer {
         }
     }
 
-    public void deleteCellJsonIfPresent(Integer tableId, Integer rowId, Integer cellId) {
+    public void deleteCellIfPresent(Integer tableId, Integer rowId, Integer cellId) {
         try {
 
             String fileName = cellFileName(
@@ -166,7 +166,7 @@ public class JsonCellDocumentSerializer {
     }
 
     /// Deleta uma lista de células caso encontremos os arquivos com os nomes contendo os ids deles
-    public void deleteCellListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList, List<Integer> cellIdList) {
+    public void deleteCellListIfPresent(List<Integer> tableIdList, List<Integer> rowIdList, List<Integer> cellIdList) {
         try {
             String fileName; // Nome do arquivo
             Path filePath;   // Caminho do arquivo
@@ -195,7 +195,7 @@ public class JsonCellDocumentSerializer {
         }
     }
 
-    public boolean isCellJsonPresent(Integer tableId, Integer rowId, Integer cellId) {
+    public boolean isCellPresent(Integer tableId, Integer rowId, Integer cellId) {
         String fileName = cellFileName(
                 tableId,
                 rowId,

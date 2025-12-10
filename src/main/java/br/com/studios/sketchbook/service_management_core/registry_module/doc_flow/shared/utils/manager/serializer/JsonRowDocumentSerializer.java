@@ -2,7 +2,7 @@ package br.com.studios.sketchbook.service_management_core.registry_module.doc_fl
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.FileDocumentManagerUtils;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.RowJsonSerialModel;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json.RowJsonSerialModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Salva em json o dado de coluna
-    public void saveRowInJson(Row row) {
+    public void saveRow(Row row) {
         try {
             String json = serializeRow(row);//Cria o arquivo a ser salvo
 
@@ -62,7 +62,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Salva uma lista de colunas com base no modelo
-    public void saveRowListInJson(List<Row> rowList) {
+    public void saveRowList(List<Row> rowList) {
         try {
             String fileName;//Nome do arquivo
             Path filePath;//Caminho do arquivo
@@ -88,7 +88,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Carrega uma coluna com base no id do modelo
-    public Row loadRowInJson(Integer tableId, Integer rowId) {
+    public Row loadRow(Integer tableId, Integer rowId) {
         try {
             String fileName = rowFileName(tableId, rowId);//Nome do arquivo
 
@@ -102,7 +102,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Carrega uma lista de colunas com base numa lista de ids do modelo
-    public List<Row> loadRowListInJson(List<Integer> tableIdList, List<Integer> rowId) {
+    public List<Row> loadRowList(List<Integer> tableIdList, List<Integer> rowId) {
         try {
             List<Row> toReturnList = new ArrayList<>();//salva em lista
             String fileName;//Nome do arquivo
@@ -136,7 +136,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Deleta uma coluna caso encontremos o arquivo com o nome contendo o id dele
-    public void deleteColumnJsonIfPresent(Integer tableId, Integer rowId) {
+    public void deleteColumnIfPresent(Integer tableId, Integer rowId) {
         try {
             String fileName = rowFileName(
                     tableId,
@@ -154,7 +154,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Deleta uma lista de colunas caso encontremos os arquivos com os nomes contendo os ids deles
-    public void deleteColumnListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
+    public void deleteColumnListIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
         try {
             String fileName; // Nome do arquivo
             Path filePath;   // Caminho do arquivo
@@ -182,7 +182,7 @@ public class JsonRowDocumentSerializer {
 
 
     /// Verifica se a coluna está presente
-    public boolean isColumnJsonPresent(Integer tableId, Integer rowId) {
+    public boolean isColumnPresent(Integer tableId, Integer rowId) {
         String fileName = rowFileName(
                 tableId,
                 rowId

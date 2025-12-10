@@ -8,10 +8,10 @@ import java.util.List;
 
 public class CellDataManagementCore {
 
-    private final JsonCellDocumentSerializer cellJSONSerializer;
+    private final JsonCellDocumentSerializer cellJsonSerializer;
 
     public CellDataManagementCore() {
-        cellJSONSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
+        cellJsonSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
     }
 
     // // // // JSON // // // // // //
@@ -20,7 +20,7 @@ public class CellDataManagementCore {
             Integer rowId,
             Integer cellId
     ) {
-        return cellJSONSerializer.loadCellFromJson(
+        return cellJsonSerializer.loadCell(
                 tableId,
                 rowId,
                 cellId
@@ -32,7 +32,7 @@ public class CellDataManagementCore {
             List<Integer> rowIdList,
             List<Integer> cellIdList
     ) {
-        return cellJSONSerializer.loadCellListFromJson(
+        return cellJsonSerializer.loadCellList(
                 tableIdList,
                 rowIdList,
                 cellIdList
@@ -40,11 +40,11 @@ public class CellDataManagementCore {
     }
 
     public void saveCellInJson(Cell cell) {
-        cellJSONSerializer.saveCellInJson(cell);
+        cellJsonSerializer.saveCell(cell);
     }
 
     public void saveCellListInJson(List<Cell> cellList) {
-        cellJSONSerializer.saveCellListInJson(cellList);
+        cellJsonSerializer.saveCellList(cellList);
     }
 
     public void deleteCellJsonIfPresent(
@@ -52,7 +52,7 @@ public class CellDataManagementCore {
             Integer rowId,
             Integer cellId
     ) {
-        cellJSONSerializer.deleteCellJsonIfPresent(
+        cellJsonSerializer.deleteCellIfPresent(
                 tableId,
                 rowId,
                 cellId
@@ -64,7 +64,7 @@ public class CellDataManagementCore {
             List<Integer> rowIdList,
             List<Integer> cellIdList
     ) {
-        cellJSONSerializer.deleteCellListJsonIfPresent(
+        cellJsonSerializer.deleteCellListIfPresent(
                 tableIdList,
                 rowIdList,
                 cellIdList
@@ -76,7 +76,7 @@ public class CellDataManagementCore {
             Integer rowId,
             Integer cellId
     ) {
-        return cellJSONSerializer.isCellJsonPresent(
+        return cellJsonSerializer.isCellPresent(
                 tableId,
                 rowId,
                 cellId

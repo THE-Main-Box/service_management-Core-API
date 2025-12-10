@@ -1,4 +1,4 @@
-package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models;
+package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
 

@@ -13,15 +13,15 @@ public class Table {
 
     /// Lista de linhas que pertencem a essa tabela
     @Getter
-    private final List<Row> rowList;
+    private final List<Integer> rowIdList;
 
     public Table(Integer id) {
         this.id = id;
-        rowList = new ArrayList<>();
+        rowIdList = new ArrayList<>();
     }
 
-    public Table(Integer id, List<Row> rowList) {
+    public Table(Integer id, List<Integer> rowIdList) {
         this.id = id;
-        this.rowList = rowList;
+        this.rowIdList = rowIdList;
     }
 }

@@ -9,9 +9,11 @@ public class PathDirection {
     public static final String registry_module_path = base_package_path + ".registry_module";
 
     public static final Path projectRoot = Path.of("").toAbsolutePath();
+
     public static final Path document_folder_path = projectRoot.resolve("data/doc");
     public static final Path document_cell_folder_path = document_folder_path.resolve("cell");
     public static final Path document_row_folder_path = document_folder_path.resolve("row");
+    public static final Path document_table_folder_path = document_folder_path.resolve("table");
 
 
 }

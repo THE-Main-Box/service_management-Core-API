@@ -21,5 +21,8 @@ public class NamingArchives {
         return "table_" + tableId + "_" + "row_" + rowId + ".json";
     }
 
+    public static String tableFileName(Integer tableId){
+        return "table_" + tableId + ".json";
+    }
 
 }

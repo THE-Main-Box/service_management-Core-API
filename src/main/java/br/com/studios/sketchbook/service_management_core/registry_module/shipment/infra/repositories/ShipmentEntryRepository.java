@@ -32,10 +32,10 @@ public interface ShipmentEntryRepository extends JpaRepository<ShipmentEntry, UU
     // Busca por nome do item enviado
     @Query("""
             SELECT s FROM ShipmentEntry s
-            WHERE LOWER(s.itemShipped.name) LIKE LOWER(CONCAT('%', :name, '%'))
-            ORDER BY s.itemShipped.name
+            WHERE LOWER(s.itemShipped.itemName) LIKE LOWER(CONCAT('%', :itemName, '%'))
+            ORDER BY s.itemShipped.itemName
             """)
-    Page<ShipmentEntry> findByItemName(@Param("name") String name, Pageable pageable);
+    Page<ShipmentEntry> findByItemName(@Param("itemName") String name, Pageable pageable);
 
     // Busca por ID do endereço de ORIGEM
     @Query("""

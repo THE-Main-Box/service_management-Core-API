@@ -104,8 +104,12 @@ public class ShipmentEntryControllerTest {
         UUID itemId = UUID.randomUUID();
 
         ShipmentEntryCreationDTO dto = makeDTO(
-                originId, destId, itemId,
-                "Origem A", "Destino B", "Item XYZ"
+                originId,
+                destId,
+                itemId,
+                "Origem A",
+                "Destino B",
+                "Item XYZ"
         );
 
         mock.perform(
@@ -130,7 +134,7 @@ public class ShipmentEntryControllerTest {
                 // item -> snapshot
                 .andExpect(jsonPath("$.itemShipped.itemId")
                         .value(itemId.toString()))
-                .andExpect(jsonPath("$.itemShipped.name")
+                .andExpect(jsonPath("$.itemShipped.itemName")
                         .value("Item XYZ"));
     }
 

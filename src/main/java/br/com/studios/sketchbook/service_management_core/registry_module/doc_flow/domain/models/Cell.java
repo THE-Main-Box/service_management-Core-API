@@ -8,7 +8,11 @@ public class Cell {
     @Getter
     private final Integer id;
 
-    /// Id da coluna que a cell pertence
+    /// Id da table a quem a cell pertence
+    @Getter
+    private final Integer tableId;
+
+    /// Id da linha que a cell pertence
     @Getter
     private final Integer rowId;
 
@@ -20,13 +24,14 @@ public class Cell {
     @Getter
     private Class<?> valueType;
 
-    public Cell(Integer id, Integer rowId, Object value) {
+    public Cell(Integer id, Integer tableId, Integer rowId, Object value) {
         this.id = id;
+        this.tableId = tableId;
         this.rowId = rowId;
         this.setValue(value);
     }
 
-    public void setValue(Object value){
+    public void setValue(Object value) {
         this.value = value;
         this.valueType = value != null ? value.getClass() : Void.class;
     }

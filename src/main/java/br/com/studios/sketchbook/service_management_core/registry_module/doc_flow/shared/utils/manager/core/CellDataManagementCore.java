@@ -4,48 +4,84 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonCellDocumentSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 public class CellDataManagementCore {
 
-    private final JsonCellDocumentSerializer jsonSerializer;
+    private final JsonCellDocumentSerializer cellJsonSerializer;
 
     public CellDataManagementCore() {
-        jsonSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
+        cellJsonSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
     }
 
-    public Cell loadCellFromJson(Integer rowId, Integer cellId) {
-        return jsonSerializer.loadCell(rowId, cellId);
+    // // // // JSON // // // // // //
+    public Cell loadCellFromJson(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        return cellJsonSerializer.loadCell(
+                tableId,
+                rowId,
+                cellId
+        );
     }
 
-    public void saveCellFromJson(Cell cell) {
-        jsonSerializer.saveCell(cell);
+    public List<Cell> loadCellListFromJson(
+            List<Integer> tableIdList,
+            List<Integer> rowIdList,
+            List<Integer> cellIdList
+    ) {
+        return cellJsonSerializer.loadCellList(
+                tableIdList,
+                rowIdList,
+                cellIdList
+        );
     }
 
-    public void deleteCellJsonIfPresent(Integer rowId, Integer cellId) {
-        jsonSerializer.deleteCellJson(rowId, cellId);
+    public void saveCellInJson(Cell cell) {
+        cellJsonSerializer.saveCell(cell);
     }
 
-    public boolean isCellJsonPresent(Integer rowId, Integer cellId){
-        return jsonSerializer.isCellJsonPresent(rowId, cellId);
+    public void saveCellListInJson(List<Cell> cellList) {
+        cellJsonSerializer.saveCellList(cellList);
     }
 
-    public static String cellFileName(Integer rowId, Integer cellId) {
-        return "cell_" + rowId + "_" + cellId + ".json";
+    public void deleteCellJsonIfPresent(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        cellJsonSerializer.deleteCellIfPresent(
+                tableId,
+                rowId,
+                cellId
+        );
     }
 
-    public static String rowFileName(Integer rowId) {
-        return "row_" + rowId + ".json";
+    public void deleteCellListJsonIfPresent(
+            List<Integer> tableIdList,
+            List<Integer> rowIdList,
+            List<Integer> cellIdList
+    ) {
+        cellJsonSerializer.deleteCellListIfPresent(
+                tableIdList,
+                rowIdList,
+                cellIdList
+        );
     }
 
-    public static Object convertToType(Object value, String typeName) {
-        // Lógica de conversão baseada no typeName
-        if (value == null) return null;
-
-        return switch (typeName.toLowerCase()) {
-            case "integer" -> Integer.valueOf(value.toString());
-            case "double" -> Double.valueOf(value.toString());
-            case "float" -> Float.valueOf(value.toString());
-            case "string" -> value.toString();
-            default -> value; // Mantém como está
-        };
+    public boolean isCellJsonPresent(
+            Integer tableId,
+            Integer rowId,
+            Integer cellId
+    ) {
+        return cellJsonSerializer.isCellPresent(
+                tableId,
+                rowId,
+                cellId
+        );
     }
+
+
 }

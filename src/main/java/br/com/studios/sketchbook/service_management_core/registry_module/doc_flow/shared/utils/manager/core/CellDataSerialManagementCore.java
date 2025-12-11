@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class CellDataManagementCore {
+public class CellDataSerialManagementCore {
 
     private final JsonCellDocumentSerializer cellJsonSerializer;
 
-    public CellDataManagementCore() {
+    public CellDataSerialManagementCore() {
         cellJsonSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
     }
 

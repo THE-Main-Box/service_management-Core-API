@@ -9,14 +9,14 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TableDataManagementCoreTest {
+public class TableDataSerialManagementCoreTest {
 
-    private static TableDataManagementCore manager;
+    private static TableDataSerialManagementCore manager;
     private static Table currentTable;
 
     @BeforeAll
     static void setup() {
-        manager = new TableDataManagementCore();
+        manager = new TableDataSerialManagementCore();
     }
 
     private void createDummyTable(Integer id, List<Integer> rowIdList) {

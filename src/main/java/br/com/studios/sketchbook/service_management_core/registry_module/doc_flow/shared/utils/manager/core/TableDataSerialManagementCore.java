@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class TableDataManagementCore {
+public class TableDataSerialManagementCore {
 
     private final JsonTableDocumentSerializer tableJsonSerializer;
 
-    public TableDataManagementCore() {
+    public TableDataSerialManagementCore() {
         this.tableJsonSerializer = new JsonTableDocumentSerializer(new ObjectMapper());
     }
 

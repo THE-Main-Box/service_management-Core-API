@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json.RowJsonSerialModel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -29,6 +30,14 @@ public class Row {
         this.id = id;
         this.tableId = tableId;
         this.cellIdList = cellIdList;
+    }
+
+    public Row(RowJsonSerialModel model) {
+        this(
+                model.id(),
+                model.tableId(),
+                model.cellIds()
+        );
     }
 
     @Override

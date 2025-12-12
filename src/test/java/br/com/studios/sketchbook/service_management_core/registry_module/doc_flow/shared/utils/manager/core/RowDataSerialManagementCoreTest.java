@@ -32,7 +32,7 @@ public class RowDataSerialManagementCoreTest {
         System.out.println("cell_ids____: " + currentRow.getCellIdList());
 
         if (manager.isRowPresentInJson(currentRow.getTableId(), currentRow.getId())) {
-            manager.deleteRowJsonIfPresent(currentRow.getTableId(), currentRow.getId());
+            manager.deleteRowIfPresentInJson(currentRow.getTableId(), currentRow.getId());
         }
 
         currentRow = null;
@@ -64,30 +64,13 @@ public class RowDataSerialManagementCoreTest {
         assertEquals(row1.getCellIdList(), loaded1.getCellIdList());
         assertEquals(row2.getCellIdList(), loaded2.getCellIdList());
 
-        manager.deleteRowJsonIfPresent(900, 11);
-        manager.deleteRowJsonIfPresent(901, 12);
-    }
-
-    @Test
-    public void deleteRowListJsonIfPresentTest() {
-        Row r1 = new Row(30, 700, List.of(11));
-        Row r2 = new Row(31, 701, List.of(110));
-
-        manager.saveRowToJson(r1);
-        manager.saveRowToJson(r2);
-
-        manager.deleteRowListJsonIfPresent(
-                List.of(700, 701),
-                List.of(30, 31)
-        );
-
-        assertFalse(manager.isRowPresentInJson(700, 30));
-        assertFalse(manager.isRowPresentInJson(701, 31));
+        manager.deleteRowIfPresentInJson(900, 11);
+        manager.deleteRowIfPresentInJson(901, 12);
     }
 
     @Test
     public void deleteNonExistentRowJsonDoesNotThrowTest() {
-        assertDoesNotThrow(() -> manager.deleteRowJsonIfPresent(5000, 9999));
+        assertDoesNotThrow(() -> manager.deleteRowIfPresentInJson(5000, 9999));
     }
 
     @Test
@@ -111,9 +94,9 @@ public class RowDataSerialManagementCoreTest {
         assertEquals(List.of(3, 4, 5), loaded.get(1).getCellIdList());
         assertEquals(List.of(), loaded.get(2).getCellIdList());
 
-        manager.deleteRowJsonIfPresent(300, 1);
-        manager.deleteRowJsonIfPresent(301, 2);
-        manager.deleteRowJsonIfPresent(302, 3);
+        manager.deleteRowIfPresentInJson(300, 1);
+        manager.deleteRowIfPresentInJson(301, 2);
+        manager.deleteRowIfPresentInJson(302, 3);
     }
 
 
@@ -123,7 +106,7 @@ public class RowDataSerialManagementCoreTest {
 
         manager.saveRowToJson(currentRow);
 
-        manager.deleteRowJsonIfPresent(400, 10);
+        manager.deleteRowIfPresentInJson(400, 10);
 
         assertFalse(manager.isRowPresentInJson(400, 10));
     }

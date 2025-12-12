@@ -36,11 +36,8 @@ public class JsonRowDocumentSerializer {
                 RowJsonSerialModel.class
         );
 
-        return new Row(//Criamos um objeto com base no modelo intermediário criado
-                model.id(),
-                model.tableId(),
-                model.cellIds()
-        );
+        //Criamos um objeto com base no modelo intermediário criado
+        return new Row(model);
     }
 
     /// Salva em json o dado de coluna
@@ -136,7 +133,7 @@ public class JsonRowDocumentSerializer {
     }
 
     /// Deleta uma coluna caso encontremos o arquivo com o nome contendo o id dele
-    public void deleteColumnIfPresent(Integer tableId, Integer rowId) {
+    public boolean deleteRowListIfPresent(Integer tableId, Integer rowId) {
         try {
             String fileName = rowFileName(
                     tableId,
@@ -151,38 +148,14 @@ public class JsonRowDocumentSerializer {
         } catch (IOException e) {
             throw new RuntimeException("Erro ao deletar coluna em JSON: ", e);
         }
-    }
 
-    /// Deleta uma lista de colunas caso encontremos os arquivos com os nomes contendo os ids deles
-    public void deleteColumnListIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
-        try {
-            String fileName; // Nome do arquivo
-            Path filePath;   // Caminho do arquivo
+        return !isRowPresent(tableId, rowId);
 
-            for (Integer tableId : tableIdList) { // itera pela lista
-                for (Integer rowId : rowIdList) { // itera pela lista
-
-                    fileName = rowFileName(
-                            tableId,
-                            rowId
-                    ); // cria nome
-
-                    filePath = document_row_folder_path.resolve(fileName); // cria path
-
-                    if (FileDocumentManagerUtils.exists(filePath)) { // se existe
-                        FileDocumentManagerUtils.delete(filePath);   // deleta
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao deletar lista de colunas em JSON: ", e);
-        }
     }
 
 
-    /// Verifica se a coluna está presente
-    public boolean isColumnPresent(Integer tableId, Integer rowId) {
+    /// Verifica se a linha está presente
+    public boolean isRowPresent(Integer tableId, Integer rowId) {
         String fileName = rowFileName(
                 tableId,
                 rowId

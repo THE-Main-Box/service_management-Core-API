@@ -7,7 +7,7 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 import java.util.List;
 import java.util.Map;
 
-public record GeneratedTableData(
+public record DocumentData(
         Table table,
         List<Row> rowList,
         Map<Integer, List<Cell>> rowCellListMap

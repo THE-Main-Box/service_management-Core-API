@@ -31,4 +31,12 @@ public class Row {
         this.cellIdList = cellIdList;
     }
 
+    @Override
+    public String toString() {
+        return "Row{" +
+                "id=" + id +
+                ", tableId=" + tableId +
+                ", cellIdList=" + cellIdList +
+                '}';
+    }
 }

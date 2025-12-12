@@ -24,4 +24,12 @@ public class Table {
         this.id = id;
         this.rowIdList = rowIdList;
     }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "id=" + id +
+                ", rowIdList=" + rowIdList +
+                '}';
+    }
 }

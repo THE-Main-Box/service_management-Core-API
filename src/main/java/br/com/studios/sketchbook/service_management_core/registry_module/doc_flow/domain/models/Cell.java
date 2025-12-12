@@ -35,4 +35,15 @@ public class Cell {
         this.value = value;
         this.valueType = value != null ? value.getClass() : Void.class;
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "id=" + id +
+                ", tableId=" + tableId +
+                ", rowId=" + rowId +
+                ", value=" + value +
+                ", valueType=" + valueType +
+                '}';
+    }
 }

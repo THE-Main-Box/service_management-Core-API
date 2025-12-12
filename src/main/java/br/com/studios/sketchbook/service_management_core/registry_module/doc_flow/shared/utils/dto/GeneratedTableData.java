@@ -1,0 +1,15 @@
+package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto;
+
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Cell;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
+
+import java.util.List;
+import java.util.Map;
+
+public record GeneratedTableData(
+        Table table,
+        List<Row> rowList,
+        Map<Row, List<Cell>> rowCellListMap
+) {
+}

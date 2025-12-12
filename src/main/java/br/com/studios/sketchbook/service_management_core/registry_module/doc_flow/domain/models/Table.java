@@ -1,7 +1,11 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json.TableJsonSerialModel;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonTableDocumentSerializer;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +15,82 @@ public class Table {
     @Getter
     private final Integer id;
 
+    /// Nome com o qual poderemos identificar a table
+    @Getter
+    @Setter
+    private String name;
+
     /// Lista de linhas que pertencem a essa tabela
     @Getter
     private final List<Integer> rowIdList;
 
+    @Getter
+    private final LocalDateTime createdAt;
+
+    @Getter
+    private LocalDateTime updatedAt;
+
     public Table(Integer id) {
         this.id = id;
-        rowIdList = new ArrayList<>();
+        this.rowIdList = new ArrayList<>();
+
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public Table(Integer id, LocalDateTime createdAt) {
+        this.id = id;
+        this.rowIdList = new ArrayList<>();
+
+
+        this.createdAt = createdAt;
+    }
+
+    public Table(Integer id, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.rowIdList = new ArrayList<>();
+
+
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Table(Integer id, List<Integer> rowIdList) {
         this.id = id;
         this.rowIdList = rowIdList;
+
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public Table(
+            Integer id,
+            String name,
+            List<Integer> rowIdList,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
+        this.id = id;
+        this.name = name;
+
+        this.rowIdList = rowIdList;
+
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Table(TableJsonSerialModel model){
+        this(
+                model.id(),
+                model.name(),
+                model.rowIdList(),
+                model.createdAt(),
+                model.updatedAt()
+        );
+    }
+
+    public void updateUpdateAtValue() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     @Override

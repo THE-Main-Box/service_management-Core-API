@@ -28,11 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 public class ProductControllerTest {
 
-    @Autowired
-    private MockMvc mock;
+    private final MockMvc mock;
+    private final ObjectMapper mapper;
 
     @Autowired
-    private ObjectMapper mapper;
+    public ProductControllerTest(MockMvc mock, ObjectMapper mapper) {
+        this.mock = mock;
+        this.mapper = mapper;
+    }
 
     /**
      * Utilitário para criar um produto via API e retornar o JSON de resposta.

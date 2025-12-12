@@ -10,8 +10,8 @@ public class CellDataSerialManagementCore {
 
     private final JsonCellDocumentSerializer cellJsonSerializer;
 
-    public CellDataSerialManagementCore() {
-        cellJsonSerializer = new JsonCellDocumentSerializer(new ObjectMapper());
+    public CellDataSerialManagementCore(ObjectMapper mapper) {
+        cellJsonSerializer = new JsonCellDocumentSerializer(mapper);
     }
 
     // // // // JSON // // // // // //

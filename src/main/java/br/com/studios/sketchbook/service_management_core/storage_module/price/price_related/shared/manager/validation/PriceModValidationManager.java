@@ -25,12 +25,7 @@ public class PriceModValidationManager {
         } else if (modifier.getTrigger() == AdjustmentTrigger.APPLY_WHEN_MULTIPLE) {
             //Se a quantidade que estamos a passar for maior ou igual um multiplo do necessário
             return amount % amountNecessary == 0;
-        } else if (modifier.getTrigger() == AdjustmentTrigger.APPLY_ALWAYS) {
-            return true;
-        }
-
-
-        return false;
+        } else return modifier.getTrigger() == AdjustmentTrigger.APPLY_ALWAYS;
 
     }
 

@@ -1,8 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,13 +14,12 @@ public class RowDataSerialManagementCoreTest {
     private static RowDataSerialManagementCore manager;
     private static Row currentRow;
 
-    @BeforeAll
-    static void setup() {
-        manager = new RowDataSerialManagementCore();
+    public RowDataSerialManagementCoreTest() {
+        manager = new RowDataSerialManagementCore(new ObjectMapper());
     }
 
     public void createDummyRow(Integer id, Integer tableId, List<Integer> cellIdList) {
-        currentRow = new Row(id, tableId,cellIdList);
+        currentRow = new Row(id, tableId, cellIdList);
     }
 
     @AfterEach

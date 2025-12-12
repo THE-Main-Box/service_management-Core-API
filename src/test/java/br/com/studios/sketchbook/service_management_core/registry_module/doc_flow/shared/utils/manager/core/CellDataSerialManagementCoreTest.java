@@ -1,8 +1,8 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Cell;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,9 +15,8 @@ public class CellDataSerialManagementCoreTest {
     private static CellDataSerialManagementCore manager;
     private static Cell currentCell;
 
-    @BeforeAll
-    static void setup() {
-        manager = new CellDataSerialManagementCore();
+    public CellDataSerialManagementCoreTest() {
+        manager = new CellDataSerialManagementCore(new ObjectMapper());
     }
 
     public void createDummyCell(

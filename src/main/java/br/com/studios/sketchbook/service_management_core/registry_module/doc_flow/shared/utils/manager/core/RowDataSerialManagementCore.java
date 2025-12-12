@@ -10,8 +10,8 @@ public class RowDataSerialManagementCore {
 
     private final JsonRowDocumentSerializer rowJsonSerializer;
 
-    public RowDataSerialManagementCore() {
-        rowJsonSerializer = new JsonRowDocumentSerializer(new ObjectMapper());
+    public RowDataSerialManagementCore(ObjectMapper mapper) {
+        rowJsonSerializer = new JsonRowDocumentSerializer(mapper);
     }
 
     // // // // JSON // // // // // //

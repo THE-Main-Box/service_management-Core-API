@@ -1,9 +1,11 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -14,9 +16,9 @@ public class TableDataSerialManagementCoreTest {
     private static TableDataSerialManagementCore manager;
     private static Table currentTable;
 
-    @BeforeAll
-    static void setup() {
-        manager = new TableDataSerialManagementCore();
+    @Autowired
+    public TableDataSerialManagementCoreTest() {
+        manager = new TableDataSerialManagementCore(new ObjectMapper());
     }
 
     private void createDummyTable(Integer id, List<Integer> rowIdList) {

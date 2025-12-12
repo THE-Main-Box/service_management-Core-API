@@ -10,8 +10,8 @@ public class TableDataSerialManagementCore {
 
     private final JsonTableDocumentSerializer tableJsonSerializer;
 
-    public TableDataSerialManagementCore() {
-        this.tableJsonSerializer = new JsonTableDocumentSerializer(new ObjectMapper());
+    public TableDataSerialManagementCore(ObjectMapper mapper) {
+        this.tableJsonSerializer = new JsonTableDocumentSerializer(mapper);
     }
 
     public void saveTableInJson(Table table) {

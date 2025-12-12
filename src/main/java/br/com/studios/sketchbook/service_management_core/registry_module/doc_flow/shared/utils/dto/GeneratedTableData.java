@@ -10,6 +10,15 @@ import java.util.Map;
 public record GeneratedTableData(
         Table table,
         List<Row> rowList,
-        Map<Row, List<Cell>> rowCellListMap
+        Map<Integer, List<Cell>> rowCellListMap
 ) {
+
+    @Override
+    public String toString() {
+        return "GeneratedTableData{" +
+                "table=" + table +
+                ", rowList=" + rowList +
+                ", rowCellListMap=" + rowCellListMap +
+                '}';
+    }
 }

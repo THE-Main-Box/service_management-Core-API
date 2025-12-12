@@ -20,56 +20,61 @@ public class DocumentTableGenerator {
     }
 
     /**
-     * Geramos uma table com base nos dados passados
+     * Gera uma table com base nos dados passados.
      *
-     * @param tableData dado abstrato passado
-     *                  <p>
-     *                  List<> corresponde à lista de linhas(instancia de dados)
-     *                  <p>
-     *                  List< List<> > corresponde a uma lista de dados
-     *                  (ela que contém as celulas contendo os dados que iremos salvar)
+     * @param tableData Lista de linhas, onde cada linha contém uma lista de valores para geração das cells.
      */
     public GeneratedTableData generateTable(List<List<Object>> tableData) {
 
         Table table = createTable();
-        Map<Row, List<Cell>> totalCellRowMap = new HashMap<>();
+
+        List<Row> rowList = new ArrayList<>();
+        Map<Integer, List<Cell>> rowCellListMap = new HashMap<>();
 
         for (List<Object> cellDataList : tableData) {
+
             Row row = createAndRegisterRow(table);
-            processCellsForRow(table, row, cellDataList, totalCellRowMap);
+            rowList.add(row);
+
+            processCellsForRow(table, row, cellDataList, rowCellListMap);
         }
 
-        return buildGeneratedData(table, totalCellRowMap);
+        return new GeneratedTableData(
+                table,
+                rowList,
+                rowCellListMap
+        );
     }
 
-    /// Gera uma table
+    // Cria uma tabela nova
     private Table createTable() {
         return new Table(generateTableId());
     }
 
-    /// Cria uma row e insere ela dentro da table
+    // Gera uma nova row e registra seu ID dentro da table
     private Row createAndRegisterRow(Table table) {
         Row row = componentGenerator.generateRow(table);
         table.getRowIdList().add(row.getId());
         return row;
     }
 
-    /// Processa a lista de Objetos que corresponde à cell dentro de uma Row
+    // Processa a lista de dados de células pertencentes a uma row
     private void processCellsForRow(
             Table table,
             Row row,
             List<Object> cellDataList,
-            Map<Row, List<Cell>> totalCellRowMap
+            Map<Integer, List<Cell>> rowCellListMap
     ) {
-        for (Object cellValue : cellDataList) {
-            Cell cell = createAndRegisterCell(table, row, cellValue);
-            totalCellRowMap
-                    .computeIfAbsent(row, r -> new ArrayList<>())
+        for (Object value : cellDataList) {
+            Cell cell = createAndRegisterCell(table, row, value);
+
+            rowCellListMap
+                    .computeIfAbsent(row.getId(), x -> new ArrayList<>())
                     .add(cell);
         }
     }
 
-    /// Cria e insere uma Cell dentro de uma Row
+    // Cria uma cell, registra dentro da row e retorna
     private Cell createAndRegisterCell(Table table, Row row, Object value) {
         Cell cell = componentGenerator.generateCell(
                 table.getId(),
@@ -81,53 +86,21 @@ public class DocumentTableGenerator {
         return cell;
     }
 
-    /// Gera um dado que irá conter todas as informações a respeito da table que criamos
-    private GeneratedTableData buildGeneratedData(
-            Table table,
-            Map<Row, List<Cell>> totalCellRowMap
-    ) {
-        return new GeneratedTableData(
-                table,
-                new ArrayList<>(totalCellRowMap.keySet()),
-                totalCellRowMap
-        );
-    }
-
     /**
-     * Gera um id com base nos dados de tempo e data
-     * <p>
-     * Formato resultante (string): "DDSSMMMHH"
-     * - DD   : dia do mês (2 dígitos, 01–31)
-     * - SS   : segundo do minuto (2 dígitos, 00–59)
-     * - MMM  : milissegundos do instante (3 dígitos, 000–999)
-     * - HH   : hash derivado de System.nanoTime() mod 100 (2 dígitos, 00–99)
+     * Gera ID da tabela com base em data/hora.
+     * Formato "DDSSMMMHH"
      */
     private Integer generateTableId() {
-        // Obtém a data e hora atuais
+
         LocalDateTime now = LocalDateTime.now();
 
-        // Captura o dia do mês (vai de 01 até 31)
         int day = now.getDayOfMonth();
-
-        // Captura o segundo atual (00 a 59)
         int second = now.getSecond();
-
-        // Converte nanos para milissegundos (0–999)
-        // O "% 1000" garante que o valor sempre caiba em 3 dígitos
         int ms = (now.getNano() / 1_000_000) % 1000;
-
-        // Usa System.nanoTime() para gerar um valor altamente variável
-        // Depois aplica módulo 100 para manter o resultado com 2 dígitos (00–99)
         int nanoHash = Math.toIntExact(Math.abs(System.nanoTime()) % 100);
 
-        // Monta a string do ID no formato:
-        // DD SS MMM HH
-        // Cada parte tem tamanho fixo para evitar colisões por formatação
         String idStr = String.format("%02d%02d%03d%02d", day, second, ms, nanoHash);
-
-        // Converte a string final para Integer e retorna
         return Integer.parseInt(idStr);
     }
-
 
 }

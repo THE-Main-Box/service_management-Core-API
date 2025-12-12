@@ -47,27 +47,15 @@ public class CellDataSerialManagementCore {
         cellJsonSerializer.saveCellList(cellList);
     }
 
-    public void deleteCellJsonIfPresent(
+    public boolean deleteCellIfPresentInJson(
             Integer tableId,
             Integer rowId,
             Integer cellId
     ) {
-        cellJsonSerializer.deleteCellIfPresent(
+        return cellJsonSerializer.deleteCellIfPresent(
                 tableId,
                 rowId,
                 cellId
-        );
-    }
-
-    public void deleteCellListJsonIfPresent(
-            List<Integer> tableIdList,
-            List<Integer> rowIdList,
-            List<Integer> cellIdList
-    ) {
-        cellJsonSerializer.deleteCellListIfPresent(
-                tableIdList,
-                rowIdList,
-                cellIdList
         );
     }
 

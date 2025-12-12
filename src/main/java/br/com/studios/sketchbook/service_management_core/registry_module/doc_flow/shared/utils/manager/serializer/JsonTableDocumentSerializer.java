@@ -32,10 +32,7 @@ public class JsonTableDocumentSerializer {
                 TableJsonSerialModel.class
         );
 
-        return new Table(
-                model.id(),
-                model.rowIdList()
-        );
+        return new Table(model);
     }
 
     public void saveTable(Table table) {
@@ -113,7 +110,7 @@ public class JsonTableDocumentSerializer {
         }
     }
 
-    public void deleteTableIfPresent(Integer tableId) {
+    public boolean deleteTableIfPresent(Integer tableId) {
         try {
             String fileName = tableFileName(tableId);
             Path filePath = document_table_folder_path.resolve(fileName);
@@ -125,6 +122,8 @@ public class JsonTableDocumentSerializer {
         } catch (IOException e) {
             throw new RuntimeException("Erro ao deletar tabela em JSON: ", e);
         }
+
+        return !isTablePresent(tableId);
     }
 
     public void deleteTableListIfPresent(List<Integer> tableIdList) {

@@ -31,7 +31,7 @@ public class RowDataSerialManagementCoreTest {
         System.out.println("row_________: " + currentRow.getId());
         System.out.println("cell_ids____: " + currentRow.getCellIdList());
 
-        if (manager.isRowJsonPresent(currentRow.getTableId(), currentRow.getId())) {
+        if (manager.isRowPresentInJson(currentRow.getTableId(), currentRow.getId())) {
             manager.deleteRowJsonIfPresent(currentRow.getTableId(), currentRow.getId());
         }
 
@@ -81,8 +81,8 @@ public class RowDataSerialManagementCoreTest {
                 List.of(30, 31)
         );
 
-        assertFalse(manager.isRowJsonPresent(700, 30));
-        assertFalse(manager.isRowJsonPresent(701, 31));
+        assertFalse(manager.isRowPresentInJson(700, 30));
+        assertFalse(manager.isRowPresentInJson(701, 31));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class RowDataSerialManagementCoreTest {
 
         manager.deleteRowJsonIfPresent(400, 10);
 
-        assertFalse(manager.isRowJsonPresent(400, 10));
+        assertFalse(manager.isRowPresentInJson(400, 10));
     }
 
 

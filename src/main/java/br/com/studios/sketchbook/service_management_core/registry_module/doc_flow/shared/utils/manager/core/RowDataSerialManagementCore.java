@@ -40,7 +40,7 @@ public class RowDataSerialManagementCore {
         rowJsonSerializer.deleteColumnListIfPresent(tableIdList, rowIdList);
     }
 
-    public boolean isRowJsonPresent(Integer tableId, Integer rowId) {
+    public boolean isRowPresentInJson(Integer tableId, Integer rowId) {
         return rowJsonSerializer.isColumnPresent(tableId, rowId);
     }
 

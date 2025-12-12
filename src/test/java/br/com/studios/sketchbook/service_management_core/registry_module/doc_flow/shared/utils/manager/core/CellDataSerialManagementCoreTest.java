@@ -50,7 +50,7 @@ public class CellDataSerialManagementCoreTest {
                 "tipo_de_dado: " + currentCell.getValueType().getSimpleName()
         );
 
-        if (manager.isCellJsonPresent(
+        if (manager.isCellPresentInJson(
                 currentCell.getTableId(),
                 currentCell.getRowId(),
                 currentCell.getId()
@@ -275,7 +275,7 @@ public class CellDataSerialManagementCoreTest {
         );
 
         assertFalse(
-                manager.isCellJsonPresent(
+                manager.isCellPresentInJson(
                         currentCell.getTableId(),
                         currentCell.getRowId(),
                         currentCell.getId()
@@ -331,21 +331,21 @@ public class CellDataSerialManagementCoreTest {
         );
 
         assertFalse(
-                manager.isCellJsonPresent(
+                manager.isCellPresentInJson(
                         tableId,
                         rowId,
                         1
                 )
         );
         assertFalse(
-                manager.isCellJsonPresent(
+                manager.isCellPresentInJson(
                         tableId,
                         rowId,
                         2
                 )
         );
         assertFalse(
-                manager.isCellJsonPresent(
+                manager.isCellPresentInJson(
                         tableId,
                         rowId,
                         3

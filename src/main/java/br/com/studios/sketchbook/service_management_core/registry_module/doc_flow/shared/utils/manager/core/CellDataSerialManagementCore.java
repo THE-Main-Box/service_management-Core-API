@@ -71,7 +71,7 @@ public class CellDataSerialManagementCore {
         );
     }
 
-    public boolean isCellJsonPresent(
+    public boolean isCellPresentInJson(
             Integer tableId,
             Integer rowId,
             Integer cellId

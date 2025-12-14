@@ -146,7 +146,7 @@ public class JsonCellDocumentSerializer {
         }
     }
 
-    public void deleteCellIfPresent(Integer tableId, Integer rowId, Integer cellId) {
+    public boolean deleteCellIfPresent(Integer tableId, Integer rowId, Integer cellId) {
         try {
 
             String fileName = cellFileName(
@@ -163,36 +163,8 @@ public class JsonCellDocumentSerializer {
         } catch (IOException e) {
             throw new RuntimeException("Erro ao deletar célula em JSON: ", e);
         }
-    }
 
-    /// Deleta uma lista de células caso encontremos os arquivos com os nomes contendo os ids deles
-    public void deleteCellListIfPresent(List<Integer> tableIdList, List<Integer> rowIdList, List<Integer> cellIdList) {
-        try {
-            String fileName; // Nome do arquivo
-            Path filePath;   // Caminho do arquivo
-
-            for (Integer tableId : tableIdList) {
-                for (Integer rowId : rowIdList) { // itera pela lista de id de coluna
-                    for (Integer cellId : cellIdList) { //Itera pela lista de id de células
-
-                        fileName = cellFileName(
-                                tableId,
-                                rowId,
-                                cellId
-                        ); //Atualiza o nome do arquivo
-
-                        filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
-
-                        if (FileDocumentManagerUtils.exists(filePath)) {
-                            FileDocumentManagerUtils.delete(filePath);
-                        }
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao deletar lista de colunas em JSON: ", e);
-        }
+        return !isCellPresent(tableId, rowId, cellId);
     }
 
     public boolean isCellPresent(Integer tableId, Integer rowId, Integer cellId) {

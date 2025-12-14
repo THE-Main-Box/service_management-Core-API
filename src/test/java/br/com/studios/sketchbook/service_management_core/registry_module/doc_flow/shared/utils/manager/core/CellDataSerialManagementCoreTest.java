@@ -55,7 +55,7 @@ public class CellDataSerialManagementCoreTest {
                 currentCell.getRowId(),
                 currentCell.getId()
         ))
-            manager.deleteCellJsonIfPresent(
+            manager.deleteCellIfPresentInJson(
                     currentCell.getTableId(),
                     currentCell.getRowId(),
                     currentCell.getId()
@@ -149,17 +149,17 @@ public class CellDataSerialManagementCoreTest {
                 l3.getValue()
         );
 
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 1,
                 2,
                 10
         );
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 1,
                 2,
                 11
         );
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 1,
                 2,
                 12
@@ -239,17 +239,17 @@ public class CellDataSerialManagementCoreTest {
                 loaded.get(2).getValueType()
         );
 
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 tableId,
                 rowId,
                 1
         );
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 tableId,
                 rowId,
                 2
         );
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 tableId,
                 rowId,
                 3
@@ -268,7 +268,7 @@ public class CellDataSerialManagementCoreTest {
 
         manager.saveCellInJson(currentCell);
 
-        manager.deleteCellJsonIfPresent(
+        manager.deleteCellIfPresentInJson(
                 currentCell.getTableId(),
                 currentCell.getRowId(),
                 currentCell.getId()
@@ -282,76 +282,4 @@ public class CellDataSerialManagementCoreTest {
                 )
         );
     }
-
-
-    @Test
-    public void deleteCellListInJsonTest() {
-        Integer tableId = 5;
-        Integer rowId = 5;
-
-        Cell c1 = new Cell(
-                1,
-                tableId,
-                rowId,
-                1
-        );
-
-        Cell c2 = new Cell(
-                2,
-                tableId,
-                rowId,
-                2
-        );
-
-        Cell c3 = new Cell(
-                3,
-                tableId,
-                rowId,
-                3
-        );
-
-        manager.saveCellInJson(c1);
-        manager.saveCellInJson(c2);
-        manager.saveCellInJson(c3);
-
-        List<Integer> tableIds = List.of(tableId);
-
-        List<Integer> rowIds = List.of(rowId);
-
-        List<Integer> cells = List.of(
-                1,
-                2,
-                3
-        );
-
-        manager.deleteCellListJsonIfPresent(
-                tableIds,
-                rowIds,
-                cells
-        );
-
-        assertFalse(
-                manager.isCellPresentInJson(
-                        tableId,
-                        rowId,
-                        1
-                )
-        );
-        assertFalse(
-                manager.isCellPresentInJson(
-                        tableId,
-                        rowId,
-                        2
-                )
-        );
-        assertFalse(
-                manager.isCellPresentInJson(
-                        tableId,
-                        rowId,
-                        3
-                )
-        );
-    }
-
-
 }

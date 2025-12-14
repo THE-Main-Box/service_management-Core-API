@@ -32,16 +32,12 @@ public class RowDataSerialManagementCore {
         rowJsonSerializer.saveRowList(rowList);
     }
 
-    public void deleteRowJsonIfPresent(Integer tableId, Integer rowId) {
-        rowJsonSerializer.deleteColumnIfPresent(tableId, rowId);
-    }
-
-    public void deleteRowListJsonIfPresent(List<Integer> tableIdList, List<Integer> rowIdList) {
-        rowJsonSerializer.deleteColumnListIfPresent(tableIdList, rowIdList);
+    public boolean deleteRowIfPresentInJson(Integer tableId, Integer rowId) {
+        return rowJsonSerializer.deleteRowListIfPresent(tableId, rowId);
     }
 
     public boolean isRowPresentInJson(Integer tableId, Integer rowId) {
-        return rowJsonSerializer.isColumnPresent(tableId, rowId);
+        return rowJsonSerializer.isRowPresent(tableId, rowId);
     }
 
 }

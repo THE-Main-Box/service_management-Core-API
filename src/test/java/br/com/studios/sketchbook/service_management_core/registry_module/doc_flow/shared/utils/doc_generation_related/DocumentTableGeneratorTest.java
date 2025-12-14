@@ -1,7 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.GeneratedTableData;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class DocumentTableGeneratorTest {
                 true
         ));
 
-        GeneratedTableData result = docGen.generateTable(tableMapping);
+        DocumentData result = docGen.generateTable(tableMapping, "");
 
         Object tableMappingFirstCellValue = tableMapping.get(0).get(0);
         Object resultFirstCellValue = result

@@ -36,8 +36,8 @@ public class TableDataSerialManagementCore {
         return tableJsonSerializer.loadTableList(tableIdList);
     }
 
-    public void deleteTableIfPresentInJson(Integer tableId){
-        tableJsonSerializer.deleteTableIfPresent(tableId);
+    public boolean deleteTableIfPresentInJson(Integer tableId){
+        return tableJsonSerializer.deleteTableIfPresent(tableId);
     }
 
     public void deleteTableListIfPresentInJson(List<Integer> tableIdList){

@@ -49,10 +49,10 @@ public class DocumentTableGenerator {
     /**
      * Sobrescreve os dados de uma tabela existente mantendo os mesmos IDs.
      *
-     * @param tableId               Id da table existente existente que será editada
-     * @param tableName             Nome da tabela
-     * @param tableCreationTime     Data e hora da criação da table original
-     * @param newTableData          Novos dados para sobrescrever
+     * @param tableId           Id da table existente existente que será editada
+     * @param tableName         Nome da tabela
+     * @param tableCreationTime Data e hora da criação da table original
+     * @param newTableData      Novos dados para sobrescrever
      * @return GeneratedTableData com os mesmos IDs mas valores atualizados
      */
     public DocumentData overrideTableData(
@@ -127,6 +127,14 @@ public class DocumentTableGenerator {
 
     // Cria uma cell, registra dentro da row e retorna
     private Cell createAndRegisterCell(Table table, Row row, Object value) {
+        if (!isPrimitiveOrWrapper(value)) {
+            throw new IllegalArgumentException(
+                    "O valor de: "
+                    + value.getClass()
+                    + " não é um tipo de dado compatível com o nosso sistema"
+            );
+        }
+
         Cell cell = componentGenerator.generateCell(
                 table.getId(),
                 row,
@@ -139,7 +147,7 @@ public class DocumentTableGenerator {
 
     /**
      * Gera ID da tabela com base em data/hora.
-     * Formato "DDSSMMMHH"
+     * Formato "DD-SS-MMM-HH"
      */
     private Integer generateTableId() {
 
@@ -152,6 +160,22 @@ public class DocumentTableGenerator {
 
         String idStr = String.format("%02d%02d%03d%02d", day, second, ms, nanoHash);
         return Integer.parseInt(idStr);
+    }
+
+    public boolean isPrimitiveOrWrapper(Object obj) {
+        if (obj == null) return false;
+
+        Class<?> type = obj.getClass();
+
+        return type == String.class ||
+                type == Integer.class ||
+                type == Long.class ||
+                type == Double.class ||
+                type == Float.class ||
+                type == Boolean.class ||
+                type == Character.class ||
+                type == Byte.class ||
+                type == Short.class;
     }
 
 }

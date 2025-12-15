@@ -24,12 +24,6 @@ public class DocumentTableIO {
     }
 
     /*
-     * TODO: Criar uma espécie de CRUD para lidar com as table.
-     *  Precisamos De métodos para: SALVAR, EDITAR, LER, DELETAR, VERIFICAR EXISTÊNCIA.
-     *  Para as tabelas e seus dados
-     */
-
-    /*
      * TODO: Adicionar um DTO que inclua os dados da tabela em geral como um vetor.
      *  Junto de um dado relacionado ao id da tabela, pois é algo importante de se salvar,
      *  já que os Id das linhas e células se referem às suas posições na row.
@@ -42,7 +36,7 @@ public class DocumentTableIO {
      *
      * @param data Dado intermediário contendo os dados da TABLE, ROW e CELL
      */
-    public void saveTable(DocumentData data) {
+    public void saveDocument(DocumentData data) {
 
         tableManager.saveTableInJson(               //Salva em json a tabela vinda dos dados
                 data.table()                        //Obtém a table armazenada
@@ -62,11 +56,11 @@ public class DocumentTableIO {
     }
 
     /**
-     * Carrega uma Table e os seus componentes
+     * Carrega um documento completo, sua table e componentes internos
      *
      * @param tableId Id da tabela que queremos carregar
      */
-    public DocumentData loadTableIfPresent(Integer tableId) {
+    public DocumentData loadDocumentIfPresent(Integer tableId) {
 
         Table tableToReturn;                                    //Tabela que deverá ser retornada
         List<Row> rowListToReturn;                                  //Linhas que deverão ser retornada
@@ -98,7 +92,7 @@ public class DocumentTableIO {
      *
      * @param dataToOverride dados já convertidos, prontos para serem salvos
      */
-    public boolean updateDocuments(DocumentData dataToOverride) {
+    public boolean updateDocument(DocumentData originalDocument, DocumentData dataToOverride) {
 
         //Se a tabela não existir nem tentamos
         if (!tableManager
@@ -108,12 +102,12 @@ public class DocumentTableIO {
 
                 ||
 
-                !deleteAllTableComponentsIfPresent(
-                        dataToOverride
+                !deleteAllTableComponentsIfPresentAsDocument(
+                        originalDocument
                 )
         ) return false;
 
-        saveTable(dataToOverride);
+        saveDocument(dataToOverride);
 
         return true;
     }
@@ -123,7 +117,7 @@ public class DocumentTableIO {
      *
      * @param data Data contendo os dados da tabela
      */
-    public boolean deleteAllTableComponentsIfPresent(DocumentData data) {
+    public boolean deleteAllTableComponentsIfPresentAsDocument(DocumentData data) {
         boolean tableDeleted;
         boolean allRowsDeleted = true;
         boolean allCellsDeleted = true;
@@ -165,6 +159,10 @@ public class DocumentTableIO {
 
         // Retorna true apenas se TUDO foi deletado com sucesso
         return tableDeleted && allRowsDeleted && allCellsDeleted;
+    }
+
+    public boolean isTablePresent(Integer tableId){
+        return tableManager.isTablePresentInJson(tableId);
     }
 
     //COMPONENTS TO USE
@@ -210,8 +208,6 @@ public class DocumentTableIO {
                     row.getId(),
                     cellList
             );
-
-            cellList.clear();
 
         }
 

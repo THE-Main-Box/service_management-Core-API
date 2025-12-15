@@ -99,7 +99,9 @@ public class DocumentTableGenerator {
 
     // Cria uma tabela nova
     private Table createTable(String name) {
-        return new Table(generateTableId());
+        Table table = new Table(generateTableId());
+        table.setName(name);
+        return table;
     }
 
     // Gera uma nova row e registra seu ID dentro da table

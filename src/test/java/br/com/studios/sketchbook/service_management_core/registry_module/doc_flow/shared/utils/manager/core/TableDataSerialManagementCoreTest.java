@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.registry_module.doc_fl
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,10 @@ public class TableDataSerialManagementCoreTest {
 
     @Autowired
     public TableDataSerialManagementCoreTest() {
-        manager = new TableDataSerialManagementCore(new ObjectMapper());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        manager = new TableDataSerialManagementCore(mapper);
     }
 
     private void createDummyTable(Integer id, List<Integer> rowIdList) {

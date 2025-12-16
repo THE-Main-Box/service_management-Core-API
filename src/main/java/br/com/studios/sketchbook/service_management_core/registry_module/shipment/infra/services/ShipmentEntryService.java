@@ -1,10 +1,15 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.ApiUtils;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentGenerator;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.ShipmentEntryCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.model.ShipmentEntry;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.repositories.ShipmentEntryRepository;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.shared.util.manager.core.ShipmentEntryDataManagementCore;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,7 +40,7 @@ public class ShipmentEntryService {
     @Autowired
     public ShipmentEntryService(ShipmentEntryRepository repository) {
         this.repository = repository;
-        // Instancia o core de gerenciamento de dados
+
         this.manager = new ShipmentEntryDataManagementCore();
     }
 

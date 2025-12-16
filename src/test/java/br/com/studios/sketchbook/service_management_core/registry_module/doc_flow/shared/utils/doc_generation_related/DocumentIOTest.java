@@ -53,10 +53,10 @@ public class DocumentIOTest {
     void afterEach() {
         tableMapping.clear();
 
-//        if (currentDocument != null) {
-//            docIO.deleteAllTableComponentsIfPresentAsDocument(currentDocument);
-//            currentDocument = null;
-//        }
+        if (currentDocument != null) {
+            docIO.deleteAllTableComponentsIfPresentAsDocument(currentDocument);
+            currentDocument = null;
+        }
     }
 
     /**
@@ -91,7 +91,7 @@ public class DocumentIOTest {
                 "ativo"
         );
 
-        currentDocument = docGen.generateTable(
+        currentDocument = docGen.generateDocument(
                 tableMapping,
                 cellNames,
                 "teste de tabelação"
@@ -125,7 +125,7 @@ public class DocumentIOTest {
                 "ativo"
         );
 
-        currentDocument = docGen.generateTable(
+        currentDocument = docGen.generateDocument(
                 tableMapping,
                 cellNames,
                 "teste de save"
@@ -174,7 +174,7 @@ public class DocumentIOTest {
                 "descricao"
         );
 
-        currentDocument = docGen.generateTable(
+        currentDocument = docGen.generateDocument(
                 tableMapping,
                 initialCellNames,
                 "teste de tabelação"
@@ -212,7 +212,7 @@ public class DocumentIOTest {
                 "descricao"
         );
 
-        DocumentData overriddenData = docGen.overrideTableData(
+        DocumentData overriddenData = docGen.overrideDocumentData(
                 currentDocument.table().getId(),
                 currentDocument.table().getName(),
                 currentDocument.table().getCreatedAt(),

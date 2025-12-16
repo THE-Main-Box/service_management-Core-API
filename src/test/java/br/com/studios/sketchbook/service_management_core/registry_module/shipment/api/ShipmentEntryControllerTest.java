@@ -2,6 +2,7 @@ package br.com.studios.sketchbook.service_management_core.registry_module.shipme
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.AddressReferenceCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.ItemShippedCreationDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.req.ShipmentEntryCreationDTO;
@@ -15,11 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -34,7 +39,6 @@ public class ShipmentEntryControllerTest {
 
     private final MockMvc mock;
     private final ObjectMapper mapper;
-
     @Autowired
     public ShipmentEntryControllerTest(MockMvc mock, ObjectMapper mapper) {
         this.mock = mock;
@@ -264,6 +268,49 @@ public class ShipmentEntryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").exists());
     }
+
+    @Test
+    public void createAndDeleteShipmentDocumentTest() throws Exception {
+
+        // cria algumas entries
+        JsonNode e1 = createShipment(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        JsonNode e2 = createShipment(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+
+        String documentName = "shipment_doc_test";
+
+        String body = mapper.writeValueAsString(
+                List.of(
+                        UUID.fromString(e1.get("id").asText()),
+                        UUID.fromString(e2.get("id").asText())
+                )
+        );
+
+        // ---------- CRIA DOCUMENTO E CAPTURA O ID ----------
+        MvcResult createResult =
+                mock.perform(
+                                post("/entry/shipment/document/new")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(body)
+                                        .param("documentName", documentName)
+                        )
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        // ---------- EXTRAI O TABLE ID DO RESPONSE ----------
+        String responseBody = createResult.getResponse().getContentAsString();
+        Integer tableId = mapper.readValue(responseBody, Integer.class);
+
+        // sanity check
+        assertNotNull(tableId);
+
+        // ---------- DELETA O DOCUMENTO ----------
+        mock.perform(
+                        delete("/entry/shipment/document/delete/id/{id}", tableId)
+                )
+                .andExpect(status().isOk());
+    }
+
+
 
 
 }

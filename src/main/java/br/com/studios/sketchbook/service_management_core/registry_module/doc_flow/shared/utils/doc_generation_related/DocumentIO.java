@@ -94,17 +94,16 @@ public class DocumentIO {
      */
     public boolean updateDocument(DocumentData originalDocument, DocumentData dataToOverride) {
 
-        //Se a tabela não existir nem tentamos
-        if (!tableManager
-                .isTablePresentInJson(
+        if (    !originalDocument.table().isCanBeOverridden()   //Se não pudermos sobrescrever o arquivo
+                ||
+                !tableManager.isTablePresentInJson( //Se a tabela não existir nem tentamos
                         dataToOverride.table().getId()
                 )
-
                 ||
-
-                !deleteAllTableComponentsIfPresentAsDocument(
+                !deleteAllTableComponentsIfPresentAsDocument(   //Se já ouver um documento aqui
                         originalDocument
                 )
+
         ) return false;
 
         saveDocument(dataToOverride);
@@ -161,7 +160,7 @@ public class DocumentIO {
         return tableDeleted && allRowsDeleted && allCellsDeleted;
     }
 
-    public boolean isTablePresent(Integer tableId){
+    public boolean isTablePresent(Integer tableId) {
         return tableManager.isTablePresentInJson(tableId);
     }
 

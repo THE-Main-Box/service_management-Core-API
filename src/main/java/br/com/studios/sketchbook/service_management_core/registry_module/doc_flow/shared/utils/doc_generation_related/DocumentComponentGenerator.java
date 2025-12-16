@@ -31,10 +31,10 @@ public class DocumentComponentGenerator {
      * @param cellTableId  id da tabela a quem a nossa cell pertence
      * @param cellRow      linha a qual a cell pertence
      * @param valueToStore valor que iremos armazenar
-     * @param cellName     nome da cell gerada
+     * @param columnName   nome da coluna que a cell foi gerada
      * @return Retornamos a cell já inserida dentro da table e row, contendo os dados desejados
      */
-    public Cell generateCell(Integer cellTableId, Row cellRow, Object valueToStore, String cellName) {
+    public Cell generateCell(Integer cellTableId, Row cellRow, Object valueToStore, String columnName) {
         Cell cell = new Cell(                   //Geramos a cell
                 cellRow.getCellIdList().size(), //Obtemos o último id disponível
                 cellTableId,              //Obtemos o id da tabela
@@ -42,7 +42,7 @@ public class DocumentComponentGenerator {
                 valueToStore                    //Salvamos o valor
         );
 
-        cell.setName(cellName);
+        cell.setName(columnName);
 
         cellRow.getCellIdList().add(            //Adicionamos o id da cell dentro de row
                 cell.getId()                    //Passamos o id, que corresponde a posição dela na lista

@@ -10,7 +10,8 @@ public record TableJsonSerialModel(
         String name,
         List<Integer> rowIdList,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        boolean canBeOverridden
 ) {
     public TableJsonSerialModel(Table table) {
         this(
@@ -18,7 +19,8 @@ public record TableJsonSerialModel(
                 table.getName(),
                 table.getRowIdList(),
                 table.getCreatedAt(),
-                table.getUpdatedAt()
+                table.getUpdatedAt(),
+                table.isCanBeOverridden()
         );
     }
 

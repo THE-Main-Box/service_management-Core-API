@@ -1,7 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models;
 
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.serial_models.json.TableJsonSerialModel;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonTableDocumentSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +13,10 @@ public class Table {
     /// Id da tabela
     @Getter
     private final Integer id;
+
+    @Getter
+    @Setter
+    private boolean canBeOverridden = true;
 
     /// Nome com o qual poderemos identificar a table
     @Getter
@@ -87,6 +90,8 @@ public class Table {
                 model.createdAt(),
                 model.updatedAt()
         );
+
+        this.canBeOverridden = model.canBeOverridden();
     }
 
     public void updateUpdateAtValue() {

@@ -24,9 +24,9 @@ public class DocumentGenerator {
      *
      * @param tableData Lista de linhas, onde cada linha contém uma lista de valores para geração das cells.
      */
-    public DocumentData generateTable(
+    public DocumentData generateDocument(
             List<List<Object>> tableData,
-            List<String> cellNameList,
+            List<String> columnNames,
             String tableName
     ) {
 
@@ -44,7 +44,7 @@ public class DocumentGenerator {
                     table,
                     row,
                     cellDataList,
-                    cellNameList,
+                    columnNames,
                     rowCellListMap
             );
         }
@@ -65,7 +65,7 @@ public class DocumentGenerator {
      * @param newTableData      Novos dados para sobrescrever
      * @return GeneratedTableData com os mesmos IDs mas valores atualizados
      */
-    public DocumentData overrideTableData(
+    public DocumentData overrideDocumentData(
             Integer tableId,
             String tableName,
             LocalDateTime tableCreationTime,
@@ -116,7 +116,7 @@ public class DocumentGenerator {
 
     // Cria uma tabela nova
     private Table createTable(String name) {
-        Table table = new Table(generateTableId());
+        Table table = new Table(generateDocumentTableId());
         table.setName(name);
         return table;
     }
@@ -131,7 +131,7 @@ public class DocumentGenerator {
             Table table,
             Row row,
             List<Object> cellDataList,
-            List<String> cellNameList,
+            List<String> columnNameList,
             Map<Integer, List<Cell>> rowCellListMap
     ) {
         for (int cellDataIndex = 0; cellDataIndex < cellDataList.size(); cellDataIndex++) {
@@ -139,7 +139,7 @@ public class DocumentGenerator {
                     table,
                     row,
                     cellDataList.get(cellDataIndex),
-                    cellNameList.get(cellDataIndex)
+                    columnNameList.get(cellDataIndex)
             );
 
             rowCellListMap
@@ -149,7 +149,7 @@ public class DocumentGenerator {
     }
 
     // Cria uma cell, registra dentro da row e retorna
-    private Cell createAndRegisterCell(Table table, Row row, Object value, String name) {
+    private Cell createAndRegisterCell(Table table, Row row, Object value, String columnName) {
         if (!isPrimitiveOrWrapper(value)) {
             throw new IllegalArgumentException(
                     "O valor de: "
@@ -162,7 +162,7 @@ public class DocumentGenerator {
                 table.getId(),
                 row,
                 value,
-                name
+                columnName
         );
     }
 
@@ -170,7 +170,7 @@ public class DocumentGenerator {
      * Gera ID da tabela com base em data/hora.
      * Formato "DD-SS-MMM-HH"
      */
-    private Integer generateTableId() {
+    private Integer generateDocumentTableId() {
 
         LocalDateTime now = LocalDateTime.now();
 

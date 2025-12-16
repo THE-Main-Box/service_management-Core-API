@@ -57,7 +57,7 @@ public class DocumentGeneratorTest {
         );
 
         // ---------- Act ----------
-        DocumentData result = docGen.generateTable(
+        DocumentData result = docGen.generateDocument(
                 tableMapping,
                 cellNames,
                 ""
@@ -111,7 +111,7 @@ public class DocumentGeneratorTest {
                 "ativo"
         );
 
-        DocumentData original = docGen.generateTable(
+        DocumentData original = docGen.generateDocument(
                 tableMapping,
                 cellNames,
                 "tabela de testes"
@@ -138,7 +138,7 @@ public class DocumentGeneratorTest {
                 'a'
         ));
 
-        DocumentData overrideResult = docGen.overrideTableData(
+        DocumentData overrideResult = docGen.overrideDocumentData(
                 original.table().getId(),
                 original.table().getName(),
                 original.table().getCreatedAt(),
@@ -186,7 +186,7 @@ public class DocumentGeneratorTest {
         // ---------- Assert ----------
         assertThrows(
                 IllegalArgumentException.class,
-                () -> docGen.generateTable(
+                () -> docGen.generateDocument(
                         tableMapping,
                         cellNames,
                         "tabela de testes"

@@ -4,6 +4,7 @@ import br.com.studios.sketchbook.service_management_core.registry_module.shipmen
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.res.ShipmentEntryDetailedResponseDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.dto.res.ShipmentEntrySumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.domain.model.ShipmentEntry;
+import br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services.ShipmentEntryDocProjectionService;
 import br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services.ShipmentEntryService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -23,10 +25,12 @@ import java.util.UUID;
 public class ShipmentEntryController {
 
     private final ShipmentEntryService service;
+    private final ShipmentEntryDocProjectionService projectionService;
 
     @Autowired
-    public ShipmentEntryController(ShipmentEntryService service) {
+    public ShipmentEntryController(ShipmentEntryService service, ShipmentEntryDocProjectionService projectionService) {
         this.service = service;
+        this.projectionService = projectionService;
     }
 
     @GetMapping("/id/{id}")
@@ -200,6 +204,38 @@ public class ShipmentEntryController {
             return ResponseEntity.created(uri).body(new ShipmentEntryDetailedResponseDTO(entry));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PostMapping("/document/new")
+    public ResponseEntity<Integer> documentShipmentIdCreation(
+            @RequestParam String documentName,
+            @RequestBody List<UUID> shipmentIds
+    ) {
+        try {
+            Integer tableId = projectionService.createDocumentByIdList(
+                    documentName,
+                    shipmentIds
+            );
+
+            // lógica
+            return ResponseEntity.ok().body(tableId);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/document/delete/id/{id}")
+    public ResponseEntity<?> documentShipmentId(@PathVariable Integer id) {
+        try {
+
+            if (!projectionService.deleteDocumentByTableId(id)
+            ) throw new RuntimeException("Houve um erro na geração do documento");
+
+            // lógica
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 

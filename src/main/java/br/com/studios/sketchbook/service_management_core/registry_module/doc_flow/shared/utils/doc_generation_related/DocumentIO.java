@@ -11,13 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
-public class DocumentTableIO {
+public class DocumentIO {
 
     private final TableDataSerialManagementCore tableManager;
     private final RowDataSerialManagementCore rowManager;
     private final CellDataSerialManagementCore cellManager;
 
-    public DocumentTableIO(ObjectMapper mapper) {
+    public DocumentIO(ObjectMapper mapper) {
         this.tableManager = new TableDataSerialManagementCore(mapper);
         this.rowManager = new RowDataSerialManagementCore(mapper);
         this.cellManager = new CellDataSerialManagementCore(mapper);

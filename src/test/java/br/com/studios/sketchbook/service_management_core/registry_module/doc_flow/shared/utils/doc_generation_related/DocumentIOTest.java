@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * carregamento e sobrescrita de documentos, sem mocks,
  * respeitando o fluxo completo do sistema.
  */
-public class DocumentTableIOTest {
+public class DocumentIOTest {
 
     // Gerador de documentos (responsável apenas por criar dados em memória)
-    private static final DocumentTableGenerator docGen = new DocumentTableGenerator();
+    private static final DocumentGenerator docGen = new DocumentGenerator();
 
     // IO responsável por persistência
-    private final DocumentTableIO docIO;
+    private final DocumentIO docIO;
 
     // Documento atual utilizado nos testes
     private DocumentData currentDocument;
@@ -37,10 +37,10 @@ public class DocumentTableIOTest {
      * Configuração mínima necessária para serialização correta.
      * Mantida explícita para evitar dependência implícita do Spring Context.
      */
-    public DocumentTableIOTest() {
+    public DocumentIOTest() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        this.docIO = new DocumentTableIO(mapper);
+        this.docIO = new DocumentIO(mapper);
     }
 
     /**
@@ -53,10 +53,10 @@ public class DocumentTableIOTest {
     void afterEach() {
         tableMapping.clear();
 
-        if (currentDocument != null) {
-            docIO.deleteAllTableComponentsIfPresentAsDocument(currentDocument);
-            currentDocument = null;
-        }
+//        if (currentDocument != null) {
+//            docIO.deleteAllTableComponentsIfPresentAsDocument(currentDocument);
+//            currentDocument = null;
+//        }
     }
 
     /**
@@ -85,8 +85,15 @@ public class DocumentTableIOTest {
                 'B'
         ));
 
+        List<String> cellNames = Arrays.asList(
+                "id",
+                "descricao",
+                "ativo"
+        );
+
         currentDocument = docGen.generateTable(
                 tableMapping,
+                cellNames,
                 "teste de tabelação"
         );
 
@@ -97,6 +104,7 @@ public class DocumentTableIOTest {
                 "A tabela deveria estar presente após o save"
         );
     }
+
 
     /**
      * Responsabilidade: validar que um documento salvo pode ser carregado.
@@ -112,8 +120,14 @@ public class DocumentTableIOTest {
                 false
         ));
 
+        List<String> cellNames = Arrays.asList(
+                "codigo",
+                "ativo"
+        );
+
         currentDocument = docGen.generateTable(
                 tableMapping,
+                cellNames,
                 "teste de save"
         );
 
@@ -135,6 +149,7 @@ public class DocumentTableIOTest {
         );
     }
 
+
     /**
      * Responsabilidade: validar o fluxo completo de sobrescrita de documentos.
      *
@@ -154,8 +169,14 @@ public class DocumentTableIOTest {
                 "valor inicial == true"
         ));
 
+        List<String> initialCellNames = Arrays.asList(
+                "ativo",
+                "descricao"
+        );
+
         currentDocument = docGen.generateTable(
                 tableMapping,
+                initialCellNames,
                 "teste de tabelação"
         );
 
@@ -186,11 +207,17 @@ public class DocumentTableIOTest {
                 "valor final == true"
         ));
 
+        List<String> overrideCellNames = Arrays.asList(
+                "ativo",
+                "descricao"
+        );
+
         DocumentData overriddenData = docGen.overrideTableData(
                 currentDocument.table().getId(),
                 currentDocument.table().getName(),
                 currentDocument.table().getCreatedAt(),
-                tableMapping
+                tableMapping,
+                overrideCellNames
         );
 
         docIO.updateDocument(
@@ -222,4 +249,5 @@ public class DocumentTableIOTest {
                 "O valor da célula deve refletir a sobrescrita"
         );
     }
+
 }

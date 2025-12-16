@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DocumentTableGenerator {
+public class DocumentGenerator {
 
     private final DocumentComponentGenerator componentGenerator;
 
-    public DocumentTableGenerator() {
+    public DocumentGenerator() {
         this.componentGenerator = new DocumentComponentGenerator();
     }
 
@@ -24,7 +24,11 @@ public class DocumentTableGenerator {
      *
      * @param tableData Lista de linhas, onde cada linha contém uma lista de valores para geração das cells.
      */
-    public DocumentData generateTable(List<List<Object>> tableData, String tableName) {
+    public DocumentData generateTable(
+            List<List<Object>> tableData,
+            List<String> cellNameList,
+            String tableName
+    ) {
 
         Table table = createTable(tableName);
 
@@ -36,7 +40,13 @@ public class DocumentTableGenerator {
             Row row = createAndRegisterRow(table);
             rowList.add(row);
 
-            processCellsForRow(table, row, cellDataList, rowCellListMap);
+            processCellsForRow(
+                    table,
+                    row,
+                    cellDataList,
+                    cellNameList,
+                    rowCellListMap
+            );
         }
 
         return new DocumentData(
@@ -59,7 +69,8 @@ public class DocumentTableGenerator {
             Integer tableId,
             String tableName,
             LocalDateTime tableCreationTime,
-            List<List<Object>> newTableData
+            List<List<Object>> newTableData,
+            List<String> cellNameList
     ) {
         Table table = new Table(tableId, tableCreationTime);
         table.updateUpdateAtValue();
@@ -73,7 +84,13 @@ public class DocumentTableGenerator {
             Row row = createAndRegisterRow(table);
             rowList.add(row);
 
-            processCellsForRow(table, row, cellDataList, rowCellListMap);
+            processCellsForRow(
+                    table,
+                    row,
+                    cellDataList,
+                    cellNameList,
+                    rowCellListMap
+            );
         }
 
         return new DocumentData(
@@ -106,9 +123,7 @@ public class DocumentTableGenerator {
 
     // Gera uma nova row e registra seu ID dentro da table
     private Row createAndRegisterRow(Table table) {
-        Row row = componentGenerator.generateRow(table);
-        table.getRowIdList().add(row.getId());
-        return row;
+        return componentGenerator.generateRow(table);
     }
 
     // Processa a lista de dados de células pertencentes a uma row
@@ -116,10 +131,16 @@ public class DocumentTableGenerator {
             Table table,
             Row row,
             List<Object> cellDataList,
+            List<String> cellNameList,
             Map<Integer, List<Cell>> rowCellListMap
     ) {
-        for (Object value : cellDataList) {
-            Cell cell = createAndRegisterCell(table, row, value);
+        for (int cellDataIndex = 0; cellDataIndex < cellDataList.size(); cellDataIndex++) {
+            Cell cell = createAndRegisterCell(
+                    table,
+                    row,
+                    cellDataList.get(cellDataIndex),
+                    cellNameList.get(cellDataIndex)
+            );
 
             rowCellListMap
                     .computeIfAbsent(row.getId(), x -> new ArrayList<>())
@@ -128,23 +149,21 @@ public class DocumentTableGenerator {
     }
 
     // Cria uma cell, registra dentro da row e retorna
-    private Cell createAndRegisterCell(Table table, Row row, Object value) {
+    private Cell createAndRegisterCell(Table table, Row row, Object value, String name) {
         if (!isPrimitiveOrWrapper(value)) {
             throw new IllegalArgumentException(
                     "O valor de: "
-                    + value.getClass()
-                    + " não é um tipo de dado compatível com o nosso sistema"
+                            + value.getClass()
+                            + " não é um tipo de dado compatível com o nosso sistema"
             );
         }
 
-        Cell cell = componentGenerator.generateCell(
+        return componentGenerator.generateCell(
                 table.getId(),
                 row,
-                value
+                value,
+                name
         );
-
-        row.getCellIdList().add(cell.getId());
-        return cell;
     }
 
     /**

@@ -1,6 +1,7 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class Cell {
 
@@ -23,6 +24,10 @@ public class Cell {
     /// Tipo de dado do valor que temos aqui dentro
     @Getter
     private Class<?> valueType;
+
+    @Getter
+    @Setter
+    private String name;
 
     public Cell(Integer id, Integer tableId, Integer rowId, Object value) {
         this.id = id;

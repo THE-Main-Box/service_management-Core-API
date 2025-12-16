@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * Estes testes validam exclusivamente a geração de estruturas em memória
  * (Table, Row, Cell), sem envolver persistência ou IO.
  */
-public class DocumentTableGeneratorTest {
+public class DocumentGeneratorTest {
 
     // Gerador sob teste
-    private static final DocumentTableGenerator docGen = new DocumentTableGenerator();
+    private static final DocumentGenerator docGen = new DocumentGenerator();
 
     // Estrutura mutável usada como entrada para geração
     private static final List<List<Object>> tableMapping = new ArrayList<>();
@@ -50,9 +50,16 @@ public class DocumentTableGeneratorTest {
                 true
         ));
 
+        List<String> cellNames = Arrays.asList(
+                "id",
+                "nome",
+                "ativo"
+        );
+
         // ---------- Act ----------
         DocumentData result = docGen.generateTable(
                 tableMapping,
+                cellNames,
                 ""
         );
 
@@ -79,6 +86,7 @@ public class DocumentTableGeneratorTest {
         );
     }
 
+
     /**
      * Responsabilidade: validar sobrescrita lógica de dados mantendo identidade.
      *
@@ -97,8 +105,15 @@ public class DocumentTableGeneratorTest {
                 true
         ));
 
+        List<String> cellNames = Arrays.asList(
+                "id",
+                "nome",
+                "ativo"
+        );
+
         DocumentData original = docGen.generateTable(
                 tableMapping,
+                cellNames,
                 "tabela de testes"
         );
 
@@ -127,7 +142,8 @@ public class DocumentTableGeneratorTest {
                 original.table().getId(),
                 original.table().getName(),
                 original.table().getCreatedAt(),
-                tableMapping
+                tableMapping,
+                cellNames
         );
 
         // ---------- Assert ----------
@@ -143,6 +159,7 @@ public class DocumentTableGeneratorTest {
                 "O ID da tabela deve ser preservado no override"
         );
     }
+
 
     /**
      * Responsabilidade: validar falha na geração com dados inválidos.
@@ -160,14 +177,22 @@ public class DocumentTableGeneratorTest {
                 true
         ));
 
+        List<String> cellNames = Arrays.asList(
+                "campo_invalido",
+                "nome",
+                "ativo"
+        );
+
         // ---------- Assert ----------
         assertThrows(
                 IllegalArgumentException.class,
                 () -> docGen.generateTable(
                         tableMapping,
+                        cellNames,
                         "tabela de testes"
                 ),
                 "Tipos inválidos devem gerar IllegalArgumentException"
         );
     }
+
 }

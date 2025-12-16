@@ -40,12 +40,19 @@ public class JsonCellDocumentSerializer {
                 model.value(),
                 model.valueType()
         );
-        return new Cell(
+
+        Cell cell = new Cell(
                 model.id(),
                 model.tableId(),
                 model.rowId(),
                 value
         );
+
+        cell.setName(
+                model.name()
+        );
+
+        return cell;
     }
 
     public void saveCell(Cell cell) {

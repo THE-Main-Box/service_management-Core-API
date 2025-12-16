@@ -36,7 +36,7 @@ public class SuperMarketProduct implements Serializable, PriceOwner, StorageAble
     private String name;
 
     /// Código de barras do produto
-    @Column(name = "bar_code")
+    @Column(name = "bar_code", unique = true, nullable = false)
     @Getter
     @Setter
     private String barcode;

@@ -89,7 +89,7 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
                     )
             ),
             @AttributeOverride(
-                    name = "name",
+                    name = "itemName",
                     column = @Column(
                             name = "name",
                             nullable = false,

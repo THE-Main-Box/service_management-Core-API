@@ -9,11 +9,13 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Controller
@@ -143,6 +145,47 @@ public class ShipmentEntryController {
                     service.getByItemId(itemId, page, size)
                             .map(ShipmentEntrySumResponseDTO::new)
             );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("/issue_date/{date}")
+    public ResponseEntity<Page<Object>> getByIssueDate(
+            @PathVariable("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate, // Converte a string da URL p/ LocalDate
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+            // Aqui você chama o serviço passando a data
+            return ResponseEntity.ok().body(
+                    service.findByIssueDate(issueDate, page, size)
+                            .map(ShipmentEntrySumResponseDTO::new)
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("/trip_date/{date}")
+    public ResponseEntity<Page<Object>> getByTripDate(
+            @PathVariable("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate, // Converte a string da URL p/ LocalDate
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        try {
+
+            // Aqui você chama o serviço passando a data
+            return ResponseEntity.ok().body(
+                    service.findByTripDate(
+                            issueDate,
+                            page,
+                            size
+                    ).map(ShipmentEntrySumResponseDTO::new)
+            );
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(404).build();
         }

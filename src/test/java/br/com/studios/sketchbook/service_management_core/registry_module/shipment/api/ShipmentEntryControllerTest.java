@@ -228,4 +228,42 @@ public class ShipmentEntryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Entrada apagada com sucesso"));
     }
+
+    @Test
+    public void getByIssueDateTest() throws Exception {
+        UUID originId = UUID.randomUUID();
+        UUID destId = UUID.randomUUID();
+        UUID itemId = UUID.randomUUID();
+
+        // Cria uma entrada com datas = hoje
+        createShipment(originId, destId, itemId);
+
+        LocalDate today = LocalDate.now();
+
+        mock.perform(
+                        get("/entry/shipment/issue_date/{date}", today.toString())
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists());
+    }
+
+    @Test
+    public void getByTripDateTest() throws Exception {
+        UUID originId = UUID.randomUUID();
+        UUID destId = UUID.randomUUID();
+        UUID itemId = UUID.randomUUID();
+
+        // Cria uma entrada com datas = hoje
+        createShipment(originId, destId, itemId);
+
+        LocalDate today = LocalDate.now();
+
+        mock.perform(
+                        get("/entry/shipment/trip_date/{date}", today.toString())
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists());
+    }
+
+
 }

@@ -8,32 +8,38 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record ShipmentEntrySumResponseDTO(
+        /// Id da viagem
         UUID id,
 
+        /// Data da viagem
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate tripDate,
 
+        /// Data de emissão de viagem
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        LocalDate issueDate,
+
+        /// Id da viagem de origem
         UUID originAddressId,
-        String originDescription,
 
+        /// Id da viagem de destino
         UUID destinationAddressId,
-        String destinationDescription,
 
+        /// Id do item que foi transferido
         UUID itemId,
-        String itemName,
+        /// Quantidade base do item transferido
         Long itemUnits,
+        /// Tipo de volume que o item possui na hora da viagem em si
         VolumeType itemVolume
 ) {
     public ShipmentEntrySumResponseDTO(ShipmentEntry entry){
         this(
                 entry.getId(),
                 entry.getTripDate(),
+                entry.getIssueDate(),
                 entry.getOriginAddressRef().addressId(),
-                entry.getOriginAddressRef().description(),
                 entry.getDestinationAddressRef().addressId(),
-                entry.getDestinationAddressRef().description(),
                 entry.getItemShipped().itemId(),
-                entry.getItemShipped().itemName(),
                 entry.getItemShipped().units(),
                 entry.getItemShipped().volumeType()
         );

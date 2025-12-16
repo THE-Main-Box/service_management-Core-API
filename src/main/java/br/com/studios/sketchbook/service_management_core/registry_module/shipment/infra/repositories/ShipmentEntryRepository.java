@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Repository
 public interface ShipmentEntryRepository extends JpaRepository<ShipmentEntry, UUID> {
 
-    // Busca por descrição do endereço de ORIGEM
+    /// Busca por descrição do endereço de ORIGEM
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE LOWER(s.originAddressRef.description) LIKE LOWER(CONCAT('%', :description, '%'))
@@ -21,7 +22,7 @@ public interface ShipmentEntryRepository extends JpaRepository<ShipmentEntry, UU
             """)
     Page<ShipmentEntry> findByOriginAddressDescription(@Param("description") String description, Pageable pageable);
 
-    // Busca por descrição do endereço de DESTINO
+    /// Busca por descrição do endereço de DESTINO
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE LOWER(s.destinationAddressRef.description) LIKE LOWER(CONCAT('%', :description, '%'))
@@ -29,7 +30,7 @@ public interface ShipmentEntryRepository extends JpaRepository<ShipmentEntry, UU
             """)
     Page<ShipmentEntry> findByDestinationAddressDescription(@Param("description") String description, Pageable pageable);
 
-    // Busca por nome do item enviado
+    /// Busca por nome do item enviado
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE LOWER(s.itemShipped.itemName) LIKE LOWER(CONCAT('%', :itemName, '%'))
@@ -37,24 +38,46 @@ public interface ShipmentEntryRepository extends JpaRepository<ShipmentEntry, UU
             """)
     Page<ShipmentEntry> findByItemName(@Param("itemName") String name, Pageable pageable);
 
-    // Busca por ID do endereço de ORIGEM
+    /// Busca por ID do endereço de ORIGEM
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE s.originAddressRef.addressId = :addressId
             """)
     Page<ShipmentEntry> findByOriginAddressId(@Param("addressId") UUID addressId, Pageable pageable);
 
-    // Busca por ID do endereço de DESTINO
+    /// Busca por ID do endereço de DESTINO
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE s.destinationAddressRef.addressId = :addressId
             """)
     Page<ShipmentEntry> findByDestinationAddressId(@Param("addressId") UUID addressId, Pageable pageable);
 
-    // Busca por ID do item enviado
+    /// Busca por ID do item enviado
     @Query("""
             SELECT s FROM ShipmentEntry s
             WHERE s.itemShipped.itemId = :itemId
             """)
     Page<ShipmentEntry> findByItemId(@Param("itemId") UUID itemId, Pageable pageable);
+
+    /// Busca por data de emissão
+    @Query("""
+        SELECT s FROM ShipmentEntry s
+        WHERE s.issueDate = :issueDate
+        ORDER BY s.issueDate
+        """)
+    Page<ShipmentEntry> findByIssueDate(
+            @Param("issueDate") LocalDate issueDate,
+            Pageable pageable
+    );
+
+    /// Busca por data de viagem
+    @Query("""
+        SELECT s FROM ShipmentEntry s
+        WHERE s.tripDate = :tripDate
+        ORDER BY s.tripDate
+        """)
+    Page<ShipmentEntry> findByTripDate(
+            @Param("tripDate") LocalDate tripDate,
+            Pageable pageable
+    );
 }

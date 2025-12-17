@@ -92,9 +92,9 @@ public class DocumentIO {
      *
      * @param dataToOverride dados já convertidos, prontos para serem salvos
      */
-    public boolean updateDocument(DocumentData originalDocument, DocumentData dataToOverride) {
+    public void updateDocument(DocumentData originalDocument, DocumentData dataToOverride) {
 
-        if (    !originalDocument.table().isCanBeOverridden()   //Se não pudermos sobrescrever o arquivo
+        if (!originalDocument.table().isCanBeOverridden()   //Se não pudermos sobrescrever o arquivo
                 ||
                 !tableManager.isTablePresentInJson( //Se a tabela não existir nem tentamos
                         dataToOverride.table().getId()
@@ -104,11 +104,24 @@ public class DocumentIO {
                         originalDocument
                 )
 
-        ) return false;
+        ) return;
 
         saveDocument(dataToOverride);
 
-        return true;
+    }
+
+    /**
+     * Apaga o documento com o id da tabela passado caso exista
+     *
+     * @param tableId id da tabela
+     */
+    public boolean deleteDocumentByTableId(Integer tableId) {
+
+        //Tenta deletar um documento caso exista
+        return this.deleteAllTableComponentsIfPresentAsDocument(
+                this.loadDocumentIfPresent(tableId)
+        );
+
     }
 
     /**

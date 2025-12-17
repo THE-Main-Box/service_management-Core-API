@@ -30,12 +30,6 @@ public class ShipmentEntryDocProjectionService {
         this.shipmentEntryService = shipmentEntryService;
     }
 
-    public boolean deleteDocumentByTableId(Integer tableId) {
-        return docIO.deleteAllTableComponentsIfPresentAsDocument(
-                docIO.loadDocumentIfPresent(tableId)
-        );
-    }
-
     public Integer createDocumentByIdList(String documentName, List<UUID> entryIdList) {
         List<List<Object>> currentTableData = new ArrayList<>();
         List<String> currentTableColumnNames = new ArrayList<>();

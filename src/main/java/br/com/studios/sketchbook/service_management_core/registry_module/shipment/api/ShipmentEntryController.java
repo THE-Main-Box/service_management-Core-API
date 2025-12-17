@@ -225,20 +225,6 @@ public class ShipmentEntryController {
         }
     }
 
-    @DeleteMapping("/document/delete/id/{id}")
-    public ResponseEntity<?> documentShipmentId(@PathVariable Integer id) {
-        try {
-
-            if (!projectionService.deleteDocumentByTableId(id)
-            ) throw new RuntimeException("Houve um erro na geração do documento");
-
-            // lógica
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<?> removeById(@PathVariable UUID id) {
         if (service.delete(id)) {

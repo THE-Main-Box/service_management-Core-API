@@ -39,10 +39,14 @@ public class ShipmentEntryControllerTest {
 
     private final MockMvc mock;
     private final ObjectMapper mapper;
+
+    private final DocumentIO docIO;
+
     @Autowired
     public ShipmentEntryControllerTest(MockMvc mock, ObjectMapper mapper) {
         this.mock = mock;
         this.mapper = mapper;
+        this.docIO = new DocumentIO(mapper);
     }
 
     /* ============================================================
@@ -304,10 +308,7 @@ public class ShipmentEntryControllerTest {
         assertNotNull(tableId);
 
         // ---------- DELETA O DOCUMENTO ----------
-        mock.perform(
-                        delete("/entry/shipment/document/delete/id/{id}", tableId)
-                )
-                .andExpect(status().isOk());
+        docIO.deleteDocumentByTableId(tableId);
     }
 
 

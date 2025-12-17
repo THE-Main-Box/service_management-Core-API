@@ -184,7 +184,7 @@ public class DocumentGenerator {
     }
 
     public boolean isPrimitiveOrWrapper(Object obj) {
-        if (obj == null) return false;
+        if (obj == null) return true;
 
         Class<?> type = obj.getClass();
 

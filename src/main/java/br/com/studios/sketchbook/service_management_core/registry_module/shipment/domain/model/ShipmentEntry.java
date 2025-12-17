@@ -105,6 +105,13 @@ public class ShipmentEntry implements AddressOwnerTypes, Serializable {
                     )
             ),
             @AttributeOverride(
+                    name = "unitsPerUnit",
+                    column = @Column(
+                            name = "units_per_unit",
+                            updatable = false
+                    )
+            ),
+            @AttributeOverride(
                     name = "volumeType",
                     column = @Column(
                             name = "volume_type",

@@ -11,6 +11,7 @@ public record ItemShipped(
         UUID itemId,
         String itemName,
         Long units,
+        Long unitsPerUnit,
         VolumeType volumeType
 ) {
     public ItemShipped(ItemShippedCreationDTO dto) {
@@ -18,8 +19,14 @@ public record ItemShipped(
                 dto.itemId(),
                 dto.itemName(),
                 dto.units(),
+                dto.unitsPerUnit(),
                 dto.volumeType()
         );
+
+        if (dto.volumeType().isCompostType()
+                && unitsPerUnit == null
+        ) throw new IllegalArgumentException("Tipos de dado composto precisam dizer o quanto tem por unidade");
+
     }
 
 }

@@ -79,6 +79,7 @@ public class ShipmentEntryDataManagementCoreTest {
                 ITEM_ID,
                 "Caixa de Eletrônicos",
                 50L,
+                null,
                 VolumeType.UNIT
         );
 
@@ -129,6 +130,7 @@ public class ShipmentEntryDataManagementCoreTest {
                 ITEM_ID,
                 "Produtos Diversos",
                 1L,
+                null,
                 VolumeType.KILOGRAM
         );
 

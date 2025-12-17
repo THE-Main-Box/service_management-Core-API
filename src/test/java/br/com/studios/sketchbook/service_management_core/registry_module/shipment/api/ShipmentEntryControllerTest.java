@@ -68,7 +68,8 @@ public class ShipmentEntryControllerTest {
                 itemId,
                 itemName,
                 10L,
-                VolumeType.UNIT
+                null,
+                VolumeType.KILOGRAM
         );
 
         return new ShipmentEntryCreationDTO(

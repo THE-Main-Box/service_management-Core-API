@@ -29,6 +29,8 @@ public record ShipmentEntrySumResponseDTO(
         UUID itemId,
         /// Quantidade base do item transferido
         Long itemUnits,
+        /// Quantidade por unidade de item transferido
+        Long itemUnitsPerUnit,
         /// Tipo de volume que o item possui na hora da viagem em si
         VolumeType itemVolume
 ) {
@@ -41,6 +43,7 @@ public record ShipmentEntrySumResponseDTO(
                 entry.getDestinationAddressRef().addressId(),
                 entry.getItemShipped().itemId(),
                 entry.getItemShipped().units(),
+                entry.getItemShipped().unitsPerUnit(),
                 entry.getItemShipped().volumeType()
         );
     }

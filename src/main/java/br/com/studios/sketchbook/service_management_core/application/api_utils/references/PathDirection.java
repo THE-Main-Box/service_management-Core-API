@@ -10,10 +10,10 @@ public class PathDirection {
 
     public static final Path projectRoot = Path.of("").toAbsolutePath();
 
-    public static final Path document_folder_path = projectRoot.resolve("data/doc/json");
-    public static final Path document_cell_folder_path = document_folder_path.resolve("cell");
-    public static final Path document_row_folder_path = document_folder_path.resolve("row");
-    public static final Path document_table_folder_path = document_folder_path.resolve("table");
+    public static final Path document_json_folder_path = projectRoot.resolve("data/doc/json");
+    public static final Path document_json_cell_folder_path = document_json_folder_path.resolve("cell");
+    public static final Path document_json_row_folder_path = document_json_folder_path.resolve("row");
+    public static final Path document_json_table_folder_path = document_json_folder_path.resolve("table");
 
 
 }

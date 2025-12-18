@@ -74,10 +74,6 @@ public class SMProductDocProjectionService {
             );
         }
 
-        if (documentTableName == null || documentTableName.isBlank()) {
-            documentTableName = "table_of: " + prefix.name();
-        }
-
         //Obtem o documento completo
         DocumentData currentDocument = docGen.generateDocument(
                 currentTableData,

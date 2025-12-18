@@ -4,23 +4,23 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.CellDataSerialManagementCore;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.RowDataSerialManagementCore;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.TableDataSerialManagementCore;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.CellSerialDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.RowSerialDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.TableSerialDataManagementCore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
 public class DocumentIO {
 
-    private final TableDataSerialManagementCore tableManager;
-    private final RowDataSerialManagementCore rowManager;
-    private final CellDataSerialManagementCore cellManager;
+    private final TableSerialDataManagementCore tableManager;
+    private final RowSerialDataManagementCore rowManager;
+    private final CellSerialDataManagementCore cellManager;
 
     public DocumentIO(ObjectMapper mapper) {
-        this.tableManager = new TableDataSerialManagementCore(mapper);
-        this.rowManager = new RowDataSerialManagementCore(mapper);
-        this.cellManager = new CellDataSerialManagementCore(mapper);
+        this.tableManager = new TableSerialDataManagementCore(mapper);
+        this.rowManager = new RowSerialDataManagementCore(mapper);
+        this.cellManager = new CellSerialDataManagementCore(mapper);
     }
 
     /*

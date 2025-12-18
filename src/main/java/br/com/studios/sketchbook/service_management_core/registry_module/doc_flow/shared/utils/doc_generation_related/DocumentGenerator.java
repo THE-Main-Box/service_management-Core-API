@@ -35,6 +35,10 @@ public class DocumentGenerator {
             DocumentPrefix prefix
     ) {
 
+        if (tableName == null || tableName .isBlank()) {
+            tableName = "table_of: " + prefix.name().toLowerCase();
+        }
+
         Table table = createTable(
                 tableName,
                 canBeOverridden,

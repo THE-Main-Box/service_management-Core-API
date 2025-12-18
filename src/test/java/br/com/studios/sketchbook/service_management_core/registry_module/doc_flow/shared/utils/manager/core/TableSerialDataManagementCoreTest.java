@@ -4,7 +4,6 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,17 +11,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TableDataSerialManagementCoreTest {
+public class TableSerialDataManagementCoreTest {
 
-    private static TableDataSerialManagementCore manager;
+    private static TableSerialDataManagementCore manager;
     private static Table currentTable;
 
     @Autowired
-    public TableDataSerialManagementCoreTest() {
+    public TableSerialDataManagementCoreTest() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        manager = new TableDataSerialManagementCore(mapper);
+        manager = new TableSerialDataManagementCore(mapper);
     }
 
     private void createDummyTable(Integer id, List<Integer> rowIdList) {

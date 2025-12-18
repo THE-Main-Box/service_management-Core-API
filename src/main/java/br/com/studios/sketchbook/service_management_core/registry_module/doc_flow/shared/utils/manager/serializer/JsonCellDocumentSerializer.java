@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_cell_folder_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_json_cell_folder_path;
 import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.converter.ConvertFromString.convertToType;
 import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.cellFileName;
 
@@ -63,7 +63,7 @@ public class JsonCellDocumentSerializer {
                     cell.getRowId(),
                     cell.getId()
             );
-            Path filePath = document_cell_folder_path.resolve(fileName);
+            Path filePath = document_json_cell_folder_path.resolve(fileName);
 
             FileDocumentManagerUtils.save(json, filePath);
         } catch (IOException e) {
@@ -88,7 +88,7 @@ public class JsonCellDocumentSerializer {
                         cell.getId()
                 );//Cria um nome de arquivo
 
-                filePath = document_cell_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
+                filePath = document_json_cell_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
 
                 FileDocumentManagerUtils.save(json, filePath);//Salva
             }
@@ -106,7 +106,7 @@ public class JsonCellDocumentSerializer {
                     rowId,
                     cellId
             );
-            Path filePath = document_cell_folder_path.resolve(fileName);
+            Path filePath = document_json_cell_folder_path.resolve(fileName);
 
             String json = FileDocumentManagerUtils.read(filePath);
             return deserializeCell(json);
@@ -133,7 +133,7 @@ public class JsonCellDocumentSerializer {
                                 cellId
                         ); //Atualiza o nome do arquivo
 
-                        filePath = document_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
+                        filePath = document_json_cell_folder_path.resolve(fileName);//Atualiza o path do arquivo
 
                         if (!FileDocumentManagerUtils.exists(filePath)) {
                             continue;//se não existir prossegue pra próxima iteração
@@ -162,7 +162,7 @@ public class JsonCellDocumentSerializer {
                     cellId
             );
 
-            Path filePath = document_cell_folder_path.resolve(fileName);
+            Path filePath = document_json_cell_folder_path.resolve(fileName);
 
             if (FileDocumentManagerUtils.exists(filePath)) {
                 FileDocumentManagerUtils.delete(filePath);
@@ -180,7 +180,7 @@ public class JsonCellDocumentSerializer {
                 rowId,
                 cellId
         );
-        Path filePath = document_cell_folder_path.resolve(fileName);
+        Path filePath = document_json_cell_folder_path.resolve(fileName);
 
         return FileDocumentManagerUtils.exists(filePath);
     }

@@ -10,13 +10,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class CellDataSerialManagementCoreTest {
+public class CellSerialDataManagementCoreTest {
 
-    private static CellDataSerialManagementCore manager;
+    private static CellSerialDataManagementCore manager;
     private static Cell currentCell;
 
-    public CellDataSerialManagementCoreTest() {
-        manager = new CellDataSerialManagementCore(new ObjectMapper());
+    public CellSerialDataManagementCoreTest() {
+        manager = new CellSerialDataManagementCore(new ObjectMapper());
     }
 
     public void createDummyCell(

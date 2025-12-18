@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class RowDataSerialManagementCore {
+public class RowSerialDataManagementCore {
 
     private final JsonRowDocumentSerializer rowJsonSerializer;
 
-    public RowDataSerialManagementCore(ObjectMapper mapper) {
+    public RowSerialDataManagementCore(ObjectMapper mapper) {
         rowJsonSerializer = new JsonRowDocumentSerializer(mapper);
     }
 

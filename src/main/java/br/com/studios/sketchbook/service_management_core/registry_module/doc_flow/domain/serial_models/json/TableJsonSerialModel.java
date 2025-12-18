@@ -11,7 +11,8 @@ public record TableJsonSerialModel(
         List<Integer> rowIdList,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        boolean canBeOverridden
+        boolean canBeOverridden,
+        String documentPrefix
 ) {
     public TableJsonSerialModel(Table table) {
         this(
@@ -20,7 +21,8 @@ public record TableJsonSerialModel(
                 table.getRowIdList(),
                 table.getCreatedAt(),
                 table.getUpdatedAt(),
-                table.isCanBeOverridden()
+                table.isCanBeOverridden(),
+                table.getDocumentPrefix().name()
         );
     }
 

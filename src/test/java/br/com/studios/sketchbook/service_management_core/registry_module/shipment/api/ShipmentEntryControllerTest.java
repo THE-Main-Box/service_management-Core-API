@@ -281,7 +281,7 @@ public class ShipmentEntryControllerTest {
         JsonNode e1 = createShipment(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
         JsonNode e2 = createShipment(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
 
-        String documentName = "shipment_doc_test";
+        String documentName = "";
 
         String body = mapper.writeValueAsString(
                 List.of(

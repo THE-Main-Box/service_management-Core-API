@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.shipment.infra.services;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.enumerators.DocumentPrefix;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentGenerator;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
@@ -30,10 +31,11 @@ public class ShipmentEntryDocProjectionService {
         this.shipmentEntryService = shipmentEntryService;
     }
 
-    public Integer createDocumentByIdList(String documentName, List<UUID> entryIdList) {
+    public Integer createDocumentByIdList(String documentTableName, List<UUID> entryIdList) {
         List<List<Object>> currentTableData = new ArrayList<>();
         List<String> currentTableColumnNames = new ArrayList<>();
         ShipmentEntry currentEntryToDocument;
+        DocumentPrefix prefix = DocumentPrefix.SHIPMENT_TRIP;
 
         //Gera o nome das colunas
         this.generateColumnNamesToBaseDocumentFromEntry(
@@ -54,15 +56,20 @@ public class ShipmentEntryDocProjectionService {
             );
         }
 
+        if (documentTableName == null || documentTableName.isBlank()) {
+            documentTableName = "table_of: " + prefix.name();
+        }
+
         //Obtem o documento completo
         DocumentData currentDocument = docGen.generateDocument(
                 currentTableData,
                 currentTableColumnNames,
-                documentName
+                documentTableName
         );
 
         //Atualiza a permição de sobrescrita
         currentDocument.table().setCanBeOverridden(false);
+        currentDocument.table().setDocumentPrefix(prefix);
 
         docIO.saveDocument(currentDocument);
 

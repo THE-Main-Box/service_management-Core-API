@@ -5,6 +5,7 @@ import br.com.studios.sketchbook.service_management_core.registry_module.doc_flo
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.SuperMarketProduct;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.model.StorageEntry;
 import br.com.studios.sketchbook.service_management_core.storage_module.storage.infra.services.StorageEntryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,18 +18,18 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductDocProjectionService {
+public class SMProductDocProjectionService {
 
     private final DocumentIO docIO;
     private final DocumentGenerator docGen;
 
-    private final ProductService productService;
+    private final SMProductService productService;
     private final StorageEntryService storageService;
 
     @Autowired
-    public ProductDocProjectionService(
+    public SMProductDocProjectionService(
             ObjectMapper mapper,
-            ProductService productService,
+            SMProductService productService,
             StorageEntryService storageService
     ) {
 
@@ -45,9 +46,9 @@ public class ProductDocProjectionService {
     ) {
         List<List<Object>> currentTableData = new ArrayList<>();
         List<String> currentTableColumnNames = new ArrayList<>();
-        Product currenProductModelToDocument;
+        SuperMarketProduct currenProductModelToDocument;
         StorageEntry currentStorageModelToDocument;
-        DocumentPrefix prefix = DocumentPrefix.DEFAULT_PRODUCT_STORAGE;
+        DocumentPrefix prefix = DocumentPrefix.SUPER_MARKET_PRODUCT_STORAGE;
 
         //Gera o nome das colunas
         this.generateColumnNamesToStorageDocumentFromEntry(
@@ -94,13 +95,14 @@ public class ProductDocProjectionService {
     }
 
     private void generateTableDataToProductStorage(
-            Product productModel,
+            SuperMarketProduct productModel,
             StorageEntry storageModel,
             List<List<Object>> tableDataToInsert
     ) {
 
         tableDataToInsert.add(Arrays.asList(
                 productModel.getName(),                     //Nome do produto
+                productModel.getBarcode(),                  //Código de barras
                 storageModel.getVolumeType().name(),        //Tipo de volume
                 storageModel.getUnits(),                    //Quantidade em unidades inteiras
                 storageModel.getSubUnits(),                 //Quantidade em unidades quebradas(caso exista)
@@ -113,11 +115,12 @@ public class ProductDocProjectionService {
         columnNameList.clear();
 
         columnNameList.addAll(List.of(
-                "product_name",                 //Nome do produto
-                "volume_type",                  //Tipo de volume do produto
-                "units",                        //Quantidade em valor raw
-                "sub_units",                    //Quantidade interna por unidade em raw
-                "quantity_per_unit"             /*Constante de quantidade por unidade
+                "super_market_product_name",                    //Nome do produto
+                "bar_code",                                     //Código de barras
+                "volume_type",                                  //Tipo de volume do produto
+                "units",                                        //Quantidade em valor raw
+                "sub_units",                                    //Quantidade interna por unidade em raw
+                "quantity_per_unit"                             /*Constante de quantidade por unidade
                  *(Importante para saber quantas unidades temos por unidade)
                  */
         ));

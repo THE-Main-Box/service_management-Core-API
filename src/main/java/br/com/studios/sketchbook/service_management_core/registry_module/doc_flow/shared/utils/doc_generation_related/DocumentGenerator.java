@@ -23,6 +23,8 @@ public class DocumentGenerator {
      * Gera uma table com base nos dados passados.
      *
      * @param tableData Lista de linhas, onde cada linha contém uma lista de valores para geração das cells.
+     * @param tableName Nome da tabela
+     * @param columnNames Lista de nomes de coluna
      */
     public DocumentData generateDocument(
             List<List<Object>> tableData,

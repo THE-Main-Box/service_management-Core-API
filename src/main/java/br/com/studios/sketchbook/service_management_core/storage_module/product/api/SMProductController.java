@@ -6,6 +6,8 @@ import br.com.studios.sketchbook.service_management_core.storage_module.product.
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.super_market.req.SMProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.super_market.res.SMProductSumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.SuperMarketProduct;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.ProductDocProjectionService;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.SMProductDocProjectionService;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.SMProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,11 +27,17 @@ public class SMProductController implements ProductRestControllerContract {
 
     private final SMProductService service;
     private final ObjectMapper mapper;
+    private final SMProductDocProjectionService projectionService;
 
     @Autowired
-    public SMProductController(SMProductService service, ObjectMapper mapper) {
+    public SMProductController(
+            SMProductService service,
+            ObjectMapper mapper,
+            SMProductDocProjectionService projectionService
+    ) {
         this.service = service;
         this.mapper = mapper;
+        this.projectionService = projectionService;
     }
 
     @GetMapping("/all")
@@ -85,7 +94,6 @@ public class SMProductController implements ProductRestControllerContract {
         );
     }
 
-
     @PostMapping("/new")
     public ResponseEntity<Object> create(@Valid @RequestBody Object dtoObj) {
         SMProductCreationDTO dto = mapper.convertValue(dtoObj, SMProductCreationDTO.class);
@@ -94,6 +102,24 @@ public class SMProductController implements ProductRestControllerContract {
         URI uri = service.getUriForPersistedObject(model);
 
         return ResponseEntity.created(uri).body(new SMProductDetailedResponseDTO(model));
+    }
+
+    @PostMapping("/document/stock/new")
+    public ResponseEntity<Integer> productStockDocumentGeneration(
+            @RequestParam String documentName,
+            @RequestBody List<UUID> productIds
+    ) {
+        try {
+            Integer tableId = projectionService.createDocumentForStorageByIdList(
+                    documentName,
+                    productIds
+            );
+
+            // lógica
+            return ResponseEntity.ok().body(tableId);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/delete/id/{id}")

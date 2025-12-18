@@ -18,7 +18,7 @@ public class Table {
     /// Prefixo para auxiliar o rastreamento do documento
     @Getter
     @Setter
-    private DocumentPrefix documentPrefix;
+    private DocumentPrefix documentPrefix = DocumentPrefix.NON_DEFINED;
 
     /// Nome com o qual poderemos identificar a table
     @Getter
@@ -28,7 +28,7 @@ public class Table {
     /// Valor que determina se podemos sobrescrever os dados da tabela
     @Getter
     @Setter
-    private boolean canBeOverridden;
+    private boolean canBeOverridden = true;
 
     /// Lista de linhas que pertencem a essa tabela
     @Getter
@@ -99,7 +99,9 @@ public class Table {
         );
 
         this.canBeOverridden = model.canBeOverridden();
-        this.documentPrefix = DocumentPrefix.valueOf(model.documentPrefix());
+        this.documentPrefix = DocumentPrefix.valueOf(
+                model.documentPrefix()
+        );
     }
 
     public void updateUpdateAtValue() {

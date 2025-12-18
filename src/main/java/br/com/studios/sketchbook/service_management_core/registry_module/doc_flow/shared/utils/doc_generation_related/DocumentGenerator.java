@@ -77,6 +77,7 @@ public class DocumentGenerator {
     public DocumentData overrideDocumentData(
             Integer tableId,
             String tableName,
+            DocumentPrefix prefix,
             LocalDateTime tableCreationTime,
             List<List<Object>> newTableData,
             List<String> cellNameList
@@ -84,6 +85,7 @@ public class DocumentGenerator {
         Table table = new Table(tableId, tableCreationTime);
         table.updateUpdateAtValue();
         table.setName(tableName);
+        table.setDocumentPrefix(prefix);
 
         List<Row> rowList = new ArrayList<>();
         Map<Integer, List<Cell>> rowCellListMap = new HashMap<>();

@@ -222,6 +222,7 @@ public class DocumentIOTest {
         DocumentData overriddenData = docGen.overrideDocumentData(
                 currentDocument.table().getId(),
                 currentDocument.table().getName(),
+                currentDocument.table().getDocumentPrefix(),
                 currentDocument.table().getCreatedAt(),
                 tableMapping,
                 overrideCellNames

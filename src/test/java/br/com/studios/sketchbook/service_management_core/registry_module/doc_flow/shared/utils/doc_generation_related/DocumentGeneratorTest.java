@@ -146,6 +146,7 @@ public class DocumentGeneratorTest {
         DocumentData overrideResult = docGen.overrideDocumentData(
                 original.table().getId(),
                 original.table().getName(),
+                original.table().getDocumentPrefix(),
                 original.table().getCreatedAt(),
                 tableMapping,
                 cellNames

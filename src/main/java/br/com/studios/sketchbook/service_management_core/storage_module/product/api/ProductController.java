@@ -6,6 +6,7 @@ import br.com.studios.sketchbook.service_management_core.storage_module.product.
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductUpdateDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.res.ProductSumResponseDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.model.Product;
+import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.ProductDocProjectionService;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.infra.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,12 +25,19 @@ import java.util.UUID;
 public class ProductController implements ProductRestControllerContract {
 
     private final ProductService service;
+    private final ProductDocProjectionService projectionService;
+
     private final ObjectMapper mapper;
 
     @Autowired
-    public ProductController(ProductService service, ObjectMapper mapper) {
+    public ProductController(
+            ProductService service,
+            ObjectMapper mapper,
+            ProductDocProjectionService projectionService
+    ) {
         this.service = service;
         this.mapper = mapper;
+        this.projectionService = projectionService;
     }
 
     @GetMapping("/all")
@@ -91,6 +100,30 @@ public class ProductController implements ProductRestControllerContract {
         URI uri = service.getUriForPersistedObject(model);
 
         return ResponseEntity.created(uri).body(new ProductDetailedResponseDTO(model));
+    }
+
+    /**
+     * TODO: ADICIONAR A DOCUMENTAÇÃO DE PREÇO NO SISTEMA DE PREÇO FUTURO,
+     *      ONDE IREMOS TER A CAPACIDADE DE DOCUMENTAR O HISTÓRICO DE VENDAS E COISAS RELACIONADAS,
+     *       ASSIM PERMITINDO UM USO MAIS FLEXIVEL DE DADOS DE UM MODO COERENTE SEM PRECISAR LIDAR COM COISAS DO TIPO
+     */
+
+    @PostMapping("/document/stock/new")
+    public ResponseEntity<Integer> productStockDocumentGeneration(
+            @RequestParam String documentName,
+            @RequestBody List<UUID> productIds
+    ) {
+        try {
+            Integer tableId = projectionService.createDocumentForStorageByIdList(
+                    documentName,
+                    productIds
+            );
+
+            // lógica
+            return ResponseEntity.ok().body(tableId);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/delete/id/{id}")

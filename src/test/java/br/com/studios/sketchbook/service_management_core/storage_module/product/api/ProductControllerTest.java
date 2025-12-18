@@ -2,8 +2,11 @@ package br.com.studios.sketchbook.service_management_core.storage_module.product
 
 import br.com.studios.sketchbook.service_management_core.application.ServiceManagementCoreApiApplication;
 import br.com.studios.sketchbook.service_management_core.application.api_utils.config.TestConfig;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductCreationDTO;
 import br.com.studios.sketchbook.service_management_core.storage_module.product.domain.dto.product.req.ProductUpdateDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.domain.dto.req.StorageEntryCreationDTO;
+import br.com.studios.sketchbook.service_management_core.storage_module.storage.shared.enums.VolumeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -13,8 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,11 +38,13 @@ public class ProductControllerTest {
 
     private final MockMvc mock;
     private final ObjectMapper mapper;
+    private final DocumentIO docIO;
 
     @Autowired
     public ProductControllerTest(MockMvc mock, ObjectMapper mapper) {
         this.mock = mock;
         this.mapper = mapper;
+        this.docIO = new DocumentIO(mapper);
     }
 
     /**
@@ -49,6 +59,27 @@ public class ProductControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
                 .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        return mapper.readTree(response);
+    }
+
+    private JsonNode createEntry(
+            UUID ownerId,
+            VolumeType volumeType,
+            Long quantity,
+            Long quantityPerUnit,
+            boolean isRaw
+    ) throws Exception {
+        StorageEntryCreationDTO dto = new StorageEntryCreationDTO(ownerId, volumeType, quantity, quantityPerUnit, isRaw);
+        String json = mapper.writeValueAsString(dto);
+
+        String response = mock.perform(
+                        post("/entry/storage/new")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -123,5 +154,63 @@ public class ProductControllerTest {
         mock.perform(get("/products/product/id/{id}", id))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void createAndDeleteProductStockDocumentTest() throws Exception {
+
+        // ---------- CRIA PRODUTOS ----------
+        JsonNode p1 = createProduct("Produto A");
+        JsonNode p2 = createProduct("Produto B");
+
+        UUID p1Id = UUID.fromString(p1.get("id").asText());
+        UUID p2Id = UUID.fromString(p2.get("id").asText());
+
+        // ---------- CRIA STORAGE PARA CADA PRODUTO ----------
+        createEntry(
+                p1Id,
+                VolumeType.UNIT,
+                10L,
+                null,
+                true
+        );
+
+        createEntry(
+                p2Id,
+                VolumeType.LITER_PER_UNIT,
+                2L,
+                1L,
+                false
+        );
+
+        String documentName = "product_stock_doc_test";
+
+        String body = mapper.writeValueAsString(
+                List.of(p1Id, p2Id)
+        );
+
+        // ---------- CRIA DOCUMENTO ----------
+        MvcResult createResult =
+                mock.perform(
+                                post("/products/product/document/stock/new")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(body)
+                                        .param("documentName", documentName)
+                        )
+                        .andExpect(status().isOk())
+                        .andReturn();
+
+        // ---------- EXTRAI TABLE ID ----------
+        Integer tableId = mapper.readValue(
+                createResult.getResponse().getContentAsString(),
+                Integer.class
+        );
+
+        // sanity check
+        assertNotNull(tableId);
+
+        // ---------- DELETE OPCIONAL ----------
+         docIO.deleteDocumentByTableId(tableId);
+    }
+
 
 }

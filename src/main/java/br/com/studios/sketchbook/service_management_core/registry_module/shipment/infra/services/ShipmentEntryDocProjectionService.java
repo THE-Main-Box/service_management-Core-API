@@ -75,12 +75,12 @@ public class ShipmentEntryDocProjectionService {
         columnNameList.clear();
 
         columnNameList.addAll(List.of(
-                "trip_date",                               // Data da viagem
                 "origin_address_description",              // Descrição do endereço de origem
                 "destination_address_description",         // Descrição do endereço de destino
+                "trip_date",                               // Data da viagem
                 "item_name",                               // Nome do item transportado
                 "item_units",                              // Quantidade transportada
-                "item_units_per_unit",                     // Quantidade por unidade
+                "item_quantity_per_unit",                     // Quantidade por unidade
                 "item_volume_type",                        // Tipo de volume
                 "issue_date"                               // Data de emissão do documento
         ));
@@ -93,12 +93,12 @@ public class ShipmentEntryDocProjectionService {
             List<List<Object>> tableData
     ) {
         tableData.add(Arrays.asList(
-                entry.getTripDate().toString(),                            //Data da viagem
                 entry.getOriginAddressRef().description(),                 //Descrição do endereço de origem
                 entry.getDestinationAddressRef().description(),            //Descrição do endereço de destino
+                entry.getTripDate().toString(),                            //Data da viagem
                 entry.getItemShipped().itemName(),                         //Nome do item da viagem
                 entry.getItemShipped().units(),                            //Quantidade de item passada
-                entry.getItemShipped().unitsPerUnit(),                     //Quantidade de item por subunidade
+                entry.getItemShipped().quantityPerUnit(),                     //Quantidade de item por subunidade
                 entry.getItemShipped().volumeType().name(),                //Tipo de volume passado
                 entry.getIssueDate().toString()                            //Data da viagem
         ));

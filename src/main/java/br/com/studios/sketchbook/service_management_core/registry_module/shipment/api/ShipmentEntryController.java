@@ -207,7 +207,7 @@ public class ShipmentEntryController {
         }
     }
 
-    @PostMapping("/document/new")
+    @PostMapping("/document/trip/new")
     public ResponseEntity<Integer> documentShipmentIdCreation(
             @RequestParam String documentName,
             @RequestBody List<UUID> shipmentIds

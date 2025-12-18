@@ -12,7 +12,7 @@ public record ItemShippedCreationDTO (
         String itemName,
         @NotNull(message ="Precisamos saber a quantidade do que foi enviado")
         Long units,
-        Long unitsPerUnit,
+        Long quantityPerUnit,
         @NotNull(message = "Precisamos saber o tipo de volume")
         VolumeType volumeType
 ){

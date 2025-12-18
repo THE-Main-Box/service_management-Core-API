@@ -293,7 +293,7 @@ public class ShipmentEntryControllerTest {
         // ---------- CRIA DOCUMENTO E CAPTURA O ID ----------
         MvcResult createResult =
                 mock.perform(
-                                post("/entry/shipment/document/new")
+                                post("/entry/shipment/document/trip/new")
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(body)
                                         .param("documentName", documentName)

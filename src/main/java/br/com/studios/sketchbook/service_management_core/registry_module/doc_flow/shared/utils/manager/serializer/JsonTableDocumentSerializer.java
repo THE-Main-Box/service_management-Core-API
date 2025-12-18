@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_table_folder_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_json_table_folder_path;
 import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.tableFileName;
 
 public class JsonTableDocumentSerializer {
@@ -21,12 +21,12 @@ public class JsonTableDocumentSerializer {
         this.mapper = mapper;
     }
 
-    private String serializeTable(Table table) throws IOException {
+    public String serializeTable(Table table) throws IOException {
         TableJsonSerialModel model = new TableJsonSerialModel(table);
         return mapper.writeValueAsString(model);
     }
 
-    private Table deserializeTable(String json) throws JsonProcessingException {
+    public Table deserializeTable(String json) throws JsonProcessingException {
         TableJsonSerialModel model = mapper.readValue(
                 json,
                 TableJsonSerialModel.class
@@ -40,7 +40,7 @@ public class JsonTableDocumentSerializer {
             String json = serializeTable(table);
 
             String fileName = tableFileName(table.getId());
-            Path filePath = document_table_folder_path.resolve(fileName);
+            Path filePath = document_json_table_folder_path.resolve(fileName);
 
             FileDocumentManagerUtils.save(json, filePath);
 
@@ -59,7 +59,7 @@ public class JsonTableDocumentSerializer {
 
                 json = serializeTable(table);
                 fileName = tableFileName(table.getId());
-                filePath = document_table_folder_path.resolve(fileName);
+                filePath = document_json_table_folder_path.resolve(fileName);
 
                 FileDocumentManagerUtils.save(json, filePath);
             }
@@ -72,7 +72,7 @@ public class JsonTableDocumentSerializer {
     public Table loadTable(Integer tableId) {
         try {
             String fileName = tableFileName(tableId);
-            Path filePath = document_table_folder_path.resolve(fileName);
+            Path filePath = document_json_table_folder_path.resolve(fileName);
 
             String json = FileDocumentManagerUtils.read(filePath);
             return deserializeTable(json);
@@ -93,7 +93,7 @@ public class JsonTableDocumentSerializer {
             for (Integer tableId : tableIdList) {
 
                 fileName = tableFileName(tableId);
-                filePath = document_table_folder_path.resolve(fileName);
+                filePath = document_json_table_folder_path.resolve(fileName);
 
                 if (!FileDocumentManagerUtils.exists(filePath)) {
                     continue;
@@ -113,7 +113,7 @@ public class JsonTableDocumentSerializer {
     public boolean deleteTableIfPresent(Integer tableId) {
         try {
             String fileName = tableFileName(tableId);
-            Path filePath = document_table_folder_path.resolve(fileName);
+            Path filePath = document_json_table_folder_path.resolve(fileName);
 
             if (FileDocumentManagerUtils.exists(filePath)) {
                 FileDocumentManagerUtils.delete(filePath);
@@ -126,25 +126,35 @@ public class JsonTableDocumentSerializer {
         return !isTablePresent(tableId);
     }
 
-    public void deleteTableListIfPresent(List<Integer> tableIdList) {
+    public boolean deleteTableListIfPresent(List<Integer> tableIdList) {
+        boolean allDeleted = true;
+
         try {
             for (Integer tableId : tableIdList) {
                 String fileName = tableFileName(tableId);
-                Path filePath = document_table_folder_path.resolve(fileName);
+                Path filePath = document_json_table_folder_path.resolve(fileName);
 
                 if (FileDocumentManagerUtils.exists(filePath)) {
                     FileDocumentManagerUtils.delete(filePath);
+                }
+
+                // verificação imediata, sem nova iteração
+                if (FileDocumentManagerUtils.exists(filePath)) {
+                    allDeleted = false;
                 }
             }
 
         } catch (IOException e) {
             throw new RuntimeException("Erro ao deletar lista de tabelas em JSON: ", e);
         }
+
+        return allDeleted;
     }
+
 
     public boolean isTablePresent(Integer tableId) {
         String fileName = tableFileName(tableId);
-        Path filePath = document_table_folder_path.resolve(fileName);
+        Path filePath = document_json_table_folder_path.resolve(fileName);
 
         return FileDocumentManagerUtils.exists(filePath);
     }

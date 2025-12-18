@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_row_folder_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_json_row_folder_path;
 import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.rowFileName;
 
 public class JsonRowDocumentSerializer {
@@ -50,7 +50,7 @@ public class JsonRowDocumentSerializer {
                     row.getId()
             );//Cria o nome
 
-            Path filePath = document_row_folder_path.resolve(fileName);//Cria um path
+            Path filePath = document_json_row_folder_path.resolve(fileName);//Cria um path
 
             FileDocumentManagerUtils.save(json, filePath);//Salva
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class JsonRowDocumentSerializer {
                         row.getId()
                 );//Cria um nome de arquivo
 
-                filePath = document_row_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
+                filePath = document_json_row_folder_path.resolve(fileName);//Cria um path com base no nome do arquivo
 
                 FileDocumentManagerUtils.save(json, filePath);//Salva
             }
@@ -89,7 +89,7 @@ public class JsonRowDocumentSerializer {
         try {
             String fileName = rowFileName(tableId, rowId);//Nome do arquivo
 
-            Path filePath = document_row_folder_path.resolve(fileName);//Caminho do arquivo
+            Path filePath = document_json_row_folder_path.resolve(fileName);//Caminho do arquivo
 
             String json = FileDocumentManagerUtils.read(filePath);//Lê o path gerado
             return deserializeRow(json);//Retorna o objeto com base no json
@@ -114,7 +114,7 @@ public class JsonRowDocumentSerializer {
                             id
                     ); //Atualiza o nome do arquivo
 
-                    filePath = document_row_folder_path.resolve(fileName);//Atualiza o path do arquivo
+                    filePath = document_json_row_folder_path.resolve(fileName);//Atualiza o path do arquivo
 
                     if (!FileDocumentManagerUtils.exists(filePath))
                         continue;//se não existir prossegue pra próxima iteração
@@ -139,7 +139,7 @@ public class JsonRowDocumentSerializer {
                     tableId,
                     rowId
             );//Cria um nome para o arquivo
-            Path filePath = document_row_folder_path.resolve(fileName);//Cria um path pro arquivo
+            Path filePath = document_json_row_folder_path.resolve(fileName);//Cria um path pro arquivo
 
             if (FileDocumentManagerUtils.exists(filePath)) {//Se o path existir
                 FileDocumentManagerUtils.delete(filePath);//deleta
@@ -160,7 +160,7 @@ public class JsonRowDocumentSerializer {
                 tableId,
                 rowId
         );//Cria um nome com o id passado
-        Path filePath = document_row_folder_path.resolve(fileName); //Cria um path seguindo o nome do arquivo
+        Path filePath = document_json_row_folder_path.resolve(fileName); //Cria um path seguindo o nome do arquivo
 
         return FileDocumentManagerUtils.exists(filePath);//Verifica se o path existe, e consequentemente o arquivo
     }

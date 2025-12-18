@@ -9,13 +9,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RowDataSerialManagementCoreTest {
+public class RowSerialDataManagementCoreTest {
 
-    private static RowDataSerialManagementCore manager;
+    private static RowSerialDataManagementCore manager;
     private static Row currentRow;
 
-    public RowDataSerialManagementCoreTest() {
-        manager = new RowDataSerialManagementCore(new ObjectMapper());
+    public RowSerialDataManagementCoreTest() {
+        manager = new RowSerialDataManagementCore(new ObjectMapper());
     }
 
     public void createDummyRow(Integer id, Integer tableId, List<Integer> cellIdList) {

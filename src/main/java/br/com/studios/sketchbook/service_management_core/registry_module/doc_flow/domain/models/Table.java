@@ -108,11 +108,5 @@ public class Table {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @Override
-    public String toString() {
-        return "Table{" +
-                "id=" + id +
-                ", rowIdList=" + rowIdList +
-                '}';
-    }
+
 }

@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
-public class TableDataSerialManagementCore {
+public class TableSerialDataManagementCore {
 
     private final JsonTableDocumentSerializer tableJsonSerializer;
 
-    public TableDataSerialManagementCore(ObjectMapper mapper) {
+    public TableSerialDataManagementCore(ObjectMapper mapper) {
         this.tableJsonSerializer = new JsonTableDocumentSerializer(mapper);
     }
 
@@ -40,8 +40,8 @@ public class TableDataSerialManagementCore {
         return tableJsonSerializer.deleteTableIfPresent(tableId);
     }
 
-    public void deleteTableListIfPresentInJson(List<Integer> tableIdList){
-        tableJsonSerializer.deleteTableListIfPresent(tableIdList);
+    public boolean deleteTableListIfPresentInJson(List<Integer> tableIdList){
+        return tableJsonSerializer.deleteTableListIfPresent(tableIdList);
     }
 
     public boolean isTablePresentInJson(Integer tableId){

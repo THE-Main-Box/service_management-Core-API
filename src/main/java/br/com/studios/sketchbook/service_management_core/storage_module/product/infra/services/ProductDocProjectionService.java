@@ -81,12 +81,10 @@ public class ProductDocProjectionService {
         DocumentData currentDocument = docGen.generateDocument(
                 currentTableData,
                 currentTableColumnNames,
-                documentTableName
+                documentTableName,
+                false,
+                prefix
         );
-
-        //Atualiza a permissão de sobrescrita
-        currentDocument.table().setCanBeOverridden(false);
-        currentDocument.table().setDocumentPrefix(prefix);
 
         docIO.saveDocument(currentDocument);
 

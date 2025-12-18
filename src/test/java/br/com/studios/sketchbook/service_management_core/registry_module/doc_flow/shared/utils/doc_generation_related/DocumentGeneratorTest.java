@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.enumerators.DocumentPrefix;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import org.junit.jupiter.api.AfterEach;
@@ -60,7 +61,9 @@ public class DocumentGeneratorTest {
         DocumentData result = docGen.generateDocument(
                 tableMapping,
                 cellNames,
-                ""
+                "",
+                true,
+                DocumentPrefix.NON_DEFINED
         );
 
         Object expectedFirstCellValue = tableMapping.get(0).get(0);
@@ -114,7 +117,9 @@ public class DocumentGeneratorTest {
         DocumentData original = docGen.generateDocument(
                 tableMapping,
                 cellNames,
-                "tabela de testes"
+                "tabela de testes",
+                true,
+                DocumentPrefix.NON_DEFINED
         );
 
         Object originalFirstCellValue = original
@@ -189,7 +194,9 @@ public class DocumentGeneratorTest {
                 () -> docGen.generateDocument(
                         tableMapping,
                         cellNames,
-                        "tabela de testes"
+                        "tabela de testes",
+                        true,
+                        DocumentPrefix.NON_DEFINED
                 ),
                 "Tipos inválidos devem gerar IllegalArgumentException"
         );

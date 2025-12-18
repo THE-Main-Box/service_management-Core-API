@@ -15,18 +15,20 @@ public class Table {
     @Getter
     private final Integer id;
 
+    /// Prefixo para auxiliar o rastreamento do documento
     @Getter
     @Setter
-    private boolean canBeOverridden = true;
-
-    @Getter
-    @Setter
-    private DocumentPrefix documentPrefix = DocumentPrefix.NON_DEFINED;
+    private DocumentPrefix documentPrefix;
 
     /// Nome com o qual poderemos identificar a table
     @Getter
     @Setter
     private String name;
+
+    /// Valor que determina se podemos sobrescrever os dados da tabela
+    @Getter
+    @Setter
+    private boolean canBeOverridden;
 
     /// Lista de linhas que pertencem a essa tabela
     @Getter

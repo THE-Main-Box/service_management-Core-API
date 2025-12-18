@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.enumerators.DocumentPrefix;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Cell;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Row;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
@@ -29,10 +30,16 @@ public class DocumentGenerator {
     public DocumentData generateDocument(
             List<List<Object>> tableData,
             List<String> columnNames,
-            String tableName
+            String tableName,
+            boolean canBeOverridden,
+            DocumentPrefix prefix
     ) {
 
-        Table table = createTable(tableName);
+        Table table = createTable(
+                tableName,
+                canBeOverridden,
+                prefix
+        );
 
         List<Row> rowList = new ArrayList<>();
         Map<Integer, List<Cell>> rowCellListMap = new HashMap<>();
@@ -117,9 +124,15 @@ public class DocumentGenerator {
     }
 
     // Cria uma tabela nova
-    private Table createTable(String name) {
+    private Table createTable(
+            String name,
+            boolean canBeOverridden,
+            DocumentPrefix prefix
+    ) {
         Table table = new Table(generateDocumentTableId());
         table.setName(name);
+        table.setDocumentPrefix(prefix);
+        table.setCanBeOverridden(canBeOverridden);
         return table;
     }
 

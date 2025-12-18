@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.enumerators.DocumentPrefix;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -94,7 +95,9 @@ public class DocumentIOTest {
         currentDocument = docGen.generateDocument(
                 tableMapping,
                 cellNames,
-                "teste de tabelação"
+                "teste de tabelação",
+                true,
+                DocumentPrefix.NON_DEFINED
         );
 
         docIO.saveDocument(currentDocument);
@@ -128,7 +131,9 @@ public class DocumentIOTest {
         currentDocument = docGen.generateDocument(
                 tableMapping,
                 cellNames,
-                "teste de save"
+                "teste de save",
+                true,
+                DocumentPrefix.NON_DEFINED
         );
 
         docIO.saveDocument(currentDocument);
@@ -177,7 +182,9 @@ public class DocumentIOTest {
         currentDocument = docGen.generateDocument(
                 tableMapping,
                 initialCellNames,
-                "teste de tabelação"
+                "teste de tabelação",
+                true,
+                DocumentPrefix.NON_DEFINED
         );
 
         docIO.saveDocument(currentDocument);

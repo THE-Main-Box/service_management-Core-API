@@ -18,11 +18,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_pdf_folder_path;
+import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.pdfFileName;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -251,5 +255,39 @@ public class DocumentIOControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldExportDocumentToPdfViaController() throws Exception {
+        // ---------- Arrange ----------
+        createAndSaveDummyTable();
+        assertNotNull(currentDocument, "Documento não foi gerado");
+
+        Integer tableId = currentDocument.table().getId();
+
+        // ---------- Act ----------
+        mock.perform(
+                        get("/document/export/pdf/id/{id}", tableId)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk());
+
+        // ---------- Assert ----------
+        // verifica se o PDF foi realmente gerado no filesystem
+        Path pdfPath = document_pdf_folder_path.resolve(
+                pdfFileName(tableId)
+        );
+
+        assertTrue(
+                Files.exists(pdfPath),
+                "O arquivo PDF não foi gerado no caminho esperado"
+        );
+
+        assertTrue(
+                Files.size(pdfPath) > 0,
+                "O arquivo PDF foi gerado, mas está vazio"
+        );
+
+        // ---------- FUTURO: limpeza manual ----------
+         Files.deleteIfExists(pdfPath);
+    }
 
 }

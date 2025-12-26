@@ -29,4 +29,8 @@ public class NamingArchives {
         return "table_" + tableId + ".json";
     }
 
+    public static String pdfFileName(Integer tableId){
+        return "pdf_" + tableId + ".pdf";
+    }
+
 }

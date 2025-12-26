@@ -4,6 +4,8 @@ import br.com.studios.sketchbook.service_management_core.application.api_utils.u
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.DocumentDetailedResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.TableSumResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_export_related.DocumentExportConverter;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_export_related.PdfDocumentExporter;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentGenerator;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
@@ -25,6 +27,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_json_table_folder_path;
+import static br.com.studios.sketchbook.service_management_core.application.api_utils.references.PathDirection.document_pdf_folder_path;
+import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.pdfFileName;
+import static br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.naming.NamingArchives.tableFileName;
 
 @Service
 public class DocumentIOHandlerService {
@@ -32,12 +37,33 @@ public class DocumentIOHandlerService {
     private final DocumentGenerator docGen;
     private final JsonTableDocumentSerializer tableGen;
     private final DocumentIO docIO;
+    private final DocumentExportConverter exportConverter;
+    private final PdfDocumentExporter pdfExporter;
 
     @Autowired
     public DocumentIOHandlerService(ObjectMapper mapper) {
         docGen = new DocumentGenerator();
         tableGen = new JsonTableDocumentSerializer(mapper);
         docIO = new DocumentIO(mapper);
+
+        pdfExporter = new PdfDocumentExporter();
+        exportConverter = new DocumentExportConverter();
+    }
+
+    public void exportToPdf(int tableId) throws IOException {
+        DocumentData data = docIO.loadDocumentIfPresent(tableId);
+        if(data == null)
+            throw new EntityNotFoundException("Não achamos o pdf para exportar");
+
+        String fileName = pdfFileName(tableId);
+        Path filePath = document_pdf_folder_path.resolve(fileName);
+
+        FileDocumentManagerUtils.save(
+                pdfExporter.export(
+                        exportConverter.toExportModel(data)
+                ),
+                filePath
+        );
     }
 
     public boolean deleteMany(List<Integer> idList) {

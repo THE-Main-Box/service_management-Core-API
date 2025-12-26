@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -44,6 +45,16 @@ public class DocumentIOController {
                     service.loadTableData(id)
             );
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @GetMapping("/export/pdf/id/{id}")
+    public ResponseEntity<?> exportDocumentToPdf(@PathVariable Integer id) {
+        try {
+            service.exportToPdf(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
             return ResponseEntity.status(404).build();
         }
     }

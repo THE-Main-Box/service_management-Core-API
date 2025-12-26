@@ -11,6 +11,12 @@ public class FileDocumentManagerUtils {
         Files.writeString(path, content);
     }
 
+    /// Salva (cria ou sobrescreve) um arquivo com o conteúdo dado em byte
+    public static void save(byte[] bytes, Path path) throws IOException {
+        Files.createDirectories(path.getParent());
+        Files.write(path, bytes);
+    }
+
     /// Lê um arquivo e retorna como String
     public static String read(Path path) throws IOException {
         return Files.readString(path);

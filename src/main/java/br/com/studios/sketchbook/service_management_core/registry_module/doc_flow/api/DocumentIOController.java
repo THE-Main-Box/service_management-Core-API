@@ -49,7 +49,7 @@ public class DocumentIOController {
         }
     }
 
-    @GetMapping("/export/pdf/id/{id}")
+    @GetMapping("/pdf/id/{id}/export")
     public ResponseEntity<?> exportDocumentToPdf(@PathVariable Integer id) {
         try {
             service.exportToPdf(id);
@@ -58,6 +58,41 @@ public class DocumentIOController {
             return ResponseEntity.status(404).build();
         }
     }
+
+    @GetMapping("/pdf/all")
+    public ResponseEntity<List<Integer>> getAllPdfDocuments() {
+        try {
+            return ResponseEntity.ok(
+                    service.loadAllPdfIds()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @GetMapping("/pdf/id/{id}")
+    public ResponseEntity<byte[]> getPdfByTableId(@PathVariable Integer id) {
+        try {
+            byte[] pdf = service.loadPdfByTableId(id);
+            return ResponseEntity
+                    .ok()
+                    .header("Content-Type", "application/pdf")
+                    .body(pdf);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @DeleteMapping("/pdf/id/{id}")
+    public ResponseEntity<?> deletePdfByTableId(@PathVariable Integer id) {
+        try {
+            service.deletePdfByTableId(id);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
 
     @DeleteMapping("/delete/many")
     public ResponseEntity<?> deleteMany(@RequestBody List<Integer> idList) {

@@ -265,7 +265,7 @@ public class DocumentIOControllerTest {
 
         // ---------- Act ----------
         mock.perform(
-                        get("/document/export/pdf/id/{id}", tableId)
+                        get("/document/pdf/id/{id}/export", tableId)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
@@ -286,8 +286,113 @@ public class DocumentIOControllerTest {
                 "O arquivo PDF foi gerado, mas está vazio"
         );
 
-        // ---------- FUTURO: limpeza manual ----------
          Files.deleteIfExists(pdfPath);
     }
+
+    @Test
+    void shouldListAllGeneratedPdfIds() throws Exception {
+        // ---------- Arrange ----------
+        createAndSaveDummyTable();
+        Integer tableId = currentDocument.table().getId();
+
+        // gera o PDF
+        mock.perform(
+                get("/document/pdf/id/{id}/export", tableId)
+        ).andExpect(status().isOk());
+
+        // ---------- Act ----------
+        MvcResult result = mock.perform(
+                        get("/document/pdf/all")
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(result.getResponse().getContentAsString());
+
+        // ---------- Assert ----------
+        assertTrue(root.isArray(), "Resposta não é uma lista");
+        assertTrue(
+                StreamSupport.stream(root.spliterator(), false)
+                        .anyMatch(n -> n.asInt() == tableId),
+                "ID do PDF gerado não foi listado"
+        );
+    }
+
+    @Test
+    void shouldLoadPdfBinaryByTableId() throws Exception {
+        // ---------- Arrange ----------
+        createAndSaveDummyTable();
+        Integer tableId = currentDocument.table().getId();
+
+        mock.perform(
+                get("/document/pdf/id/{id}/export", tableId)
+        ).andExpect(status().isOk());
+
+        // ---------- Act ----------
+        MvcResult result = mock.perform(
+                        get("/document/pdf/id/{id}", tableId)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        byte[] pdfBytes = result.getResponse().getContentAsByteArray();
+
+        // ---------- Assert ----------
+        assertNotNull(pdfBytes);
+        assertTrue(pdfBytes.length > 0, "PDF retornado está vazio");
+    }
+
+    @Test
+    void shouldReturn404WhenPdfDoesNotExist() throws Exception {
+        // ---------- Arrange ----------
+        int nonexistentId = 123456;
+
+        // ---------- Act / Assert ----------
+        mock.perform(
+                get("/document/pdf/id/{id}", nonexistentId)
+        ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldDeletePdfByTableId() throws Exception {
+        // ---------- Arrange ----------
+        createAndSaveDummyTable();
+        Integer tableId = currentDocument.table().getId();
+
+        mock.perform(
+                get("/document/pdf/id/{id}/export", tableId)
+        ).andExpect(status().isOk());
+
+        Path pdfPath = document_pdf_folder_path.resolve(
+                pdfFileName(tableId)
+        );
+
+        assertTrue(Files.exists(pdfPath), "PDF não foi criado");
+
+        // ---------- Act ----------
+        mock.perform(
+                delete("/document/pdf/id/{id}", tableId)
+        ).andExpect(status().isOk());
+
+        // ---------- Assert ----------
+        assertFalse(
+                Files.exists(pdfPath),
+                "PDF ainda existe após deleção"
+        );
+    }
+
+    @Test
+    void shouldReturn404WhenDeletingNonexistentPdf() throws Exception {
+        // ---------- Arrange ----------
+        int nonexistentId = 987654;
+
+        // ---------- Act / Assert ----------
+        mock.perform(
+                delete("/document/pdf/id/{id}", nonexistentId)
+        ).andExpect(status().isNotFound());
+    }
+
 
 }

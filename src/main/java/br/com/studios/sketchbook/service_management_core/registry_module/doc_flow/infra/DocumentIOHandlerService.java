@@ -50,6 +50,59 @@ public class DocumentIOHandlerService {
         exportConverter = new DocumentExportConverter();
     }
 
+    public List<Integer> loadAllPdfIds() {
+        try (Stream<Path> files = Files.list(document_pdf_folder_path)) {
+
+            return files
+                    .filter(Files::isRegularFile)
+                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
+                    .map(p -> {
+                        String name = p.getFileName().toString();
+                        return Integer.parseInt(
+                                name.replaceAll("\\D+", "")
+                        );
+                    })
+                    .sorted()
+                    .toList();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao listar PDFs", e);
+        }
+    }
+
+    public byte[] loadPdfByTableId(Integer tableId) {
+        Path pdfPath = document_pdf_folder_path.resolve(
+                pdfFileName(tableId)
+        );
+
+        if (!Files.exists(pdfPath)) {
+            throw new EntityNotFoundException("PDF não encontrado");
+        }
+
+        try {
+            return Files.readAllBytes(pdfPath);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler PDF", e);
+        }
+    }
+
+    public void deletePdfByTableId(Integer tableId) {
+        Path pdfPath = document_pdf_folder_path.resolve(
+                pdfFileName(tableId)
+        );
+
+        if (!Files.exists(pdfPath)) {
+            throw new EntityNotFoundException("PDF não encontrado");
+        }
+
+        try {
+            Files.delete(pdfPath);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao deletar PDF", e);
+        }
+    }
+
+
     public void exportToPdf(int tableId) throws IOException {
         DocumentData data = docIO.loadDocumentIfPresent(tableId);
         if(data == null)

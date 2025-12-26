@@ -1,12 +1,15 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.infra;
 
 import br.com.studios.sketchbook.service_management_core.application.api_utils.util.FileDocumentManagerUtils;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.DocumentDetailedResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.TableSumResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.models.Table;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentGenerator;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.doc_generation_related.DocumentIO;
-import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.core.TableSerialDataManagementCore;
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.dto.DocumentData;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.shared.utils.manager.serializer.JsonTableDocumentSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,12 +29,14 @@ import static br.com.studios.sketchbook.service_management_core.application.api_
 @Service
 public class DocumentIOHandlerService {
 
-    private final JsonTableDocumentSerializer docGen;
+    private final DocumentGenerator docGen;
+    private final JsonTableDocumentSerializer tableGen;
     private final DocumentIO docIO;
 
     @Autowired
     public DocumentIOHandlerService(ObjectMapper mapper) {
-        docGen = new JsonTableDocumentSerializer(mapper);
+        docGen = new DocumentGenerator();
+        tableGen = new JsonTableDocumentSerializer(mapper);
         docIO = new DocumentIO(mapper);
     }
 
@@ -51,6 +56,20 @@ public class DocumentIOHandlerService {
         return true;
     }
 
+    public DocumentDetailedResponse loadTableData(int tableId) {
+        DocumentData documentData = docIO.loadDocumentIfPresent(tableId);
+
+        if(documentData == null) {
+            throw new EntityNotFoundException("Documento não encontrado");
+        }
+
+        return new DocumentDetailedResponse(
+                documentData,
+                docGen.toListOfLists(documentData),
+                docGen.getColumnNames(documentData)
+        );
+
+    }
 
     public Page<TableSumResponse> loadAllTableSumPaged(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -82,7 +101,7 @@ public class DocumentIOHandlerService {
                             .map(path -> {
                                 try {
                                     String json = FileDocumentManagerUtils.read(path);
-                                    return docGen.deserializeTable(json);
+                                    return tableGen.deserializeTable(json);
                                 } catch (Exception e) {
                                     throw new RuntimeException(
                                             "Erro ao ler table: " + path.getFileName(), e

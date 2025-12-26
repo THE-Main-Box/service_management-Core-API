@@ -129,6 +129,18 @@ public class DocumentGenerator {
         return result;
     }
 
+    public List<String> getColumnNames(DocumentData data){
+        List<String> result = new ArrayList<>();
+
+        Integer firstRowId = data.rowList().get(0).getId();
+
+        for(Cell cell : data.rowCellListMap().get(firstRowId)){
+            result.add(cell.getName());
+        }
+
+        return result;
+    }
+
     // Cria uma tabela nova
     private Table createTable(
             String name,

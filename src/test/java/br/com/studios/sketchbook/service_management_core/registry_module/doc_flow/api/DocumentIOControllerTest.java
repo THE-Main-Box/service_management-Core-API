@@ -203,6 +203,53 @@ public class DocumentIOControllerTest {
         }
     }
 
+    @Test
+    void shouldLoadDocumentDetailedViaController() throws Exception {
+        // ---------- Arrange ----------
+        createAndSaveDummyTable();
+        assertNotNull(currentDocument, "Documento não foi gerado");
+
+        Integer tableId = currentDocument.table().getId();
+
+        // ---------- Act ----------
+        MvcResult result = mock.perform(
+                        get("/document/id/{id}", tableId)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String jsonResponse = result.getResponse().getContentAsString();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(jsonResponse);
+
+        // ---------- Assert ----------
+        assertEquals(tableId, root.get("id").asInt());
+        assertEquals(
+                currentDocument.table().getName(),
+                root.get("name").asText()
+        );
+
+        assertTrue(root.get("tableData").isArray(), "tableData não é array");
+        assertTrue(root.get("columnNames").isArray(), "columnNames não é array");
+
+        assertEquals(
+                currentDocument.table().isCanBeOverridden(),
+                root.get("canBeOverridden").asBoolean()
+        );
+    }
+    @Test
+    void shouldReturn404WhenDocumentDoesNotExist() throws Exception {
+        // ---------- Arrange ----------
+        int nonexistentId = 999999;
+
+        // ---------- Act / Assert ----------
+        mock.perform(
+                        get("/document/id/{id}", nonexistentId)
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isNotFound());
+    }
 
 
 }

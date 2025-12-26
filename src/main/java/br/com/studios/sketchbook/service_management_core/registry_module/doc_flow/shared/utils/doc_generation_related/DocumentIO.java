@@ -23,14 +23,6 @@ public class DocumentIO {
         this.cellManager = new CellSerialDataManagementCore(mapper);
     }
 
-    /*
-     * TODO: Adicionar um DTO que inclua os dados da tabela em geral como um vetor.
-     *  Junto de um dado relacionado ao id da tabela, pois é algo importante de se salvar,
-     *  já que os Id das linhas e células se referem às suas posições na row.
-     *  O DTO deve conter informações como por exemplo a data e horário de criação e edição
-     *  e outras informações não passadas no vetor
-     */
-
     /**
      * Salva uma table e seus componentes de forma coerente
      *
@@ -56,7 +48,7 @@ public class DocumentIO {
     }
 
     /**
-     * Carrega um documento completo, sua table e componentes internos
+     * Carrega um documento completo, sua table e componentes internos, apenas se existir
      *
      * @param tableId Id da tabela que queremos carregar
      */

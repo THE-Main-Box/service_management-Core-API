@@ -1,5 +1,6 @@
 package br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.api;
 
+import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.DocumentDetailedResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.domain.dto.res.TableSumResponse;
 import br.com.studios.sketchbook.service_management_core.registry_module.doc_flow.infra.DocumentIOHandlerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,6 +37,17 @@ public class DocumentIOController {
         }
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<DocumentDetailedResponse> loadDocument(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok().body(
+                    service.loadTableData(id)
+            );
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(404).build();
+        }
+    }
+
     @DeleteMapping("/delete/many")
     public ResponseEntity<?> deleteMany(@RequestBody List<Integer> idList) {
         if (service.deleteMany(idList)) {
@@ -45,6 +57,13 @@ public class DocumentIOController {
         }
     }
 
-    //TODO: Adicionar a capacidade de gerar e editar documentos personalizados
+    /*
+     * TODO: Adicionar a capacidade de gerar e editar documentos personalizados.
+     *  Os documentos que iremos gerar só serão úteis de fato
+     *  quando implementarmos a capacidade de gerar e lidar com documentos personalizados,
+     *  porém como agora estamos lidando com a documentação de itens já existentes,
+     *  não faz sentido no momento atual,
+     *  ter que lidar com esse tipo de enpoint
+     */
 
 }
